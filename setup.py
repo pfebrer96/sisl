@@ -430,7 +430,9 @@ setuptools_kwargs = {
             'flask',
             'flask-restx',
             'flask-socketio',
-            'flask-cors'
+            'flask-cors',
+            'flask_login',
+            'flask_session'
         ]
     },
     "zip_safe": False,
