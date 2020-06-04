@@ -440,7 +440,9 @@ metadata = dict(
         ["sgeom = sisl.geometry:sgeom",
          "sgrid = sisl.grid:sgrid",
          "sdata = sisl.utils._sisl_cmd:sisl_cmd",
-         "sisl = sisl.utils._sisl_cmd:sisl_cmd"]
+         "sisl = sisl.utils._sisl_cmd:sisl_cmd",
+         "splot = sisl.viz.splot:splot",
+         "sgui = sisl.viz.GUI:sgui"]
     },
     classifiers=CLASSIFIERS,
     platforms="any",
