@@ -4,6 +4,8 @@ import importlib
 
 from .plotutils import get_file_vars
 
+# Nick again here with some env-vars to allow users to customize
+
 USER_CUSTOM_FOLDER = os.path.join(os.path.expanduser('~'), ".sisl")
 sys.path.append(os.path.abspath(USER_CUSTOM_FOLDER))
 

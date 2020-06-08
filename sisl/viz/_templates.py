@@ -6,6 +6,12 @@ import itertools
 import plotly.io as pio
 import plotly.graph_objs as go
 
+# Nick perhaps stylize this a bit more, new lines per loop construct etc.
+# What exactly does this piece of code do? Only add templates to the global
+# parameter space of plotly?
+# I don't know if you should do like _presets.py? with add_template(template, name="sisl")
+# In this way it could be easier (I guess) to copy around templates and add them without knowing plotly global parameter space?
+
 pio.templates["sisl"] = go.layout.Template(
     layout={
         "plot_bgcolor": "white",

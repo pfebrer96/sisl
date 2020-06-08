@@ -17,6 +17,7 @@ import multiprocessing
 import os
 import os.path as osp
 import argparse
+from functools import reduce
 
 # pkg_resources are part of setuptools
 import pkg_resources
@@ -31,6 +32,31 @@ min_version ={
     "numpy": "1.13",
     "pyparsing": "1.5.7",
     "xarray": "0.10.0",
+}
+
+# Extra require segments
+# We have everything up here
+viz = {
+    "plotly": [
+        'tqdm', # for niceness
+        'dill', # for pathos
+        'pathos', # for multiprocessing
+        'plotly',
+        'pandas',
+        "xarray >= " + min_version["xarray"],
+        'simplejson',  # Because built-in json parses nan and JS does not understand it
+        'flask',
+        'flask-restx',
+        'flask-socketio',
+        'flask-cors',
+        'flask_login',
+        'flask_session'
+    ],
+    "blender": [
+    ], # for when blender enters
+    "ase": [
+        "ase" # for Jonas's implementation
+    ],
 }
 
 # Macros for use when compiling stuff
@@ -399,21 +425,11 @@ setuptools_kwargs = {
             "xarray >= " + min_version["xarray"],
             "tqdm",
         ],
-        'visualization': [
-            'tqdm',
-            'plotly',
-            'pandas',
-            'pathos',
-            'dill',
-            'simplejson',  # Because built-in json parses nan and JS does not understand it
-            'xarray',
-            'flask',
-            'flask-restx',
-            'flask-socketio',
-            'flask-cors',
-            'flask_login',
-            'flask_session'
-        ]
+        "viz": reduce(lambda a, b: a + b, viz.values()),
+        "visualization": reduce(lambda a, b: a + b, viz.values()),
+        "viz-plotly": viz["plotly"],
+        "viz-blender": viz["blender"],
+        "viz-ase": viz["ase"],
     },
     "zip_safe": False,
 }

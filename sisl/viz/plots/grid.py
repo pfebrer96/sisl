@@ -531,7 +531,7 @@ class GridPlot(Plot):
             **kwargs 
         }]
 
-        axes_titles = {'xaxis_title': f'{("X","Y", "Z")[ax]} axis (Ang)', 'yaxis_title': 'Values' }
+        axes_titles = {'xaxis_title': f'{("X","Y", "Z")[ax]} axis [Ang]', 'yaxis_title': 'Values' }
 
         self.update_layout(**axes_titles)
     
@@ -564,7 +564,7 @@ class GridPlot(Plot):
             **kwargs
         }]
 
-        axes_titles = {'xaxis_title': f'{("X","Y", "Z")[xaxis]} axis (Ang)', 'yaxis_title': f'{("X","Y", "Z")[yaxis]} axis (Ang)'}
+        axes_titles = {'xaxis_title': f'{("X","Y", "Z")[xaxis]} axis [Ang]', 'yaxis_title': f'{("X","Y", "Z")[yaxis]} axis [Ang]'}
 
         self.update_layout(**axes_titles)
         
@@ -932,7 +932,7 @@ class GridPlot(Plot):
                     }
                 ]
         
-        def ax_title(ax): return f'{["X", "Y", "Z"][ax]} axis (Ang)'
+        def ax_title(ax): return f'{["X", "Y", "Z"][ax]} axis [Ang]'
 
         # Layout
         fig.update_layout(

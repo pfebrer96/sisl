@@ -1013,7 +1013,7 @@ class GeometryPlot(BaseGeometryPlot):
         elif ndims == 2:
             xaxis, yaxis = axes
             self._plot_geom2D(xaxis=xaxis, yaxis=yaxis, **common_kwargs)
-            self.update_layout(xaxis_title=f'Axis {xaxis} (Ang)', yaxis_title=f'Axis {yaxis} (Ang)')
+            self.update_layout(xaxis_title=f'Axis {xaxis} [Ang]', yaxis_title=f'Axis {yaxis} [Ang]')
         elif ndims == 1:
             coords_axis = axes[0]
             data_axis = self.setting("1d_dataaxis")

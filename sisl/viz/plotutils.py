@@ -595,6 +595,10 @@ def run_multiple(func, *args, argsList = None, kwargsList = None, messageFn = No
         This list is ordered, so results[0] is the result of executing the function with argsList[0] and kwargsList[0].  
     '''
 
+    # Nick: there should be an env-var where you can denote the size of the POOL
+    # i.e. something like int(os.environ.get("SISL_VIZ_NPROCS", 1))
+    # Also, what would happen if os.cpu_count() == 1? ;)
+
     #Prepare the arguments to be passed to the initSinglePlot function
     toZip = [*args, argsList, kwargsList]
     for i, arg in enumerate(toZip):
@@ -748,7 +752,9 @@ def trigger_notification(title, message, sound="Submarine"):
     Will not do anything in Windows (oops!)
     '''
     import sys
-    
+
+    # Nick perhaps add a warning in Windows?
+    # also, import sys at the top-level, it is used more than 1 place
     if sys.platform == 'linux':
         os.system(f'''notify-send "{title}" "{message}" ''')
     elif sys.platform == 'darwin':
@@ -765,6 +771,7 @@ def spoken_message(message):
     '''
 
     import sys
+    # Nick perhaps add a warning in Windows?
     
     if sys.platform == 'linux':
         os.system(f'''espeak -s 150 "{message}" 2>/dev/null''')
@@ -802,6 +809,11 @@ def normalize_trace(trace, min_val=0, max_val=1, axis='y'):
     axis: {"x", "y", "z"}, optional
         The axis along which we want to normalize.
     '''
+    # Nick: this is very slow
+    # Consider doing:
+    #t = np.array(trace[axis])
+    # tmin = t.min()
+    #trace[axis] = (t - tmin) / (t.max() - tmin) * (max_val - min_val) + min_val
 
     trace[axis] = (np.array(trace[axis]) - np.min(trace[axis])) / \
         (np.max(trace[axis]) - np.min(trace[axis]))*(max_val-min_val) + min_val

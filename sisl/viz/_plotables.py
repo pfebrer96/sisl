@@ -105,6 +105,10 @@ def register_plotable(plotable, PlotClass=None, setting_key=None, plotting_func=
     # let's initialize it's "plotability"
     is_first_register = not hasattr(plotable, "_plotable")
     if is_first_register:
+        # Nick: this will only work for classes which does not have the __slots__ attributes
+        # I think it would be safer to have a local dictionary with the class as a key
+        # That key would then contain the plot method? Would this work?
+        # Changing classes (instances) like this *could* be unsafe...
         plotable._plotable = True
 
         # If the object already has a plot attribute, we will call this one

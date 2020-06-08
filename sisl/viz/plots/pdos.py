@@ -173,10 +173,10 @@ class PdosPlot(Plot):
     )
 
     _layout_defaults = {
-        'xaxis_title': 'Density of states (1/eV)',
+        'xaxis_title': 'Density of states [1/eV]',
         'xaxis_mirror': True,
         'yaxis_mirror': True,
-        'yaxis_title': 'Energy (eV)',
+        'yaxis_title': 'Energy [eV]',
         'showlegend': True
     }
 
@@ -186,8 +186,9 @@ class PdosPlot(Plot):
     
     @classmethod
     def _default_animation(self, wdir = None, frame_names = None, **kwargs):
-        
-        pdos_files = find_files(wdir, "*.PDOS", sort = True)
+
+        # XML files are more precise
+        pdos_files = find_files(wdir, "*.PDOS.xml", sort = True) + find_files(wdir, "*.PDOS", sort = True)
 
         def _get_frame_names(self):
 
@@ -233,7 +234,7 @@ class PdosPlot(Plot):
         # Get the kgrid, or 
         kgrid = self.setting('kgrid')
         if kgrid is None:
-            kgrid = [ 3 if nsc > 1 else 1 for nsc in self.H.geom.nsc]
+            kgrid = [ 3 if nsc > 1 else 1 for nsc in self.H.geometry.nsc]
         kgrid_displ = self.setting('kgrid_displ')
 
         Erange = self.setting("Erange")

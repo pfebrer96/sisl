@@ -51,6 +51,7 @@ class ShortCutable:
         '''
         Gets a formatted summary of the shortcuts.
         '''
+        # Nick you already have some CSS, could some of these styles be shipped to that?
 
         if format == "str": 
             return "\n".join([ f'{key}: {shortcut["name"]}' for key, shortcut in self.shortcuts.items()])

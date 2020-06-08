@@ -1,3 +1,5 @@
+# Nick I think you should stick with the `dill` name, it is confusing that you use another
+# modules name. Also, if a new dev accidentially does import pickle, you would loose dill. ;)
 import dill as pickle
 
 import uuid
@@ -130,7 +132,7 @@ class Session(Configurable, Connected):
         TextInput(
             key="file_storage_dir", name="File storage directory",
             group="filesystem",
-            default="__sisltmp",
+            default="__sisltmp", # Nick probably an environment variable?
             width="s100% l50%",
             params={
                 "placeholder": "Write the path here..."
@@ -515,7 +517,16 @@ class Session(Configurable, Connected):
         '''
 
         while True:
-            
+
+            # Nick consider using:
+            #  from threading import Event
+            #  exit = Event()
+            #  while not exit.is_set():
+            #     exit.wait(1)
+            #     ...
+            #     if not forever:
+            #        exit.set()
+
             time.sleep(1)
 
             updates_avail = self.updates_available()
@@ -831,7 +842,7 @@ class Session(Configurable, Connected):
 
         for plotID, plot in session.plots.items():
             plot._get_pickleable()
-            
+
         with open(path, 'wb') as handle:
             pickle.dump(session, handle, protocol=pickle.HIGHEST_PROTOCOL)
 

@@ -269,6 +269,7 @@ class FatbandsPlot(BandsPlot):
         plotted_bands[1] = min(self.weights.band.values.max(), plotted_bands[1])
         
         #Get the bands that matter (spin polarization currently not implemented)
+        # Nick these things also needs to handle NC/SOC calculations.
         plot_eigvals = self.bands.sel(band=np.arange(*plotted_bands), spin=0) - E0
         # Get the weights that matter
         plot_weights = self.weights.sel(band=np.arange(*plotted_bands))

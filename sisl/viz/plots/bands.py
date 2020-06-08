@@ -243,7 +243,7 @@ class BandsPlot(Plot):
         'xaxis_mirror': True,
         'yaxis_mirror': True,
         'xaxis_showgrid': True,
-        'yaxis_title': 'Energy (eV)'
+        'yaxis_title': 'Energy [eV]'
     }
 
     @classmethod
@@ -306,6 +306,8 @@ class BandsPlot(Plot):
             return eigenstate.eig
 
         # THIS DOES NOT SUPPORT SPIN!!!!!!!!!!!!!!!! (I think)
+        # Nick true, you have to call it twice with spin-argument
+        # But only for bandStruct.parent.spin.is_polarized:
         self.bands = bandStruct.apply.dataarray.eigenstate(
             wrap=bands_wrapper,
             coords=('band',),
@@ -572,6 +574,6 @@ class BandsPlot(Plot):
 
         plt = Plot.from_plotly(fig)
 
-        plt.update_layout({"title": f"Delta K between bands {band1} and {band2}", 'xaxis_title': 'Delta k', 'yaxis_title': 'Energy (eV)'})
+        plt.update_layout({"title": f"Delta K between bands {band1} and {band2}", 'xaxis_title': 'Delta k', 'yaxis_title': 'Energy [eV]'})
 
         return plt

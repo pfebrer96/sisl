@@ -137,6 +137,12 @@ def set_session(new_session):
         the GUI will not be in sync automatically. You need to store the returned session
         and perform all the actions on it.
     '''
+    # Nick global variables should be capitalized for clarity
+    # Also, if it shouldn't be exposed, use _SESSION
+    # Lastly, this method *could* return the current session,
+    #   def set_session(session, ret_old=False):
+    #       if ret_old: return _SESSION, old_session
+    # ... or something similar.
     global session
 
     session.socketio = None

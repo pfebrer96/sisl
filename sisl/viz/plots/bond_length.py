@@ -220,8 +220,8 @@ class BondLengthMap(GeometryPlot):
     )
 
     _layout_defaults = {
-        'xaxis_title': 'X (Ang)', 
-        'yaxis_title': "Y (Ang)",
+        'xaxis_title': 'X [Ang]', 
+        'yaxis_title': "Y [Ang]",
         'yaxis_zeroline': False
     }
     
@@ -354,8 +354,9 @@ class BondLengthMap(GeometryPlot):
                 **common_kwargs
             )
 
-            self.update_layout(xaxis_title=f'Axis {xaxis} (Ang)', yaxis_title=f'Axis {yaxis} (Ang)')
+            self.update_layout(xaxis_title=f'Axis {xaxis} [Ang]', yaxis_title=f'Axis {yaxis} [Ang]')
         elif ndims == 1:
+            # Nick yes, what about chains with different bond-lengths?
             raise NotImplementedError("Does it make sense to implement 1 dimensional bond length maps? If so, post an issue on sisl's github page. Thanks!")
 
         showscale = self.setting('colorbar')

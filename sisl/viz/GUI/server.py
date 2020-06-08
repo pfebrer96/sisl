@@ -27,6 +27,7 @@ cli.show_server_banner = lambda *x: None
 
 SERVER_HOST = "localhost"
 SERVER_PORT = 7001
+# Nick I don't know about plotly+flask and security, would https also work?
 SERVER_ADRESS = f'http://{SERVER_HOST}:{SERVER_PORT}'
 
 def run():

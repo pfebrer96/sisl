@@ -1,6 +1,11 @@
 import sisl as si
 from io import StringIO
 
+# Nick perhaps we should allow Ascii siles to do this trick
+# I.e. Sile.as_memorymap()
+# which returns a copy of the sile but as a memory object?
+# does this work for binary files as well?
+
 def get_io_sile(sile_cls):
     class IOSile(sile_cls):
         def __init__(self, filename, mode="r", comment=None, ioobj=None, **kwargs):

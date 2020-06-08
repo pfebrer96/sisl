@@ -727,6 +727,47 @@ class Configurable:
         else:
             return True
 
+
+# Nick
+# consider merging these decoraters with an argument
+# I.e. something like this:
+# you could also unify some of these things
+def vizplotly_settings(when='after', init=False):
+    if init:
+        def decorator(method):
+            if when == 'after':
+                @functools.wraps(method)
+                def func(obj, *args, **kwargs):
+                    obj.init_settings(**kwargs)
+                    return method(obj, *args, **kwargs)
+            elif when == 'before':
+                @functools.wraps(method)
+                def func(obj, *args, **kwargs):
+                    ret = method(obj, *args, **kwargs)
+                    obj.init_settings(**kwargs)
+                    return ret
+            else:
+                raise ValueError("Incorrect of decorator usage")
+            return func
+    else:
+        def decorator(method):
+            if when == 'after':
+                @functools.wraps(method)
+                def func(obj, *args, **kwargs):
+                    obj.update_settings(**kwargs, from_decorator=True, run_updates=False)
+                    return method(obj, *args, **kwargs)
+            elif when == 'before':
+                @functools.wraps(method)
+                def func(obj, *args, **kwargs):
+                    ret = method(obj, *args, **kwargs)
+                    obj.update_settings(**kwargs, from_decorator=True, run_updates=False)
+                    return ret
+            else:
+                raise ValueError("Incorrect of decorator usage")
+            return func
+    return decorator
+
+
 #DECORATORS TO USE WHEN DEFINING METHODS IN CLASSES THAT INHERIT FROM Configurable
 #Run the method after having initialized the settings
 def after_settings_init(method):

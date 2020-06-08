@@ -15,6 +15,11 @@ Miscellaneous routines
 ======================
 
 """
+
+# NICK:
+# I think to accommodate blender and other GUI possibilities we should
+# move all plotly stuff into sisl.viz.plotly
+# This would make it clear where stuff is retained.
 import sisl.viz._templates
 from ._presets import get_preset, add_presets
 from ._user_customs import import_user_plots, import_user_presets, import_user_sessions, import_user_plugins
