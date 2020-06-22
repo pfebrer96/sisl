@@ -489,6 +489,85 @@ class outSileSiesta(SileSiesta):
         if not all:
             return _a.arrayd(moments)
         return moments
+    
+    @sile_fh_open()
+    def read_mulliken(self):
+
+        itt = iter(self)
+
+        # Find the mulliken block
+        line = next(itt)
+        while not "mulliken:" in line:
+            line = next(itt)
+            if line == '':
+                # We have not found it
+                return None
+
+        def read_species_mulliken(mulliken, atom_mulliken, indices, line):
+            
+            spec = line.split(':')[-1]
+            line = next(itt)
+
+            orbs = []
+            orb_numbers = []
+
+            line = next(itt)
+            while True:
+                splitted = line.split()
+                try:
+                    int(splitted[0])
+                    break
+                except:
+                    orbs = [*orbs, *splitted]
+                    orb_numbers.append(len(splitted))
+                    line = next(itt)
+
+            while 'Species' not in line and line != '':
+                
+                if line.strip() == '':
+                    line = next(itt)
+                    break
+                    
+                orbs_mulliken = []
+                for num_orbs in orb_numbers:
+
+                    vals = line.split()
+
+                    if len(vals) > num_orbs:
+                        indices.append(vals[0])
+                        atom_mulliken.append(vals[1])
+
+                    orbs_mulliken = [*orbs_mulliken, *vals[-num_orbs:]]
+
+                    line = next(itt)
+
+                mulliken.append(orbs_mulliken)
+            
+            return line
+
+        mulliken = []
+        atom_mulliken = []
+        indices = []
+
+        line = next(itt)
+        # Now, read until we find the end of the block
+        while not "mulliken:" in line:
+
+            # Read to the next species
+            while "Species" not in line:
+                line = next(itt)
+
+            # And then read the mulliken
+            line = read_species_mulliken(mulliken, atom_mulliken, indices, line)
+
+        indices = np.array(indices, dtype=int)
+        sorted_indices = np.argsort(indices)
+
+        mulliken = [mulliken[i] for i in sorted_indices]
+        mulliken = np.array([item for sublist in mulliken for item in sublist], dtype=float)
+        atom_mulliken = np.array(atom_mulliken, dtype=float)[sorted_indices]
+
+        return atom_mulliken, mulliken
 
     def read_data(self, *args, **kwargs):
         """ Read specific content in the Siesta out file
