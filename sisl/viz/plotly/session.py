@@ -8,7 +8,7 @@ from copy import deepcopy, copy
 
 import sisl
 from .gui.api_utils.sync import Connected
-from .._env_vars import register_env_var
+from sisl._environ import *
 from .plot import Plot
 from .configurable import Configurable, vizplotly_settings
 from .plotutils import find_files, find_plotable_siles, call_method_if_present, get_plot_classes
@@ -16,6 +16,13 @@ from .plotutils import find_files, find_plotable_siles, call_method_if_present, 
 from .input_fields import TextInput, FilePathInput, SwitchInput, ColorPicker, DropdownInput, IntegerInput, FloatInput, RangeSlider, QueriesInput, Array1dInput
 
 __all__ = ["Session"]
+
+
+# Register temporary directories
+register_environ_variable("SISL_TEMP", "__sisltmp",
+                          "Path where temporary files should be stored",
+                          process=Path)
+
 
 
 class Warehouse:
@@ -134,10 +141,7 @@ class Session(Configurable, Connected):
         FilePathInput(
             key="file_storage_dir", name="File storage directory",
             group="filesystem",
-            default= register_env_var(
-                'TEMPORAL_STORAGE', '__sisltmp',
-                "Path where temporal files should be stored"
-            ),
+            default=get_environ_variable("SISL_TEMP"),
             width="s100% l50%",
             params={
                 "placeholder": "Write the path here..."
