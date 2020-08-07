@@ -7,7 +7,7 @@ from .tbtproj import tbtprojncSileTBtrans
 __all__ = ['phtprojncSilePHtrans']
 
 
-@set_module("sisl.io.phtrans")
+@set_module("sisl.io.tbtrans")
 class phtprojncSilePHtrans(tbtprojncSileTBtrans):
     """ PHtrans projection file object """
     _trans_type = 'PHT.Proj'

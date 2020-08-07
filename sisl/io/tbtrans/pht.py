@@ -6,7 +6,7 @@ from .tbt import tbtncSileTBtrans, tbtavncSileTBtrans, Ry2K, Ry2eV
 __all__ = ['phtncSilePHtrans', 'phtavncSilePHtrans']
 
 
-@set_module("sisl.io.phtrans")
+@set_module("sisl.io.tbtrans")
 class phtncSilePHtrans(tbtncSileTBtrans):
     """ PHtrans file object """
     _trans_type = 'PHT'
@@ -21,7 +21,7 @@ class phtncSilePHtrans(tbtncSileTBtrans):
         return self._value('kT', self._elec(elec))[0] * Ry2eV
 
 
-@set_module("sisl.io.phtrans")
+@set_module("sisl.io.tbtrans")
 class phtavncSilePHtrans(tbtavncSileTBtrans):
     """ PHtrans file object """
     _trans_type = 'PHT'

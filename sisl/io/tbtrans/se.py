@@ -292,7 +292,7 @@ add_sile('TBT_UP.SE.nc', tbtsencSileTBtrans)
 add_sile('TBT_DN.SE.nc', tbtsencSileTBtrans)
 
 
-@set_module("sisl.io.phtrans")
+@set_module("sisl.io.tbtrans")
 class phtsencSilePHtrans(tbtsencSileTBtrans):
     """ PHtrans file object """
     _trans_type = 'PHT'

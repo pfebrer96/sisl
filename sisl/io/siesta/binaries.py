@@ -1259,13 +1259,20 @@ def _type(name, obj, dic=None):
             dic['__doc__'] = obj.__doc__.replace(obj.__name__, name)
         except:
             pass
-    return type(name, (obj, ), dic)
+    return set_module("sisl.io.siesta")(type(name, (obj, ), dic))
 
 # Faster than class ... \ pass
 tsgfSileSiesta = _type("tsgfSileSiesta", _gfSileSiesta)
 gridSileSiesta = _type("gridSileSiesta", _gridSileSiesta, {'grid_unit': 1.})
 
 if found_module:
+    def _create(suffix, name, base=_gridSileSiesta, **dic):
+        global __all__
+        __all__.append(name)
+        cls = _type(name, base, dic)
+        add_sile(suffix, cls)
+        return cls
+
     add_sile('TSHS', tshsSileSiesta)
     add_sile('onlyS', onlysSileSiesta)
     add_sile('TSDE', tsdeSileSiesta)
@@ -1273,23 +1280,28 @@ if found_module:
     add_sile('HSX', hsxSileSiesta)
     add_sile('TSGF', tsgfSileSiesta)
     add_sile('WFSX', wfsxSileSiesta)
+
     # These have unit-conversions
     BohrC2AngC = unit_convert('Bohr', 'Ang') ** 3
     Ry2eV = unit_convert('Ry', 'eV')
-    add_sile('RHO', _type("rhoSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('LDOS', _type("ldosSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('RHOINIT', _type("rhoinitSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('RHOXC', _type("rhoxcSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('DRHO', _type("drhoSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('BADER', _type("baderSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('IOCH', _type("iorhoSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('TOCH', _type("totalrhoSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
+
+    rhoSileSiesta = _create('RHO', "rhoSileSiesta", grid_unit=1./BohrC2AngC)
+    ldosSileSiesta = _create('LDOS', "ldosSileSiesta", grid_unit=1./BohrC2AngC)
+    rhoinitSileSiesta = _create('RHOINIT', "rhoinitSileSiesta", grid_unit=1./BohrC2AngC)
+    rhoxcSileSiesta = _create('RHOXC', "rhoxcSileSiesta", grid_unit=1./BohrC2AngC)
+    drhoSileSiesta = _create('DRHO', "drhoSileSiesta", grid_unit=1./BohrC2AngC)
+    baderSileSiesta = _create('BADER', "baderSileSiesta", grid_unit=1./BohrC2AngC)
+    ionrhoSileSiesta = _create('IOCH', "ionrhoSileSiesta", grid_unit=1./BohrC2AngC)
+    totalrhoSileSiesta = _create('TOCH', "totalrhoSileSiesta", grid_unit=1./BohrC2AngC)
+
     # The following two files *require* that
     #  STM.DensityUnits   Ele/bohr**3
     #  which I can't check!
     # They are however the default
-    add_sile('STS', _type("stsSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('STM.LDOS', _type("stmldosSileSiesta", _gridSileSiesta, {'grid_unit': 1./BohrC2AngC}))
-    add_sile('VH', _type("hartreeSileSiesta", _gridSileSiesta, {'grid_unit': Ry2eV}))
-    add_sile('VNA', _type("neutralatomhartreeSileSiesta", _gridSileSiesta, {'grid_unit': Ry2eV}))
-    add_sile('VT', _type("totalhartreeSileSiesta", _gridSileSiesta, {'grid_unit': Ry2eV}))
+    stsSileSiesta = _create('STS', "stsSileSiesta", grid_unit=1./BohrC2AngC)
+    stmldosSileSiesta = _create('STM.LDOS', "stmldosSileSiesta", grid_unit=1./BohrC2AngC)
+
+    # potential grids
+    hartreeSileSiesta = _create('VH', "hartreeSileSiesta", grid_unit=Ry2eV)
+    neutralatomhartreeSileSiesta = _create('VNA', "neutralatomhartreeSileSiesta", grid_unit=Ry2eV)
+    totalhartreeSileSiesta = _create('VT', "totalhartreeSileSiesta", grid_unit=Ry2eV)
