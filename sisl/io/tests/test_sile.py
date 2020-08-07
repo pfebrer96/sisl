@@ -26,5 +26,3 @@ def test_sile_pickling(sisl_tmp, sile_cls, pickle_mod):
 
     with open(tmp_file, "rb") as fh:
         loaded_sile = pickle_mod.load(fh)
-
-    
