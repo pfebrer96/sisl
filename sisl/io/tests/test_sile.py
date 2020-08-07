@@ -1,39 +1,30 @@
-from pathlib import Path
 import pytest
-import tempfile
+from pathlib import Path
+import os.path as osp
 
-import sisl
 from sisl.io.sile import __siles
 
-@pytest.fixture(params=["pickle", "dill"])
-def pickle_module(request):
-    return request.param
-
-@pytest.fixture(params=__siles)
-def sile(request):
-    sile_cls = request.param
-
-    return sile_cls("test", _open=False)
+pytestmark = pytest.mark.only
+_dir = osp.join("sisl", "io")
 
 
-def test_pickling(sile, pickle_module):
+@pytest.mark.parametrize("pickle_mod", ["pickle", "dill"])
+@pytest.mark.parametrize("sile_cls", __siles)
+def test_sile_pickling(sisl_tmp, sile_cls, pickle_mod):
+    # fail if module is not available
+    pickle_mod = pytest.importorskip(pickle_mod)
 
-    pickle_module = pytest.importorskip(pickle_module)
-    tmp_file = tempfile.NamedTemporaryFile(delete=False)
-    error = None
+    # sisl_tmp is a global fixture to retrieve files
+    # This fixture also automatically deletes files
+    tmp_file = sisl_tmp.file("test", _dir)
 
-    try:
-        with open(tmp_file.name, "wb") as fh:
-            pickle_module.dump(sile, fh)
+    # Create sile
+    sile = sile_cls(tmp_file, _open=False)
 
-        with open(tmp_file.name, "rb") as fh:
-            loaded_sile = pickle_module.load(fh)
-    except Exception as e:
-        error = e
+    with open(tmp_file, "wb") as fh:
+        pickle_mod.dump(sile, fh)
 
-    Path(tmp_file.name).unlink()
-
-    if error is not None:
-        raise error
+    with open(tmp_file, "rb") as fh:
+        loaded_sile = pickle_mod.load(fh)
 
     
