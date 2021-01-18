@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Common geometries (sisl.geom) &mdash; sisl |release| documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Physical objects (sisl.physics)" href="sisl.physics.html" />
+    <link rel="prev" title="sisl (sisl)" href="sisl.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> sisl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other.html">Other resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Publications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cite.html">Citing sisl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publications.html">Publications using sisl</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scripts/scripts.html">Command line scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rst/files.html">File formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Toolboxes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../toolbox/toolbox.html">Toolboxes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Visualization</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../visualization/ase/index.html">ASE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization/plotly/index.html">Plotly visualization framework</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="sisl.html">sisl (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Common geometries (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.geom</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#d-materials">1D materials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">2D materials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#others">Others</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.physics.html">Physical objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.physics</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.io.html">Input/Output (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.io</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.constant.html">Physical constants (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.constant</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.unit.html">Unit conversion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.unit</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.shape.html">Shapes (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.shape</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.utils.html">Utility routines (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.utils</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sisl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../api.html">API documentation</a> &raquo;</li>
+        
+      <li>Common geometries (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.geom</span></code>)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api-generated/sisl.geom.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<span class="target" id="module-sisl.geom"></span><div class="section" id="common-geometries-sisl-geom">
+<h1>Common geometries (<a class="reference internal" href="#module-sisl.geom" title="sisl.geom"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.geom</span></code></a>)<a class="headerlink" href="#common-geometries-sisl-geom" title="Permalink to this headline">¶</a></h1>
+<p>A variety of default geometries.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#basic" id="id4">Basic</a></p></li>
+<li><p><a class="reference internal" href="#d-materials" id="id5">1D materials</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id6">2D materials</a></p></li>
+<li><p><a class="reference internal" href="#others" id="id7">Others</a></p></li>
+</ul>
+</div>
+<div class="section" id="basic">
+<h2><a class="toc-backref" href="#id4">Basic</a><a class="headerlink" href="#basic" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">sc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alat</span></em>, <em class="sig-param"><span class="n">atom</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Simple cubic lattice with 1 atom</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alat</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – lattice parameter</p></li>
+<li><p><strong>atom</strong> (<em>Atom</em>) – the atom in the SC lattice</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">bcc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alat</span></em>, <em class="sig-param"><span class="n">atoms</span></em>, <em class="sig-param"><span class="n">orthogonal</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Body centered cubic lattice with 1 (non-orthogonal) or 2 atoms (orthogonal)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alat</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – lattice parameter</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em>) – the atom(s) in the BCC lattice</p></li>
+<li><p><strong>orthogonal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – whether the lattice is orthogonal (2 atoms)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">fcc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alat</span></em>, <em class="sig-param"><span class="n">atoms</span></em>, <em class="sig-param"><span class="n">orthogonal</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Face centered cubic lattice with 1 (non-orthogonal) or 4 atoms (orthogonal)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alat</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – lattice parameter</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em>) – the atom(s) in the FCC lattice</p></li>
+<li><p><strong>orthogonal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – whether the lattice is orthogonal (4 atoms)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">hcp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">atoms</span></em>, <em class="sig-param"><span class="n">coa</span><span class="o">=</span><span class="default_value">1.63333</span></em>, <em class="sig-param"><span class="n">orthogonal</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Hexagonal closed packed lattice with 2 (non-orthogonal) or 4 atoms (orthogonal)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – lattice parameter for 1st and 2nd lattice vectors</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em>) – the atom(s) in the HCP lattice</p></li>
+<li><p><strong>coa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – c over a parameter where c is the 3rd lattice vector length</p></li>
+<li><p><strong>orthogonal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – whether the lattice is orthogonal (4 atoms)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="d-materials">
+<h2><a class="toc-backref" href="#id5">1D materials</a><a class="headerlink" href="#d-materials" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">nanoribbon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bond</span></em>, <em class="sig-param"><span class="n">atoms</span></em>, <em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">kind</span><span class="o">=</span><span class="default_value">'armchair'</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Construction of a nanoribbon unit cell of type armchair or zigzag.</p>
+<p>The geometry is oriented along the <span class="math notranslate nohighlight">\(x\)</span> axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – bond length between atoms in the honeycomb lattice</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em>) – atom (or atoms) in the honeycomb lattice</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of atoms in the transverse direction</p></li>
+<li><p><strong>kind</strong> (<em>{'armchair'</em><em>, </em><em>'zigzag'}</em>) – type of ribbon</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">honeycomb</span></code></dt><dd><p>honeycomb lattices</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene</span></code></dt><dd><p>graphene geometry</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene_nanoribbon</span></code></dt><dd><p>graphene nanoribbon</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">agnr</span></code></dt><dd><p>armchair graphene nanoribbon</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">zgnr</span></code></dt><dd><p>zigzag graphene nanoribbon</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">graphene_nanoribbon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">bond</span><span class="o">=</span><span class="default_value">1.42</span></em>, <em class="sig-param"><span class="n">atoms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">kind</span><span class="o">=</span><span class="default_value">'armchair'</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Construction of a graphene nanoribbon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of atoms in the transverse direction</p></li>
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – C-C bond length. Defaults to 1.42</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em><em>, </em><em>optional</em>) – atom (or atoms) in the honeycomb lattice. Defaults to <code class="docutils literal notranslate"><span class="pre">Atom(6)</span></code></p></li>
+<li><p><strong>kind</strong> (<em>{'armchair'</em><em>, </em><em>'zigzag'}</em>) – type of ribbon</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">honeycomb</span></code></dt><dd><p>honeycomb lattices</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene</span></code></dt><dd><p>graphene geometry</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanoribbon</span></code></dt><dd><p>honeycomb nanoribbon (used for this method)</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">agnr</span></code></dt><dd><p>armchair graphene nanoribbon</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">zgnr</span></code></dt><dd><p>zigzag graphene nanoribbon</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">agnr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">bond</span><span class="o">=</span><span class="default_value">1.42</span></em>, <em class="sig-param"><span class="n">atoms</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Construction of an armchair graphene nanoribbon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of atoms in the transverse direction</p></li>
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – C-C bond length. Defaults to 1.42</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em><em>, </em><em>optional</em>) – atom (or atoms) in the honeycomb lattice. Defaults to <code class="docutils literal notranslate"><span class="pre">Atom(6)</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">honeycomb</span></code></dt><dd><p>honeycomb lattices</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene</span></code></dt><dd><p>graphene geometry</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanoribbon</span></code></dt><dd><p>honeycomb nanoribbon</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene_nanoribbon</span></code></dt><dd><p>graphene nanoribbon</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">zgnr</span></code></dt><dd><p>zigzag graphene nanoribbon</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">zgnr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">bond</span><span class="o">=</span><span class="default_value">1.42</span></em>, <em class="sig-param"><span class="n">atoms</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Construction of a zigzag graphene nanoribbon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of atoms in the transverse direction</p></li>
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – C-C bond length. Defaults to 1.42</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em><em>, </em><em>optional</em>) – atom (or atoms) in the honeycomb lattice. Defaults to <code class="docutils literal notranslate"><span class="pre">Atom(6)</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">honeycomb</span></code></dt><dd><p>honeycomb lattices</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene</span></code></dt><dd><p>graphene geometry</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanoribbon</span></code></dt><dd><p>honeycomb nanoribbon</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene_nanoribbon</span></code></dt><dd><p>graphene nanoribbon</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">agnr</span></code></dt><dd><p>armchair graphene nanoribbon</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">nanotube</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bond</span></em>, <em class="sig-param"><span class="n">atoms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chirality</span><span class="o">=</span><span class="default_value">(1, 1)</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Nanotube with user-defined chirality.</p>
+<p>This routine is implemented as in <a class="reference external" href="https://wiki.fysik.dtu.dk/ase">ASE</a> with some cosmetic changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – length between atoms in nano-tube</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em><em>(</em><em>6</em><em>)</em>) – nanotube atoms</p></li>
+<li><p><strong>chirality</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>)</em>) – chirality of nanotube (n, m)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h2><a class="toc-backref" href="#id6">2D materials</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">honeycomb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bond</span></em>, <em class="sig-param"><span class="n">atoms</span></em>, <em class="sig-param"><span class="n">orthogonal</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Honeycomb lattice with 2 or 4 atoms per unit-cell, latter orthogonal cell</p>
+<p>This enables creating BN lattices with ease, or graphene lattices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – bond length between atoms (<em>not</em> lattice constant)</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em>) – the atom (or atoms) that the honeycomb lattice consists of</p></li>
+<li><p><strong>orthogonal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True returns an orthogonal lattice</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene</span></code></dt><dd><p>the equivalent of this, but with default of Carbon atoms</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">bilayer</span></code></dt><dd><p>create bilayer honeycomb lattices</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">graphene</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bond</span><span class="o">=</span><span class="default_value">1.42</span></em>, <em class="sig-param"><span class="n">atoms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">orthogonal</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sisl/geom/flat.html#graphene"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Graphene lattice with 2 or 4 atoms per unit-cell, latter orthogonal cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – bond length between atoms (<em>not</em> lattice constant)</p></li>
+<li><p><strong>atom</strong> (<em>Atom</em><em>, </em><em>optional</em>) – the atom (or atoms) that the honeycomb lattice consists of.
+Default to Carbon atom.</p></li>
+<li><p><strong>orthogonal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True returns an orthogonal lattice</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">honeycomb</span></code></dt><dd><p>the equivalent of this, but with non-default atoms</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">bilayer</span></code></dt><dd><p>create bilayer honeycomb lattices</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">bilayer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bond</span><span class="o">=</span><span class="default_value">1.42</span></em>, <em class="sig-param"><span class="n">bottom_atoms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">top_atoms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stacking</span><span class="o">=</span><span class="default_value">'AB'</span></em>, <em class="sig-param"><span class="n">twist</span><span class="o">=</span><span class="default_value">(0, 0)</span></em>, <em class="sig-param"><span class="n">separation</span><span class="o">=</span><span class="default_value">3.35</span></em>, <em class="sig-param"><span class="n">ret_angle</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">layer</span><span class="o">=</span><span class="default_value">'both'</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Commensurate unit cell of a hexagonal bilayer structure, possibly with a twist angle.</p>
+<p>This routine follows the prescription of twisted bilayer graphene found in <a class="footnote-reference brackets" href="#id3" id="id2">1</a>.</p>
+<p class="rubric">Notes</p>
+<p>This routine may change in the future to force some of the arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – bond length between atoms in the honeycomb lattice</p></li>
+<li><p><strong>bottom_atoms</strong> (<em>Atom</em><em>, </em><em>optional</em>) – atom (or atoms) in the bottom layer. Defaults to <code class="docutils literal notranslate"><span class="pre">Atom(6)</span></code></p></li>
+<li><p><strong>top_atoms</strong> (<em>Atom</em><em>, </em><em>optional</em>) – atom (or atoms) in the top layer, defaults to <em class="xref py py-obj">bottom_atom</em></p></li>
+<li><p><strong>stacking</strong> (<em>{'AB'</em><em>, </em><em>'AA'</em><em>, </em><em>'BA'}</em>) – stacking sequence of the bilayer, where XY means that site X in bottom layer coincides with site Y in top layer</p></li>
+<li><p><strong>twist</strong> (<em>tuple of int</em><em>, </em><em>optional</em>) – integer coordinates (m, n) defining a commensurate twist angle</p></li>
+<li><p><strong>separation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – distance between the two layers</p></li>
+<li><p><strong>ret_angle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – return the twist angle (in degrees) in addition to the geometry instance</p></li>
+<li><p><strong>layer</strong> (<em>{'both'</em><em>, </em><em>'bottom'</em><em>, </em><em>'top'}</em>) – control which layer(s) to return</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">honeycomb</span></code></dt><dd><p>honeycomb lattices</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphene</span></code></dt><dd><p>graphene geometry</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><ol class="upperalpha simple" start="7">
+<li><p>Trambly de Laissardiere, D. Mayou, L. Magaud, “Localization of Dirac Electrons in Rotated Graphene Bilayers”, Nano Letts. 10, 804-808 (2010)</p></li>
+</ol>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="others">
+<h2><a class="toc-backref" href="#id7">Others</a><a class="headerlink" href="#others" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.geom.</code><code class="sig-name descname">diamond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alat</span><span class="o">=</span><span class="default_value">3.57</span></em>, <em class="sig-param"><span class="n">atoms</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Diamond lattice with 2 atoms in the unitcell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alat</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – the lattice constant for the diamond</p></li>
+<li><p><strong>atoms</strong> (<em>Atom</em><em>, </em><em>optional</em>) – atom in the lattice, may be one or two atoms. Default is Carbon</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="sisl.physics.html" class="btn btn-neutral float-right" title="Physical objects (sisl.physics)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sisl.html" class="btn btn-neutral float-left" title="sisl (sisl)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2015-2021, Nick Papior.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+﻿oplist
+===========
+
+.. currentmodule:: sisl
+
+.. autoclass:: oplist
+    :members:
+    :inherited-members:
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+        ~oplist.__doc__
+        ~oplist.__hash__
+        ~oplist.__module__
+        ~oplist.__slots__
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+       
+            ~oplist.__abs__
+       
+       
+            ~oplist.__add__
+       
+       
+            ~oplist.__and__
+       
+       
+            ~oplist.__contains__
+       
+       
+            ~oplist.__delattr__
+       
+       
+            ~oplist.__delitem__
+       
+       
+            ~oplist.__dir__
+       
+       
+            ~oplist.__eq__
+       
+       
+            ~oplist.__floordiv__
+       
+       
+            ~oplist.__format__
+       
+       
+            ~oplist.__ge__
+       
+       
+            ~oplist.__getattribute__
+       
+       
+            ~oplist.__getitem__
+       
+       
+            ~oplist.__gt__
+       
+       
+            ~oplist.__iadd__
+       
+       
+            ~oplist.__iand__
+       
+       
+            ~oplist.__ifloordiv__
+       
+       
+            ~oplist.__imatmul__
+       
+       
+            ~oplist.__imod__
+       
+       
+            ~oplist.__imul__
+       
+       
+            ~oplist.__init__
+       
+       
+            ~oplist.__init_subclass__
+       
+       
+            ~oplist.__ior__
+       
+       
+            ~oplist.__ipow__
+       
+       
+            ~oplist.__isub__
+       
+       
+            ~oplist.__iter__
+       
+       
+            ~oplist.__itruediv__
+       
+       
+            ~oplist.__le__
+       
+       
+            ~oplist.__len__
+       
+       
+            ~oplist.__lt__
+       
+       
+            ~oplist.__matmul__
+       
+       
+            ~oplist.__mod__
+       
+       
+            ~oplist.__mul__
+       
+       
+            ~oplist.__ne__
+       
+       
+            ~oplist.__neg__
+       
+       
+            ~oplist.__new__
+       
+       
+            ~oplist.__not__
+       
+       
+            ~oplist.__or__
+       
+       
+            ~oplist.__pos__
+       
+       
+            ~oplist.__pow__
+       
+       
+            ~oplist.__radd__
+       
+       
+            ~oplist.__reduce__
+       
+       
+            ~oplist.__reduce_ex__
+       
+       
+            ~oplist.__repr__
+       
+       
+            ~oplist.__reversed__
+       
+       
+            ~oplist.__rfloordiv__
+       
+       
+            ~oplist.__rmul__
+       
+       
+            ~oplist.__rpow__
+       
+       
+            ~oplist.__rsub__
+       
+       
+            ~oplist.__rtruediv__
+       
+       
+            ~oplist.__setattr__
+       
+       
+            ~oplist.__setitem__
+       
+       
+            ~oplist.__sizeof__
+       
+       
+            ~oplist.__str__
+       
+       
+            ~oplist.__sub__
+       
+       
+            ~oplist.__subclasshook__
+       
+       
+            ~oplist.__truediv__
+       
+       
+            ~oplist.__xor__
+       
+       
+            ~oplist.append
+       
+       
+            ~oplist.clear
+       
+       
+            ~oplist.copy
+       
+       
+            ~oplist.count
+       
+       
+            ~oplist.decorate
+       
+       
+            ~oplist.extend
+       
+       
+            ~oplist.index
+       
+       
+            ~oplist.insert
+       
+       
+            ~oplist.pop
+       
+       
+            ~oplist.remove
+       
+       
+            ~oplist.reverse
+       
+       
+            ~oplist.sort
+       
+    
+    

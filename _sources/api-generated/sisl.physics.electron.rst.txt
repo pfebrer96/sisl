@@ -1,0 +1,4 @@
+﻿.. automodule:: sisl.physics.electron
+   :no-members:
+   :no-undoc-members:
+   :no-inherited-members:

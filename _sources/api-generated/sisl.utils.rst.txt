@@ -1,0 +1,4 @@
+﻿.. automodule:: sisl.utils
+   :no-members:
+   :no-undoc-members:
+   :no-inherited-members:

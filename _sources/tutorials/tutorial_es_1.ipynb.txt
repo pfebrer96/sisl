@@ -1,0 +1,526 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "from sisl import *\n",
+    "import matplotlib.pyplot as plt\n",
+    "%matplotlib inline"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Electronic structure calculation -- a walk-through\n",
+    "\n",
+    "This tutorial will describe a complete walk-through of a large fraction of the `sisl` functionalities. It will show you how to generated default geometries, constructing Hamiltonians, calculating eigenstates and plotting various physical quantities.\n",
+    "\n",
+    "## Creating the geometry to investigate\n",
+    "\n",
+    "Our system of interest will be graphene. Instead of creating a graphene flake, or the primary unit-cell of graphene, we will create a vacancy in graphene.\n",
+    "We will start by creating a graphene flake"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "graphene = geom.graphene().tile(6, 0).tile(6, 1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This does *a lot* of things behind the scenes:\n",
+    "\n",
+    "1. `geom.graphene`:\n",
+    "    - create atomic coordinates of pristine graphene with a default bond-length of $1.42\\,\\mathrm{Å}$.\n",
+    "    - create pristine graphene unit cell, by default this will create a supercell\n",
+    "    with a size `3x3`, i.e. a nearest neighbour unit-cell.\n",
+    "    - assign a carbon atom with a default of one orbital per atom as the basis\n",
+    "2. `Geometry.tile` tiles the geometry `(reps, axis)` by `reps` times along the unit cell axis `axis`\n",
+    "\n",
+    "By printing the object one gets basic information regarding the geometry, such as 1) number and species of atoms, 2) number of orbitals, 3) orbitals associated with each atom and 4) number of supercells."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(graphene)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this example we have `na=72` atoms, each have one orbital, hence the total number of orbitals is `no=72`. The description of the atomic specie in the geometry tells us we have a carbon atom, with a single orbital with a radius of $1.4342\\,\\mathrm{Å}$. The number of supercells are `[3, 3, 1]` which means cells `{-1, 0, 1}` along the first and second lattice are taken into account.\n",
+    "\n",
+    "Later we will look into the details of *orbitals* associated with *atoms* and how they may be used for wavefunctions etc.\n",
+    "\n",
+    "Lets visualize the atomic positions (here adding atomic indices)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plot(graphene, atom_indices=True);"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Removing an atom can be done with `Geometry.remove`. The routine takes an index, or a list of indices of the atoms to be removed. For instance removing the first atom will result in the following geometry (red atom is the removed atom)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "coord = graphene.xyz[0, :]\n",
+    "temp = graphene.remove(0)\n",
+    "ax = plot(temp)\n",
+    "ax.scatter(temp.xyz[:, 0], temp.xyz[:, 1]);\n",
+    "ax.scatter(coord[0], coord[1], c='r', s=200);"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For the following it doesn't matter which atom we remove (since it is peridiodic), however for visualization purposes we will remove an atom in the middle of the unit cell.\n",
+    "\n",
+    "Using `sisl` it is easy to find atoms close to specific positions. The middle of the atomic coordinates is also the *center* of atomic coordinates, here `Geometry.center` is useful. The complementary method `Geometry.close` finds all atomic indices close to a given position or atom. By default, `Geometry.close` determines all atoms within a radius equal to the maximum orbital radius. Here we explicitly set the *search radius* to $1.5\\,\\mathrm{Å}$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ax = plot(graphene.sc)\n",
+    "xyz_center = graphene.center(what='xyz')\n",
+    "ax.scatter(xyz_center[0], xyz_center[1], 100, marker='*', c='k'); # center of geometry\n",
+    "index = graphene.close(xyz_center, 1.5)\n",
+    "for i in index:\n",
+    "    ax.scatter(graphene.xyz[i, 0], graphene.xyz[i, 1], 200, marker='s', edgecolors='k', facecolors='none'); # atoms within 1.5 of center\n",
+    "index = index[0]\n",
+    "xyz_remove = graphene.xyz[index]\n",
+    "ax.scatter(xyz_remove[0], xyz_remove[1], c='r'); # plot the removed atom\n",
+    "system = graphene.remove(index)\n",
+    "ax.scatter(system.xyz[:, 0], system.xyz[:, 1]);"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Creating the electronic structure\n",
+    "\n",
+    "To calculate eigenstates, DOS and other physical quantities from the Hamiltonian we need to setup the Hamiltonian.  Tthis is done by passing a `Geometry` to a `Hamiltonian` class"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "H = Hamiltonian(system)\n",
+    "print(H)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In addition to the `Geometry` information it informs us that it is an orthogonal basis (`sisl` also allows non-orthogonal basis'). The spin-configuration is an unpolarized configuration (see `Spin` for details).  \n",
+    "Currently `non-zero = 0` specifies that there are *no* associated Hamiltonian elements stored in this Hamiltonian object.\n",
+    "\n",
+    "`Hamiltonian.construct` lets one specify the Hamiltonian elements in a consistent way. However, note that the `Hamiltonian` objet may be used as though it was a matrix, i.e. `Hamiltonian[0, 1] = a` will set the hopping element from the 0th orbital to the 1st orbital to `a`.  \n",
+    "We will specify all on-site elements to $0.\\,\\mathrm{eV}$, and all nearest neighbour interactions with $-2.7\\,\\mathrm{eV}$, this is the most common used graphene tight-binding model.  \n",
+    "The arguments for the `construct` method is a list of radii and an accompanying list of energies. Here `r` tells `sisl` to find all atoms within a sphere of $0.1\\,\\mathrm{Å}$ from each atom and set the corresponding element to $0$, secondly all atoms within a spherical radius of $0.1\\,\\mathrm{Å}$ to $1.44\\,\\mathrm{Å}$ are given the matrix element $-2.7\\,\\mathrm{eV}$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "r = (0.1,  1.44)\n",
+    "t = (0. , -2.7 )\n",
+    "H.construct([r, t])\n",
+    "print(H)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now the Hamiltonian has $281=71\\cdot4-3$ non-zero elements (as expected)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Hamiltonian eigenstates\n",
+    "\n",
+    "At this point we have 1) a complete geometry describing a supercell structure with nearest cell neighbour interactions, 2) a Hamiltonian with nearest neighbour interactions describing the electronic structure.  \n",
+    "This completes what is needed to calculate a great deal of physical quantities, e.g. eigenstates, density of states, projected density of states and bandstructures.\n",
+    "\n",
+    "To begin with we calculate the $\\Gamma$-point eigenstates and plot a subset of the eigenstates' norm on the geometry."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "es = H.eigenstate()\n",
+    "# Reduce the contained eigenstates to only 3 states around the Fermi-level\n",
+    "es_fermi = es.sub(range(len(H) // 2 - 1, len(H) // 2 + 2))\n",
+    "_, ax = plt.subplots(1, 3, figsize=(14, 2));\n",
+    "for i, (n, c) in enumerate(zip(es_fermi.norm2(sum=False), 'rbg')):\n",
+    "    ax[i].scatter(system.xyz[:, 0], system.xyz[:, 1], 600 * n, facecolor=c, alpha=0.5);\n",
+    "    ax[i].scatter(xyz_remove[0], xyz_remove[1], c='k', marker='*'); # mark the removed atom"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `Hamiltonian.eigenstate` (with an optional $k$-point argument) routine returns an `EigenstateElectron` object which holds the eigenvalues and eigenvectors for a given $k$-point. This object can perform several advanced calculations:\n",
+    "\n",
+    "- `EigenstateElectron.DOS`: calculate the DOS at a given set of energy values (in eV), additionally one can pass a distribution function if the default Gaussian with $\\sigma=0.1\\,\\mathrm{eV}$ is not wanted.\n",
+    "- `EigenstateElectron.PDOS`: calculate the projected DOS at a given set of energy values (in eV), additionally one can pass a distribution function if the default Gaussian with $\\sigma=0.1\\,\\mathrm{eV}$ is not wanted.\n",
+    "- `EigenstateElectron.wavefunction`: add *all* contained eigenstates to a passed real-space grid.\n",
+    "\n",
+    "Lets first try and calculate the DOS for a given set of energies in the range $-4\\,\\mathrm{eV}$ : $\\mathrm{4}\\,\\mathrm{eV}$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "E = np.linspace(-4, 4, 400)\n",
+    "plt.plot(E, es.DOS(E)); \n",
+    "plt.xlabel(r'$E - E_F$ [eV]'); plt.ylabel(r'DOS at $\\Gamma$ [1/eV]');"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The projected DOS (in this case) can aptly be plotted on individual atoms as will be seen in the following. We will integrate the PDOS in the range $-1\\,\\mathrm{eV}$ to $-0.5\\,\\mathrm{eV}$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "E = np.linspace(-1, -.5, 100)\n",
+    "dE = E[1] - E[0]\n",
+    "PDOS = es.PDOS(E).sum(1) * dE # perform integration\n",
+    "plt.scatter(system.xyz[:, 0], system.xyz[:, 1], 500 * PDOS);\n",
+    "plt.scatter(xyz_remove[0], xyz_remove[1], c='k', marker='*'); # mark the removed atom"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This highlights a somewhat *localized* state around the missing atom.\n",
+    "\n",
+    "## Brillouin-zone calculations\n",
+    "\n",
+    "The above DOS and PDOS analysis are useful for investigating a single $k$-point at a time. However, they are incomplete in the sense of the full Brillouin zone. To leverage this `sisl`, implements several classes to handle Brillouin-zones.\n",
+    "\n",
+    "In the following we will show how to perform band structure calculations as well as performing $k$-averaged quantities in the Brillouin zone.\n",
+    "\n",
+    "### Bandstructure\n",
+    "\n",
+    "An easy and useful analysis is the *band structure*. In `sisl` calculating the band-structure is as easy as anything else.  \n",
+    "Begin by defining the path in the Brillouin zone."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "band = BandStructure(H, [[0, 0, 0], [0, 0.5, 0], \n",
+    "                         [1/3, 2/3, 0], [0, 0, 0]], 400, \n",
+    "                        [r'$\\Gamma$', r'$M$', \n",
+    "                         r'$K$', r'$\\Gamma$'])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that the integer `400` determines the total number of $k$-points on the full band. One *can* define an explicit number between the different points, however we highly encourage only specifying *one* integer as the divisions will be determined based on the length in the reciprocal space between the points and thus the physical distance in the Brillouin zone will be correct.\n",
+    "\n",
+    "A word of note on the `BrillouinZone` objects.\n",
+    "\n",
+    "The `BrillouinZone` objects are *extremely* handy because they allow to directly call *any* routine inherent to the passed object. If calling routine `band.a()` it is equivalent to:\n",
+    "\n",
+    "    for k in band: yield band.parent.a(k=k)\n",
+    "    \n",
+    "Note that `BrillouinZone` defaults to use `BrillouinZone.apply.iter`.\n",
+    "    \n",
+    "However, for large systems this may result in memory problems in which case it may be necessary to return an iterator. To circumvent this we can tell the Brillouin zone object to (always) return a list instead:\n",
+    "\n",
+    "    b_list = band.apply.list\n",
+    "    as_list = b_list.a()\n",
+    "        \n",
+    "Another option is to return $k$-point averaged quantities which is roughly equivalent to (internally it is done with minimal memory usage):\n",
+    "\n",
+    "    band.apply.average.a() == sum([band.parent.a(k=k) * band.weight[i] for i, k in enumerate(band)])\n",
+    "\n",
+    "Now we can calculate the band structure. A band-structure requires *all* eigenvalues and thus we ask the `BrillouinZone` object to return all values using `apply.array`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bs = band.apply.array.eigh()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "lk, kt, kl = band.lineark(True)\n",
+    "plt.xticks(kt, kl)\n",
+    "plt.xlim(0, lk[-1])\n",
+    "plt.ylim([-3, 3])\n",
+    "plt.ylabel('$E-E_F$ [eV]')\n",
+    "for bk in bs.T:\n",
+    "    plt.plot(lk, bk)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Calculating $k$-averaged quantities\n",
+    "\n",
+    "Now we are in a position to calculate a subset of quantities from the Hamiltonian. Before proceeding we will note that the Hamiltonian also implements the `DOS` and `PDOS` methods (equivalent to `Hamiltonian.eigenvalue().DOS()`), hence to calculate these as $k$-averaged quantities we can create a Brillouin zone object with proper weights, say a Monkhorst-Pack grid, and calculate the averaged quantities."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bz = MonkhorstPack(H, [35, 35, 1])\n",
+    "bz_average = bz.apply.average; # specify the Brillouin zone to perform an average of subsequent method calls"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "E = np.linspace(-4, 4, 1000)\n",
+    "plt.plot(E, bz_average.DOS(E));\n",
+    "plt.xlabel('$E - E_F$ [eV]');\n",
+    "plt.ylabel('DOS [1/eV]');"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also plot the projected DOS integrated around the Fermi level on the atoms"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "E = np.linspace(-1, 1, 1000)\n",
+    "dE = E[1] - E[0]\n",
+    "PDOS = bz_average.PDOS(E).sum(1) * dE"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.scatter(system.xyz[:, 0], system.xyz[:, 1], 400 * PDOS);\n",
+    "plt.scatter(xyz_remove[0], xyz_remove[1], c='k', marker='*'); # mark the removed atom"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Plotting eigenstates on a real space grid\n",
+    "\n",
+    "`sisl` also implements methods to plot orbitals on grids. Often it may also be advantageous to plot simple orbitals to check their appearence. `sisl` implements a simple variation of spherical atomic orbitals. Other orbitals may easily be added, if so desired.\n",
+    "\n",
+    "Since we require orbitals to be zero at some maximum cut-off $r_\\mathrm{max}$ a radial function is used to cutoff the spherical harmonics. In this case we will simply use an exponential function with a cutoff radius of $1.6\\,\\mathrm{Å}$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "r = np.linspace(0, 1.6, 700)\n",
+    "f = 5 * np.exp(-r * 5)\n",
+    "print('Normalization: {}'.format(f.sum() * (r[1] - r[0])))\n",
+    "plt.plot(r, f);\n",
+    "plt.ylim([0, None])\n",
+    "orb = SphericalOrbital(1, (r, f));"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To calculate the orbital on a 3D grid, the `Orbital.toGrid` function is available. Here we create an orbital with azimuthal quantum number $l=1$ and by default it has angular moment $0$, i.e. the $2p_z$ orbital. To create a $2p_x$ or $2p_y$ orbital requires the use of an `AtomicOrbital` to denote the $m$ quantum number. Below we create the grid that describes the $p_z$ orbital and plot the $yz$ plane at $x=0$ (with respect to the position of the orbital).\n",
+    "\n",
+    "Note that the real-space orbital will *not* be normalized and thus $\\int|\\psi(\\mathbf r)|^2\\neq 1$, as it should. The following analysis is thus a qualitative analysis."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "grid = orb.toGrid()\n",
+    "index = grid.index(-grid.origo)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.imshow(grid.grid[index[0], :, :].T);"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This *simple orbital model* may be used to plot the real-space tight-binding eigenstates. Our first task will be to tell the geometry that the orbital associated with the Carbon atoms is the $2p_z$ orbital as noted above. First we create the Carbon atom, then we replace the atom in the system geometry."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "C = Atom(6, orb)\n",
+    "print(system)\n",
+    "system.atoms.replace(system.atoms[0], C)\n",
+    "print(system)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note the difference between the two `print(system)` statements, before the replacement, an intrinsic `Orbital` object describes the orbital, in effect no knowledge other than the radius. After replacement, the spherical orbital with azimuthal angular moment $l=1$ is replaced. Now we can plot the real-space grid for an eigenstate.\n",
+    "\n",
+    "Lets plot one of the $\\Gamma$-point eigenstates close to the Fermi-level."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "es = H.eigenstate(dtype=np.float64).sub([len(H) // 2 + 1])\n",
+    "grid = Grid(0.075, sc=H.sc)\n",
+    "es.wavefunction(grid)\n",
+    "index = grid.index([0, 0, 0.1])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.imshow(grid.grid[:, :, index[2]].T);\n",
+    "plt.colorbar();\n",
+    "index = grid.index(xyz_remove)\n",
+    "plt.scatter(index[0], index[1], c='k', marker='*'); # mark the removed atom"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Please try and disregard the skewedness of the plot. Since the geometry is skewed, the wavefunction plot will be transformed to a square, however the graphene lattice may be recognized.\n",
+    "The above plot shows $\\psi(x, y, 0.1\\,\\mathrm{Å})$ for all $x$ and $y$. Note the similarity with the norm of the Hamiltonian eigenstates. However, in this plot we see that the wavefunction changes sign on alternating atoms."
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Distribution functions &mdash; sisl |release| documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> sisl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other.html">Other resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Publications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cite.html">Citing sisl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publications.html">Publications using sisl</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scripts/scripts.html">Command line scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rst/files.html">File formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Toolboxes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../toolbox/toolbox.html">Toolboxes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Visualization</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../visualization/ase/index.html">ASE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization/plotly/index.html">Plotly visualization framework</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sisl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Distribution functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api-generated/sisl.physics.distribution.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<span class="target" id="module-sisl.physics.distribution"></span><div class="section" id="distribution-functions">
+<h1>Distribution functions<a class="headerlink" href="#distribution-functions" title="Permalink to this headline">¶</a></h1>
+<p>Various distributions using different smearing techniques.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_distribution</span></code>(method[, smearing, x0])</p></td>
+<td><p>Create a distribution function, Gaussian, Lorentzian etc.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian</span></code>(x[, sigma, x0])</p></td>
+<td><p>Gaussian distribution function</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lorentzian</span></code>(x[, gamma, x0])</p></td>
+<td><p>Lorentzian distribution function</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fermi_dirac</span></code>(E[, kT, mu])</p></td>
+<td><p>Fermi-Dirac distribution function</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bose_einstein</span></code>(E[, kT, mu])</p></td>
+<td><p>Bose-Einstein distribution function</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cold</span></code>(E[, kT, mu])</p></td>
+<td><p>Cold smearing function, Marzari-Vanderbilt, PRL 82, 16, 1999</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">step_function</span></code>(x[, x0])</p></td>
+<td><p>Step function, also known as <span class="math notranslate nohighlight">\(1 - H(x)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">heaviside</span></code>(x[, x0])</p></td>
+<td><p>Heaviside step function</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.physics.distribution.</code><code class="sig-name descname">gaussian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">sigma</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">x0</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Gaussian distribution function</p>
+<div class="math notranslate nohighlight">
+\[G(x,\sigma,x_0) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\Big[\frac{- (x - x_0)^2}{2\sigma^2}\Big]\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array_like</em>) – points at which the Gaussian distribution is calculated</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – spread of the Gaussian</p></li>
+<li><p><strong>x0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – maximum position of the Gaussian</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the Gaussian distribution, same length as <em class="xref py py-obj">x</em></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.physics.distribution.</code><code class="sig-name descname">lorentzian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">x0</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Lorentzian distribution function</p>
+<div class="math notranslate nohighlight">
+\[L(x,\gamma,x_0) = \frac{1}{\pi}\frac{\gamma}{(x-x_0)^2 + \gamma^2}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array_like</em>) – points at which the Lorentzian distribution is calculated</p></li>
+<li><p><strong>gamma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – spread of the Lorentzian</p></li>
+<li><p><strong>x0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – maximum position of the Lorentzian</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the Lorentzian distribution, same length as <em class="xref py py-obj">x</em></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.physics.distribution.</code><code class="sig-name descname">fermi_dirac</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">E</span></em>, <em class="sig-param"><span class="n">kT</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">mu</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fermi-Dirac distribution function</p>
+<div class="math notranslate nohighlight">
+\[n_F(E,k_BT,\mu) = \frac{1}{\exp\Big[\frac{E - \mu}{k_BT}\Big] + 1}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>E</strong> (<em>array_like</em>) – energy evaluation points</p></li>
+<li><p><strong>kT</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – temperature broadening</p></li>
+<li><p><strong>mu</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – chemical potential</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the Fermi-Dirac distribution, same length as <em class="xref py py-obj">E</em></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.physics.distribution.</code><code class="sig-name descname">bose_einstein</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">E</span></em>, <em class="sig-param"><span class="n">kT</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">mu</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bose-Einstein distribution function</p>
+<div class="math notranslate nohighlight">
+\[n_B(E,k_BT,\mu) = \frac{1}{\exp\Big[\frac{E - \mu}{k_BT}\Big] - 1}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>E</strong> (<em>array_like</em>) – energy evaluation points</p></li>
+<li><p><strong>kT</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – temperature broadening</p></li>
+<li><p><strong>mu</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – chemical potential</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the Bose-Einstein distribution, same length as <em class="xref py py-obj">E</em></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.physics.distribution.</code><code class="sig-name descname">cold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">E</span></em>, <em class="sig-param"><span class="n">kT</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">mu</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Cold smearing function, Marzari-Vanderbilt, PRL 82, 16, 1999</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}C(E,k_BT,\mu) = \frac12 &amp;+ \mathrm{erf}\Big(-\frac{E-\mu}{k_BT}-\frac1{\sqrt2}\Big)
+\\
+&amp;+ \frac1{\sqrt{2\pi}} \exp\Bigg\{-\Big[\frac{E-\mu}{k_BT}+\frac1{\sqrt2}\Big]^2\Bigg\}\end{split}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>E</strong> (<em>array_like</em>) – energy evaluation points</p></li>
+<li><p><strong>kT</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – temperature broadening</p></li>
+<li><p><strong>mu</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – chemical potential</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the Cold smearing distribution function, same length as <em class="xref py py-obj">E</em></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.physics.distribution.</code><code class="sig-name descname">step_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">x0</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Step function, also known as <span class="math notranslate nohighlight">\(1 - H(x)\)</span></p>
+<p>This function equals one minus the Heaviside step function</p>
+<div class="math notranslate nohighlight">
+ \begin{align}
+  S(x,x_0) = \left\{\begin{aligned}1&amp;\quad \text{for }x &lt; x_0
+         \\
+         0.5&amp;\quad \text{for }x = x_0
+         \\
+         0&amp;\quad \text{for }x&gt;x_0
+       \end{aligned}\right.
+ \end{align}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array_like</em>) – points at which the step distribution is calculated</p></li>
+<li><p><strong>x0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – step position</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the step function distribution, same length as <em class="xref py py-obj">x</em></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">sisl.physics.distribution.</code><code class="sig-name descname">heaviside</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">x0</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Heaviside step function</p>
+<div class="math notranslate nohighlight">
+ \begin{align}
+  H(x,x_0) = \left\{\begin{aligned}0&amp;\quad \text{for }x &lt; x_0
+         \\
+         0.5&amp;\quad \text{for }x = x_0
+         \\
+         1&amp;\quad \text{for }x&gt;x_0
+       \end{aligned}\right.
+ \end{align}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array_like</em>) – points at which the Heaviside step distribution is calculated</p></li>
+<li><p><strong>x0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – step position</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the Heaviside step function distribution, same length as <em class="xref py py-obj">x</em></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2015-2021, Nick Papior.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

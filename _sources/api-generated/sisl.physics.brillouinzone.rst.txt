@@ -1,0 +1,4 @@
+﻿.. automodule:: sisl.physics.brillouinzone
+   :no-members:
+   :no-undoc-members:
+   :no-inherited-members:

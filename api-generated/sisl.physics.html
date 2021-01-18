@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Physical objects (sisl.physics) &mdash; sisl |release| documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Input/Output (sisl.io)" href="sisl.io.html" />
+    <link rel="prev" title="Common geometries (sisl.geom)" href="sisl.geom.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> sisl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other.html">Other resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Publications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cite.html">Citing sisl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publications.html">Publications using sisl</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scripts/scripts.html">Command line scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rst/files.html">File formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Toolboxes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../toolbox/toolbox.html">Toolboxes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Visualization</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../visualization/ase/index.html">ASE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization/plotly/index.html">Plotly visualization framework</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="sisl.html">sisl (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.geom.html">Common geometries (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.geom</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Physical objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.physics</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#brillouin-zone-brillouinzone">Brillouin zone (<code class="xref py py-mod docutils literal notranslate"><span class="pre">brillouinzone</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spin-configuration">Spin configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physical-quantites">Physical quantites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#electrons-electron">Electrons (<code class="xref py py-mod docutils literal notranslate"><span class="pre">electron</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phonons-phonon">Phonons (<code class="xref py py-mod docutils literal notranslate"><span class="pre">phonon</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bloch-s-theorem-bloch">Bloch’s theorem (<code class="xref py py-mod docutils literal notranslate"><span class="pre">bloch</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distribution-functions-distribution">Distribution functions (<code class="xref py py-mod docutils literal notranslate"><span class="pre">distribution</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#low-level-objects">Low level objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#states">States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sparse-matrices">Sparse matrices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.io.html">Input/Output (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.io</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.constant.html">Physical constants (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.constant</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.unit.html">Unit conversion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.unit</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.shape.html">Shapes (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.shape</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sisl.utils.html">Utility routines (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.utils</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sisl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../api.html">API documentation</a> &raquo;</li>
+        
+      <li>Physical objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.physics</span></code>)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api-generated/sisl.physics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<span class="target" id="module-sisl.physics"></span><div class="section" id="physical-objects-sisl-physics">
+<h1>Physical objects (<a class="reference internal" href="#module-sisl.physics" title="sisl.physics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sisl.physics</span></code></a>)<a class="headerlink" href="#physical-objects-sisl-physics" title="Permalink to this headline">¶</a></h1>
+<p>Implementations of various DFT and tight-binding related quantities
+are defined. The implementations range from simple Brillouin zone
+perspectives to self-energy calculations from Hamiltonians.</p>
+<p>In <a class="reference internal" href="sisl.html#module-sisl" title="sisl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sisl</span></code></a> the general usage of physical matrices are considering sparse
+matrices. Hence Hamiltonians, density matrices, etc. are considered
+sparse. There are exceptions, but it is generally advisable to have this in mind.</p>
+<div class="section" id="brillouin-zone-brillouinzone">
+<h2>Brillouin zone (<a class="reference internal" href="sisl.physics.brillouinzone.html#module-sisl.physics.brillouinzone" title="sisl.physics.brillouinzone"><code class="xref py py-mod docutils literal notranslate"><span class="pre">brillouinzone</span></code></a>)<a class="headerlink" href="#brillouin-zone-brillouinzone" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BrillouinZone</span></code>(parent[, k, weight])</p></td>
+<td><p>A class to construct Brillouin zone related quantities</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">MonkhorstPack</span></code>(parent, nkpt[, displacement, …])</p></td>
+<td><p>Create a Monkhorst-Pack grid for the Brillouin zone</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BandStructure</span></code>(parent, point, division[, name])</p></td>
+<td><p>Create a path in the Brillouin zone for plotting band-structures etc.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="spin-configuration">
+<h2>Spin configuration<a class="headerlink" href="#spin-configuration" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Spin</span></code>([kind, dtype])</p></td>
+<td><p>Spin class to determine configurations and spin components.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="physical-quantites">
+<h2>Physical quantites<a class="headerlink" href="#physical-quantites" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnergyDensityMatrix</span></code>(geometry[, dim, dtype, …])</p></td>
+<td><p>Sparse energy density matrix object</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DensityMatrix</span></code>(geometry[, dim, dtype, nnzpr])</p></td>
+<td><p>Sparse density matrix object</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hamiltonian</span></code>(geometry[, dim, dtype, nnzpr])</p></td>
+<td><p>Sparse Hamiltonian matrix object</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicalMatrix</span></code>(geometry[, dim, dtype, nnzpr])</p></td>
+<td><p>Dynamical matrix of a geometry</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Overlap</span></code>(geometry[, dim, dtype, nnzpr])</p></td>
+<td><p>Sparse overlap matrix object</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SelfEnergy</span></code>(*args, **kwargs)</p></td>
+<td><p>Self-energy object able to calculate the dense self-energy for a given sparse matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">WideBandSE</span></code>(spgeom, eta)</p></td>
+<td><p>Self-energy object with a wide-band electronic structure</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SemiInfinite</span></code>(spgeom, infinite[, eta])</p></td>
+<td><p>Self-energy object able to calculate the dense self-energy for a given <em class="xref py py-obj">SparseGeometry</em> in a semi-infinite chain.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveSI</span></code>(spgeom, infinite[, eta])</p></td>
+<td><p>Self-energy object using the Lopez-Sancho Lopez-Sancho algorithm</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">RealSpaceSE</span></code>(parent, semi_axis, k_axes[, unfold])</p></td>
+<td><p>Bulk real-space self-energy (or Green function) for a given physical object with periodicity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">RealSpaceSI</span></code>(semi, surface, k_axes[, unfold])</p></td>
+<td><p>Surface real-space self-energy (or Green function) for a given physical object with limited periodicity</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="electrons-electron">
+<h2>Electrons (<a class="reference internal" href="sisl.physics.electron.html#module-sisl.physics.electron" title="sisl.physics.electron"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electron</span></code></a>)<a class="headerlink" href="#electrons-electron" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DOS</span></code>(E, eig[, distribution])</p></td>
+<td><p>Calculate the density of states (DOS) for a set of energies, <em class="xref py py-obj">E</em>, with a distribution function</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PDOS</span></code>(E, eig, state[, S, distribution, spin])</p></td>
+<td><p>Calculate the projected density of states (PDOS) for a set of energies, <em class="xref py py-obj">E</em>, with a distribution function</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">velocity</span></code>(state, dHk[, energy, dSk, …])</p></td>
+<td><p>Calculate the velocity of a set of states</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">velocity_matrix</span></code>(state, dHk[, energy, dSk, …])</p></td>
+<td><p>Calculate the velocity matrix of a set of states</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">berry_phase</span></code>(contour[, sub, eigvals, closed, …])</p></td>
+<td><p>Calculate the Berry-phase on a loop using a predefined path</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">berry_curvature</span></code>(state, energy, dHk[, dSk, …])</p></td>
+<td><p>Calculate the Berry curvature matrix for a set of states (using Kubo)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conductivity</span></code>(bz[, distribution, method, complex])</p></td>
+<td><p>Electronic conductivity for a given <code class="xref py py-obj docutils literal notranslate"><span class="pre">BrillouinZone</span></code> integral</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">wavefunction</span></code>(v, grid[, geometry, k, spinor, …])</p></td>
+<td><p>Add the wave-function (<em class="xref py py-obj">Orbital.psi</em>) component of each orbital to the grid</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spin_moment</span></code>(state[, S, project])</p></td>
+<td><p>Spin magnetic moment (spin texture) and optionally orbitally resolved moments</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">spin_squared</span></code>(state_alpha, state_beta[, S])</p></td>
+<td><p>Calculate the spin squared expectation value between two spin states</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EigenvalueElectron</span></code>(c[, parent])</p></td>
+<td><p>Eigenvalues of electronic states, no eigenvectors retained</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EigenvectorElectron</span></code>(state[, parent])</p></td>
+<td><p>Eigenvectors of electronic states, no eigenvalues retained</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EigenstateElectron</span></code>(state, c[, parent])</p></td>
+<td><p>Eigen states of electrons with eigenvectors and eigenvalues.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="phonons-phonon">
+<h2>Phonons (<a class="reference internal" href="sisl.physics.phonon.html#module-sisl.physics.phonon" title="sisl.physics.phonon"><code class="xref py py-mod docutils literal notranslate"><span class="pre">phonon</span></code></a>)<a class="headerlink" href="#phonons-phonon" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DOS</span></code>(E, hw[, distribution])</p></td>
+<td><p>Calculate the density of modes (DOS) for a set of energies, <em class="xref py py-obj">E</em>, with a distribution function</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PDOS</span></code>(E, mode, hw[, distribution])</p></td>
+<td><p>Calculate the projected density of modes (PDOS) onto each each atom and direction for a set of energies, <em class="xref py py-obj">E</em>, with a distribution function</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">velocity</span></code>(mode, hw, dDk[, degenerate, project])</p></td>
+<td><p>Calculate the velocity of a set of modes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">displacement</span></code>(mode, hw, mass)</p></td>
+<td><p>Calculate real-space displacements for a given mode (in units of the characteristic length)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EigenvaluePhonon</span></code>(c[, parent])</p></td>
+<td><p>Eigenvalues of phonon modes, no eigenmodes retained</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EigenvectorPhonon</span></code>(state[, parent])</p></td>
+<td><p>Eigenvectors of phonon modes, no eigenvalues retained</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EigenmodePhonon</span></code>(state, c[, parent])</p></td>
+<td><p>Eigenmodes of phonons with eigenvectors and eigenvalues.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="bloch-s-theorem-bloch">
+<h2>Bloch’s theorem (<a class="reference internal" href="sisl.physics.bloch.html#module-sisl.physics.bloch" title="sisl.physics.bloch"><code class="xref py py-mod docutils literal notranslate"><span class="pre">bloch</span></code></a>)<a class="headerlink" href="#bloch-s-theorem-bloch" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bloch</span></code>(*bloch)</p></td>
+<td><p>Bloch’s theorem object containing unfolding factors and unfolding algorithms</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="distribution-functions-distribution">
+<h2>Distribution functions (<a class="reference internal" href="sisl.physics.distribution.html#module-sisl.physics.distribution" title="sisl.physics.distribution"><code class="xref py py-mod docutils literal notranslate"><span class="pre">distribution</span></code></a>)<a class="headerlink" href="#distribution-functions-distribution" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_distribution</span></code>(method[, smearing, x0])</p></td>
+<td><p>Create a distribution function, Gaussian, Lorentzian etc.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian</span></code>(x[, sigma, x0])</p></td>
+<td><p>Gaussian distribution function</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lorentzian</span></code>(x[, gamma, x0])</p></td>
+<td><p>Lorentzian distribution function</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fermi_dirac</span></code>(E[, kT, mu])</p></td>
+<td><p>Fermi-Dirac distribution function</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bose_einstein</span></code>(E[, kT, mu])</p></td>
+<td><p>Bose-Einstein distribution function</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cold</span></code>(E[, kT, mu])</p></td>
+<td><p>Cold smearing function, Marzari-Vanderbilt, PRL 82, 16, 1999</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">step_function</span></code>(x[, x0])</p></td>
+<td><p>Step function, also known as <span class="math notranslate nohighlight">\(1 - H(x)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">heaviside</span></code>(x[, x0])</p></td>
+<td><p>Heaviside step function</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="low-level-objects">
+<h2>Low level objects<a class="headerlink" href="#low-level-objects" title="Permalink to this headline">¶</a></h2>
+<p>The low level objects are the driving objects for a majority of the physical
+objects found here. They are rarely (if ever) required to be used, but they
+may be important for developers wishing to extend the functionality of <a class="reference internal" href="sisl.html#module-sisl" title="sisl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sisl</span></code></a>
+using generic class-structures. For instance the <code class="xref py py-obj docutils literal notranslate"><span class="pre">Hamiltonian</span></code> inherits the
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">SparseOrbitalBZSpin</span></code> class and <code class="xref py py-obj docutils literal notranslate"><span class="pre">EigenvalueElectron</span></code> inherits from <code class="xref py py-obj docutils literal notranslate"><span class="pre">Coefficient</span></code>.</p>
+<div class="section" id="states">
+<h3>States<a class="headerlink" href="#states" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Coefficient</span></code>(c[, parent])</p></td>
+<td><p>An object holding coefficients for a parent with info</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">State</span></code>(state[, parent])</p></td>
+<td><p>An object handling a set of vectors describing a given <em>state</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateC</span></code>(state, c[, parent])</p></td>
+<td><p>An object handling a set of vectors describing a given <em>state</em> with associated coefficients <em class="xref py py-obj">c</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sparse-matrices">
+<h3>Sparse matrices<a class="headerlink" href="#sparse-matrices" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SparseOrbitalBZ</span></code>(geometry[, dim, dtype, nnzpr])</p></td>
+<td><p>Sparse object containing the orbital connections in a Brillouin zone</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SparseOrbitalBZSpin</span></code>(geometry[, dim, dtype, …])</p></td>
+<td><p>Sparse object containing the orbital connections in a Brillouin zone with possible spin-components</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="sisl.io.html" class="btn btn-neutral float-right" title="Input/Output (sisl.io)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sisl.geom.html" class="btn btn-neutral float-left" title="Common geometries (sisl.geom)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2015-2021, Nick Papior.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
