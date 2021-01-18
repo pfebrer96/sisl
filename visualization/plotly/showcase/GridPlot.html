@@ -1,0 +1,1077 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>GridPlot &mdash; sisl |release| documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="BandsPlot" href="BandsPlot.html" />
+    <link rel="prev" title="GeometryPlot" href="GeometryPlot.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> sisl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribute.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../other.html">Other resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Publications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cite.html">Citing sisl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../publications.html">Publications using sisl</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/scripts.html">Command line scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rst/files.html">File formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Toolboxes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../toolbox/toolbox.html">Toolboxes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Visualization</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../ase/index.html">ASE</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Plotly visualization framework</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#basic-tutorials">Basic Tutorials</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#showcase-of-plot-classes">Showcase of plot classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="GeometryPlot.html">GeometryPlot</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">GridPlot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Plotting-in-3D,-2D-and-1D">Plotting in 3D, 2D and 1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Isosurfaces-and-contours">Isosurfaces and contours</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Colorscales">Colorscales</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Using-only-part-of-the-grid">Using only part of the grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Applying-transformations">Applying transformations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Visualizing-supercells">Visualizing supercells</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Performing-scans">Performing scans</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="BandsPlot.html">BandsPlot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PdosPlot.html">PdosPlot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WavefunctionPlot.html">WavefunctionPlot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#combining-plots">Combining plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#do-it-yourself">Do it yourself</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sisl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Plotly visualization framework</a> &raquo;</li>
+        
+      <li>GridPlot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/visualization/plotly/showcase/GridPlot.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div align="right">
+Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sisl/master/docs/visualization/plotly/showcase/GridPlot.ipynb"> here</a>.
+<span style="white-space: nowrap;"><a href="https://mybinder.org/v2/gh/zerothi/sisl/master?filepath=docs/visualization/plotly/showcase/GridPlot.ipynb"><img alt="Binder badge" src="https://mybinder.org/badge_logo.svg" style="vertical-align:text-bottom"></a>.</span>
+</div><p><a class="reference external" href="https://github.com/pfebrer96/sisl/labels/GridPlot"><img alt="GitHub issues by-label" src="https://img.shields.io/github/issues-raw/pfebrer96/sisl/GridPlot?style=for-the-badge" /></a></p>
+<div class="section" id="GridPlot">
+<h1>GridPlot<a class="headerlink" href="#GridPlot" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">GridPlot</span></code> class will help you very easily display any <code class="docutils literal notranslate"><span class="pre">Grid</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title fa fa-exclamation-circle">Note</p>
+<p>Dedicated software like VESTA might be faster in rendering big 3D grids, but the strength of this plot class lies in its great <strong>flexibility</strong>, <strong>tunability</strong> (change settings as you wish to customize the display from python) <strong>and convenience</strong> (no need to open another software, you can see the grid directly in your notebook). Also, you can <strong>combine your grid plots</strong> however you want <strong>with the other plot classes</strong> in the framework.</p>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sisl</span>
+<span class="kn">import</span> <span class="nn">sisl.viz</span>
+</pre></div>
+</div>
+</div>
+<p>The first thing that we need to do to plot a grid is having a grid, so let’s get one!</p>
+<p>In this case, we are going to use an electronic density grid from a <code class="docutils literal notranslate"><span class="pre">.RHO</span></code> file in SIESTA. There are multiple ways of getting the plot:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rho_file</span> <span class="o">=</span> <span class="s2">&quot;../../../../files/tests/sisl/io/siesta/SrTiO3.RHO&quot;</span>
+
+<span class="c1"># From a sisl grid, you can do grid.plot()</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">sisl</span><span class="o">.</span><span class="n">get_sile</span><span class="p">(</span><span class="n">rho_file</span><span class="p">)</span><span class="o">.</span><span class="n">read_grid</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="c1"># All siles that implement read_grid can also be directly plotted</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">sisl</span><span class="o">.</span><span class="n">get_sile</span><span class="p">(</span><span class="n">rho_file</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="c1"># Using the Plot class, perhaps the cleaner one, but needs an extra import</span>
+<span class="kn">from</span> <span class="nn">sisl.viz</span> <span class="kn">import</span> <span class="n">Plot</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="n">rho_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">SileError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-8aec5ebf8b80&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-red-fg"># From a sisl grid, you can do grid.plot()</span>
+<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg"> </span>grid <span class="ansi-blue-fg">=</span> sisl<span class="ansi-blue-fg">.</span>get_sile<span class="ansi-blue-fg">(</span>rho_file<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>read_grid<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> plot <span class="ansi-blue-fg">=</span> grid<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/io/siesta/binaries.py</span> in <span class="ansi-cyan-fg">read_grid</span><span class="ansi-blue-fg">(self, index, dtype, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1001</span>         index <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;spin&#39;</span><span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1002</span>         <span class="ansi-red-fg"># Read the sizes and cell</span>
+<span class="ansi-green-fg">-&gt; 1003</span><span class="ansi-red-fg">         </span>nspin<span class="ansi-blue-fg">,</span> mesh <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>read_grid_size<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1004</span>         cell <span class="ansi-blue-fg">=</span> _siesta<span class="ansi-blue-fg">.</span>read_grid_cell<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>file<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1005</span>         _bin_check<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;read_grid&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;could not read grid cell.&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/io/siesta/binaries.py</span> in <span class="ansi-cyan-fg">read_grid_size</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    983</span>         <span class="ansi-red-fg"># Read the sizes</span>
+<span class="ansi-green-intense-fg ansi-bold">    984</span>         nspin<span class="ansi-blue-fg">,</span> mesh <span class="ansi-blue-fg">=</span> _siesta<span class="ansi-blue-fg">.</span>read_grid_sizes<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>file<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 985</span><span class="ansi-red-fg">         </span>_bin_check<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;read_grid_size&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;could not read grid sizes.&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    986</span>         <span class="ansi-green-fg">return</span> nspin<span class="ansi-blue-fg">,</span> mesh
+<span class="ansi-green-intense-fg ansi-bold">    987</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/io/siesta/binaries.py</span> in <span class="ansi-cyan-fg">_bin_check</span><span class="ansi-blue-fg">(obj, method, message)</span>
+<span class="ansi-green-intense-fg ansi-bold">     38</span>     ierr <span class="ansi-blue-fg">=</span> _siesta<span class="ansi-blue-fg">.</span>io_m<span class="ansi-blue-fg">.</span>iostat_query<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">if</span> ierr <span class="ansi-blue-fg">!=</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 40</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> SileError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;{str(obj)}.{method} {message} (ierr={ierr})&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     41</span>
+<span class="ansi-green-intense-fg ansi-bold">     42</span>
+
+<span class="ansi-red-fg">SileError</span>: rhoSileSiesta(SrTiO3.RHO, base=/home/runner/work/sisl/sisl/files/tests/sisl/io/siesta).read_grid_size could not read grid sizes. (ierr=2)
+</pre></div></div>
+</div>
+<p>Anyway, you will end up having the grid under <code class="docutils literal notranslate"><span class="pre">plot.grid</span></code>.</p>
+<p>Let’s see what we’ve got:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-3f836e597baf&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>Well, this doesn’t look much like a grid, does it? By default, <code class="docutils literal notranslate"><span class="pre">GridPlot</span></code> only shows the third axis of the grid, while averaging along the others. This is because plotly <strong>can really struggle trying to plot an enormous 3d grid</strong>, to the point that it can leave your computer stuck.</p>
+<div class="section" id="Plotting-in-3D,-2D-and-1D">
+<h2>Plotting in 3D, 2D and 1D<a class="headerlink" href="#Plotting-in-3D,-2D-and-1D" title="Permalink to this headline">¶</a></h2>
+<p>Much like <a class="reference internal" href="GeometryPlot.html"><span class="doc">GeometryPlot</span></a>, you can select the axes of the grid that you want to display. In this case, the other axes will be averaged.</p>
+<p>For example, if we want to see the xy plane of the electronic density, we can do:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-d56e1ed4c012&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>axes<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>Note that you can make 2d representations look smoother without having to make the grid finer by using the <code class="docutils literal notranslate"><span class="pre">zsmooth</span></code> setting, which is part of plotly’s <code class="docutils literal notranslate"><span class="pre">go.Heatmap</span></code> trace options.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">zsmooth</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-fabcaf63f666&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>zsmooth<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;best&#34;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>3d representations of a grid will display isosurfaces:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-fbd8628d9162&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>axes<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Isosurfaces-and-contours">
+<h2>Isosurfaces and contours<a class="headerlink" href="#Isosurfaces-and-contours" title="Permalink to this headline">¶</a></h2>
+<p>There’s one parameter that controls both the display of isosurfaces (in 3d) and contours (in 2d): <code class="docutils literal notranslate"><span class="pre">isos</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">isos</span></code> is a list of dicts where each dict asks for an isovalue. See the help message:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">plot</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;isos&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">help</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-9e9aa1616503&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>print<span class="ansi-blue-fg">(</span>plot<span class="ansi-blue-fg">.</span>get_param<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;isos&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>help<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>If no <code class="docutils literal notranslate"><span class="pre">isos</span></code> is provided, 3d representations plot the 0.3 and 0.7 (<code class="docutils literal notranslate"><span class="pre">frac</span></code>) isosurfaces. This is what you can see in the 3d plot that we displayed above.</p>
+<p>Let’s play a bit with <code class="docutils literal notranslate"><span class="pre">isos</span></code>. The first thing I will do is change the opacity of the outer isosurface, since there’s no way to see the inner one right now (although you can toggle it by clicking at the legend, courtesy of plotly :)).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">isos</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;frac&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;opacity&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;frac&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">}])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-c6788d4c288b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>isos<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">&#34;frac&#34;</span><span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.3</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;opacity&#34;</span><span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.4</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">&#34;frac&#34;</span><span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.7</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>Now we can see all the very interesting features of the inner isosurface! :)</p>
+<p>Let’s now see how contours look in 2d:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-d56e1ed4c012&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>axes<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>Not bad.</p>
+</div>
+<div class="section" id="Colorscales">
+<h2>Colorscales<a class="headerlink" href="#Colorscales" title="Permalink to this headline">¶</a></h2>
+<p>You might have already seen that 2d representations use a colorscale. You can change it with the <code class="docutils literal notranslate"><span class="pre">colorscale</span></code> setting.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">isos</span><span class="o">=</span><span class="p">[],</span> <span class="n">colorscale</span><span class="o">=</span><span class="s2">&quot;temps&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-ef74df142a2a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>isos<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> colorscale<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;temps&#34;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>And you can control its range using <code class="docutils literal notranslate"><span class="pre">crange</span></code> (min and max bounds of the colorscale) and <code class="docutils literal notranslate"><span class="pre">cmid</span></code> (middle value of the colorscale, will take preference over <code class="docutils literal notranslate"><span class="pre">crange</span></code>). In this way, you are able <strong>saturate the display as you wish</strong>.</p>
+<p>For example, in this case, if we bring the lower bound up enough, we will be able to hide the Sr atoms that are in the corners. But be careful not to make it so high that you hide the oxygens as well!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">crange</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-73374162adc2&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>crange<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Using-only-part-of-the-grid">
+<h2>Using only part of the grid<a class="headerlink" href="#Using-only-part-of-the-grid" title="Permalink to this headline">¶</a></h2>
+<p>As we can see in the 3d representation of the electronic density, there are two atoms contributing to the electronic density in the center, that’s why we get such a big difference in the 2d heatmap.</p>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">x_range</span></code>, <code class="docutils literal notranslate"><span class="pre">ỳ_range</span></code> and <code class="docutils literal notranslate"><span class="pre">z_range</span></code> settings to take into account only a certain part of the grid. for example, in this case we want only the grid where <code class="docutils literal notranslate"><span class="pre">z</span></code> is in the <code class="docutils literal notranslate"><span class="pre">[1,3]</span></code> interval so that we remove the influence of the oxygen atom that is on top.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">z_range</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-a6dd0c933986&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>z_range<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>Now we are seeing the real difference between the Ti atom (in the center) and the O atoms (at the edges).</p>
+</div>
+<div class="section" id="Applying-transformations">
+<h2>Applying transformations<a class="headerlink" href="#Applying-transformations" title="Permalink to this headline">¶</a></h2>
+<p>One can apply as many transformations as it wishes to the grid by using the <code class="docutils literal notranslate"><span class="pre">transforms</span></code> setting.</p>
+<p>It should be a list where each item can be a string (the name of the function, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;numpy.sin&quot;</span></code>) or a function. Each transform is passed to <code class="docutils literal notranslate"><span class="pre">Grid.apply</span></code>, see the method for more info.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">transforms</span><span class="o">=</span><span class="p">[</span><span class="nb">abs</span><span class="p">,</span> <span class="s2">&quot;numpy.sin&quot;</span><span class="p">],</span> <span class="n">crange</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-7f3d3d2397cf&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>transforms<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span>abs<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;numpy.sin&#34;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> crange<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>Notice that the order of the transformations matter:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">transforms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sin&quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">],</span> <span class="n">crange</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1"># If a string is provided with no module, it will be interpreted as a numpy function</span>
+<span class="c1"># Therefore &quot;sin&quot; == &quot;numpy.sin&quot; and abs != &quot;abs&quot; == &quot;numpy.abs&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-f1281bd71df2&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>transforms<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;sin&#34;</span><span class="ansi-blue-fg">,</span> abs<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> crange<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-red-fg"># If a string is provided with no module, it will be interpreted as a numpy function</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-red-fg"># Therefore &#34;sin&#34; == &#34;numpy.sin&#34; and abs != &#34;abs&#34; == &#34;numpy.abs&#34;</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Visualizing-supercells">
+<h2>Visualizing supercells<a class="headerlink" href="#Visualizing-supercells" title="Permalink to this headline">¶</a></h2>
+<p>Visualizing grid supercells is as easy as using the <code class="docutils literal notranslate"><span class="pre">sc</span></code> setting. If we want to repeat our grid visualization along the second axis 3 times, we just do:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">nsc</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-585f3325b132&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>nsc<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Performing-scans">
+<h2>Performing scans<a class="headerlink" href="#Performing-scans" title="Permalink to this headline">¶</a></h2>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">scan</span></code> method to create a scan of the grid along a given direction. If we have a 2d representation, the scan will be performed along the other axis by default, but we can choose in which direction we want to scan.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-c8c3cea53f79&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>steps<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">5</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>Notice how the scan respected our <code class="docutils literal notranslate"><span class="pre">z_range</span></code> from 1 to 3. If we want the rest of the grid, we can set <code class="docutils literal notranslate"><span class="pre">z_range</span></code> back to <code class="docutils literal notranslate"><span class="pre">None</span></code> before creating the scan, or we can indicate the bounds of the scan.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">along</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">plot</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-bca987a34643&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>along<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> start<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> stop<span class="ansi-blue-fg">=</span>plot<span class="ansi-blue-fg">.</span>grid<span class="ansi-blue-fg">.</span>cell<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> steps<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>This is the <code class="docutils literal notranslate"><span class="pre">&quot;moving_slice&quot;</span></code> scan, but we can also display the scan as an animation:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;as_is&quot;</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-602bbd58318f&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;as_is&#34;</span><span class="ansi-blue-fg">,</span> steps<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">15</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>This mode is called <code class="docutils literal notranslate"><span class="pre">&quot;as_is&quot;</span></code> because <strong>it creates an animation of the current representation</strong>. That is, it can scan through 1d, 2d and 3d representations and it keeps displaying the supercell.</p>
+<p>Here’s a scan of 1d data:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;as_is&quot;</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-b8c3205b2a84&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>axes<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;as_is&#34;</span><span class="ansi-blue-fg">,</span> steps<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">15</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<p>We hope you enjoyed what you learned!</p>
+<hr class="docutils" />
+<p>This next cell is just to create the thumbnail for the notebook in the docs</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">thumbnail_plot</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">z_range</span><span class="o">=</span><span class="p">[</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="n">thumbnail_plot</span><span class="p">:</span>
+    <span class="n">thumbnail_plot</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-f7f35b9dbe80&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>thumbnail_plot <span class="ansi-blue-fg">=</span> plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>axes<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> z_range<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1.7</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.9</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-green-fg">if</span> thumbnail_plot<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span>     thumbnail_plot<span class="ansi-blue-fg">.</span>show<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;png&#34;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
+</pre></div></div>
+</div>
+<hr class="docutils" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="BandsPlot.html" class="btn btn-neutral float-right" title="BandsPlot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="GeometryPlot.html" class="btn btn-neutral float-left" title="GeometryPlot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2015-2021, Nick Papior.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

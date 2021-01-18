@@ -1,0 +1,1178 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Using python to interact with sisl’s GUI &mdash; sisl |release| documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="GeometryPlot" href="../showcase/GeometryPlot.html" />
+    <link rel="prev" title="Demo notebook" href="Demo.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> sisl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribute.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../other.html">Other resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Publications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cite.html">Citing sisl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../publications.html">Publications using sisl</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/scripts.html">Command line scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rst/files.html">File formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Toolboxes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../toolbox/toolbox.html">Toolboxes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Visualization</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../ase/index.html">ASE</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Plotly visualization framework</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#basic-tutorials">Basic Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Demo.html">Demo notebook</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Using python to interact with sisl’s GUI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#1.-LAUNCHING-THE-GUI">1. LAUNCHING THE GUI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.-UNDERSTANDING-HOW-THE-GUI-WORKS">2. UNDERSTANDING HOW THE GUI WORKS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#3.-CHANGING-THE-GUI’S-LAYOUT">3. CHANGING THE GUI’S LAYOUT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#4.-BUILDING-YOUR-OWN-CUSTOM-SESSIONS">4. BUILDING YOUR OWN CUSTOM SESSIONS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#showcase-of-plot-classes">Showcase of plot classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#combining-plots">Combining plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#do-it-yourself">Do it yourself</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sisl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Plotly visualization framework</a> &raquo;</li>
+        
+      <li>Using python to interact with sisl’s GUI</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/visualization/plotly/basic-tutorials/GUI with Python Demo.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div align="right">
+Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sisl/master/docs/visualization/plotly/basic-tutorials/GUI with Python Demo.ipynb"> here</a>.
+<span style="white-space: nowrap;"><a href="https://mybinder.org/v2/gh/zerothi/sisl/master?filepath=docs/visualization/plotly/basic-tutorials/GUI with Python Demo.ipynb"><img alt="Binder badge" src="https://mybinder.org/badge_logo.svg" style="vertical-align:text-bottom"></a>.</span>
+</div><div class="section" id="Using-python-to-interact-with-sisl’s-GUI">
+<h1>Using python to interact with sisl’s GUI<a class="headerlink" href="#Using-python-to-interact-with-sisl’s-GUI" title="Permalink to this headline">¶</a></h1>
+<p>This notebook will show you how you can benefit from knowing how to interact with the <a class="reference external" href="https://github.com/pfebrer96/sisl/tree/GUI/sisl/viz/GUI">graphical interface</a>. Some things just make no sense to do with just clicks, but having a dashboard to visualize and layout your automatically-generated plots is great. However there are some things that the GUI can already help you do automatically. <strong>You will be a true master in the moment you know how to use sisl plots in pyton, how to use the GUI
+and how to make the two worlds interact</strong>.</p>
+<p>But don’t worry, it is not that difficult really to become a true master :)</p>
+<p>You will also understand that you can build your own custom sessions to adapt to your needs, <strong>boost your productivity and save you hours of work</strong>.</p>
+<p><strong>Disclaimer</strong>: <em>This notebook will be very simple and straightforward.</em></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%%html</span>
+<span class="cp">&lt;! RUN ME PLEASEEEEEE&gt;</span>
+<span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="p">.</span><span class="nc">user</span> <span class="p">{</span>
+    <span class="k">background</span><span class="p">:</span><span class="kc">aliceblue</span><span class="p">;</span>
+    <span class="k">padding</span><span class="p">:</span><span class="mi">5</span><span class="kt">px</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+    <span class="err">margin</span> <span class="err">0px</span> <span class="err">10px</span><span class="p">;</span>
+    <span class="k">border-radius</span><span class="p">:</span> <span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">color</span><span class="p">:</span> <span class="kc">darkblue</span><span class="p">;</span>
+    <span class="k">font-style</span><span class="p">:</span><span class="kc">italic</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<! RUN ME PLEASEEEEEE>
+<style>
+.user {
+    background:aliceblue;
+    padding:5px 10px;
+    margin 0px 10px;
+    border-radius: 3px;
+    color: darkblue;
+    font-style:italic
+}
+</style></div>
+</div>
+<div class="section" id="1.-LAUNCHING-THE-GUI">
+<h2>1. LAUNCHING THE GUI<a class="headerlink" href="#1.-LAUNCHING-THE-GUI" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sisl.viz</span> <span class="kn">import</span> <span class="n">gui</span>
+
+<span class="n">gui</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Api running on http://localhost:4000...
+connect the GUI to this address or send it to someone for sharing.
+
+The session has started succesfully. Happy visualization!
+
+</pre></div></div>
+</div>
+<p>A browser tab should have opened. Do you see it?</p>
+<p>Yeees!</p>
+</div>
+<div class="section" id="2.-UNDERSTANDING-HOW-THE-GUI-WORKS">
+<h2>2. UNDERSTANDING HOW THE GUI WORKS<a class="headerlink" href="#2.-UNDERSTANDING-HOW-THE-GUI-WORKS" title="Permalink to this headline">¶</a></h2>
+<p>Well, it’s not magic. It uses a structure that you will probably be familiar with already.</p>
+<p>There is a session. This session contains tabs. Tabs contain plots.</p>
+<p>How can I see that session?</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">session</span> <span class="o">=</span> <span class="n">gui</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>What can I do with it?</p>
+<p>Use half screen for the GUI and another half for this notebook and I will show you. Or, you know, use two monitors in case you are living a fancy life.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Let&#39;s write the session to a new variable for convenience</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">gui</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+
+<span class="c1"># Then add a new tab ( run help(session) to see all the available methods )</span>
+<span class="n">session</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="s2">&quot;Tab added from jupyter&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;sisl.viz.plotly.sessions.blank.BlankSession at 0x7fd054b9f908&gt;
+</pre></div></div>
+</div>
+<p>Do you see the magic?</p>
+<p>No.</p>
+<p>Yeah me neither. You have added a new tab, but the GUI still doesn’t know about it. One way of solving this is to refresh the browser with F5.</p>
+<p>Lame.</p>
+<p>I know. That’s why there are better ways. You can either emit the changes when you are ready:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">session</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;sisl.viz.plotly.sessions.blank.BlankSession at 0x7fd054b9f908&gt;
+</pre></div></div>
+</div>
+<p>Or use the magic of autosync:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">session</span><span class="o">.</span><span class="n">autosync</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="s2">&quot;This is syncing!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;sisl.viz.plotly.sessions.blank.BlankSession at 0x7fd054b9f908&gt;
+</pre></div></div>
+</div>
+<p>That’s cool, but do I have to write autosync each time?.</p>
+<p>No, the autosync property basically returns your session with autosyncing super-powers. So, you can store that and then run your methods happily:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># From now on we are going to just the autosynced version of the</span>
+<span class="c1"># session. We could keep the other one, but we just don&#39;t care</span>
+<span class="c1"># so we will overwrite it</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">autosync</span>
+
+<span class="c1"># Just delete our useless tabs</span>
+<span class="n">session</span><span class="o">.</span><span class="n">remove_tab</span><span class="p">(</span><span class="s1">&#39;This is syncing!&#39;</span><span class="p">)</span>
+<span class="n">session</span><span class="o">.</span><span class="n">remove_tab</span><span class="p">(</span><span class="s1">&#39;Tab added from jupyter&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;sisl.viz.plotly.sessions.blank.BlankSession at 0x7fd054b9f908&gt;
+</pre></div></div>
+</div>
+<p>We can now start to add plots.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sisl.viz</span> <span class="kn">import</span> <span class="n">Plot</span>
+
+<span class="c1"># Let&#39;s start a PDOS plot</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="s2">&quot;../../../../files/tests/sisl/io/siesta/SrTiO3.PDOS&quot;</span><span class="p">)</span>
+
+<span class="n">session</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;First tab&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for PdosPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - TB trans: TypeError.expected str, bytes or os.PathLike object, not NoneType
+        - hamiltonian: TypeError.expected str, bytes or os.PathLike object, not NoneType
+        - siesta output: FileNotFoundError.[Errno 2] No such file or directory: &#39;../../../../files/tests/sisl/io/siesta/SrTiO3.PDOS&#39;  )
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;sisl.viz.plotly.sessions.blank.BlankSession at 0x7fd054b9f908&gt;
+</pre></div></div>
+</div>
+<p>Can you see it?</p>
+<p>No.</p>
+<p>Maybe you don’t have the tab open in the GUI.</p>
+<p>Now, you should be able to interact as you wish with it. Since the reference is kept, you are able to run the methods on your notebook variable directly. Like so:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">autosync</span><span class="o">.</span><span class="n">split_DOS</span><span class="p">(</span><span class="n">on</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">)</span>
+<span class="c1"># Yes, plots can also autosync after they have been bound to a session</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-20ce18d0bd9a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>autosync<span class="ansi-blue-fg">.</span>split_DOS<span class="ansi-blue-fg">(</span>on<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;species&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-red-fg"># Yes, plots can also autosync after they have been bound to a session</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/gui/server/sync.py</span> in <span class="ansi-cyan-fg">with_changes_emitted</span><span class="ansi-blue-fg">(emit, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     83</span>         <span class="ansi-green-fg">def</span> with_changes_emitted<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> emit<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     84</span>
+<span class="ansi-green-fg">---&gt; 85</span><span class="ansi-red-fg">             </span>ret <span class="ansi-blue-fg">=</span> method<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     86</span>
+<span class="ansi-green-intense-fg ansi-bold">     87</span>             <span class="ansi-green-fg">if</span> emit<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/plots/pdos.py</span> in <span class="ansi-cyan-fg">split_DOS</span><span class="ansi-blue-fg">(self, on, only, exclude, clean, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    699</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    700</span>         requests = self.get_param(&#39;requests&#39;)._generate_queries(
+<span class="ansi-green-fg">--&gt; 701</span><span class="ansi-red-fg">             on=on, only=only, exclude=exclude, query_gen=self._new_request, **kwargs)
+</span><span class="ansi-green-intense-fg ansi-bold">    702</span>
+<span class="ansi-green-intense-fg ansi-bold">    703</span>         <span class="ansi-red-fg"># If the user doesn&#39;t want to clean the plot, we will just add the requests to the existing ones</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">_generate_queries</span><span class="ansi-blue-fg">(self, on, only, exclude, query_gen, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    418</span>             only those that belong to carbon atoms<span class="ansi-blue-fg">.</span>
+<span class="ansi-green-intense-fg ansi-bold">    419</span>         &#34;&#34;&#34;
+<span class="ansi-green-fg">--&gt; 420</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_split_query<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">,</span> on<span class="ansi-blue-fg">=</span>on<span class="ansi-blue-fg">,</span> only<span class="ansi-blue-fg">=</span>only<span class="ansi-blue-fg">,</span> exclude<span class="ansi-blue-fg">=</span>exclude<span class="ansi-blue-fg">,</span> query_gen<span class="ansi-blue-fg">=</span>query_gen<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">_split_query</span><span class="ansi-blue-fg">(self, query, on, only, exclude, query_gen, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    338</span>
+<span class="ansi-green-intense-fg ansi-bold">    339</span>         <span class="ansi-red-fg"># Knowing what are our constraints (which may be none), get the available options</span>
+<span class="ansi-green-fg">--&gt; 340</span><span class="ansi-red-fg">         </span>values <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>get_options<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;+&#34;</span><span class="ansi-blue-fg">.</span>join<span class="ansi-blue-fg">(</span>on<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>constraints<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    341</span>
+<span class="ansi-green-intense-fg ansi-bold">    342</span>         <span class="ansi-red-fg"># We are going to make sure that, even if there was only one parameter to split on,</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">get_options</span><span class="ansi-blue-fg">(self, key, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    255</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    256</span>         <span class="ansi-red-fg"># Get the tadatframe</span>
+<span class="ansi-green-fg">--&gt; 257</span><span class="ansi-red-fg">         </span>df <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>orb_filtering_df
+<span class="ansi-green-intense-fg ansi-bold">    258</span>
+<span class="ansi-green-intense-fg ansi-bold">    259</span>         <span class="ansi-red-fg"># If there is no spin in this df, we are going to introduce it to avoid problems.</span>
+
+<span class="ansi-red-fg">AttributeError</span>: &#39;OrbitalQueries&#39; object has no attribute &#39;orb_filtering_df&#39;
+</pre></div></div>
+</div>
+<p>Let’s add two more plots to this tab.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bands</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="s2">&quot;../../../../files/tests/sisl/io/siesta/SrTiO3.bands&quot;</span><span class="p">)</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="s2">&quot;../../../../files/tests/sisl/io/siesta/SrTiO3.RHO&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">bands</span><span class="p">):</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="s2">&quot;First tab&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for BandsPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - aiida bands: AttributeError.&#39;NoneType&#39; object has no attribute &#39;_get_bandplot_data&#39;
+        - path: Exception.You need to provide at least 2 points of the path to draw the bands. Please update the &#39;path&#39; setting. The current path is: []
+        - band structure: ValueError.No band structure (k points path) was provided
+        - bands file: FileNotFoundError.[Errno 2] No such file or directory: &#39;../../../../files/tests/sisl/io/siesta/SrTiO3.bands&#39;  )
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for GridPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - grid file: SileError.rhoSileSiesta(SrTiO3.RHO, base=/home/runner/work/sisl/sisl/files/tests/sisl/io/siesta).read_grid_size could not read grid sizes. (ierr=2)
+        - grid: Exception.  )
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="3.-CHANGING-THE-GUI’S-LAYOUT">
+<h2>3. CHANGING THE GUI’S LAYOUT<a class="headerlink" href="#3.-CHANGING-THE-GUI’S-LAYOUT" title="Permalink to this headline">¶</a></h2>
+<p>Each tab has a <code class="docutils literal notranslate"><span class="pre">layouts</span></code> attribute:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">session</span><span class="o">.</span><span class="n">tab</span><span class="p">(</span><span class="s2">&quot;First tab&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;id&#39;: &#39;db025a2c-b0ee-4f23-b160-db6de6d7724c&#39;,
+ &#39;name&#39;: &#39;First tab&#39;,
+ &#39;plots&#39;: [&#39;a0ace46c-dd64-43ee-b522-8723948d2a8a&#39;,
+  &#39;5b9a0042-7e9a-4c97-a969-26a82b1b6f21&#39;,
+  &#39;caa239d2-9f7d-49d7-87ba-7616eb42c674&#39;],
+ &#39;layouts&#39;: {&#39;lg&#39;: []}}
+</pre></div></div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">layouts</span></code> attribute is a dictionary stating how plots should be displayed in different screen sizes (e.g. <code class="docutils literal notranslate"><span class="pre">lg</span></code> is the largest and <code class="docutils literal notranslate"><span class="pre">xxs</span></code> is the smallest). You can change this very easily using the GUI by resizing and dragging your plots, but if you need the same layout every time it is definitely not ideal.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">layouts</span></code> structure seems a bit complicated. But don’t worry, usually you just need to set the <code class="docutils literal notranslate"><span class="pre">lg</span></code> size, because this is how you see it in a computer. Just ignore the other sizes.</p>
+<p>As you can see, the <code class="docutils literal notranslate"><span class="pre">lg</span></code> size is a list of dicts, each dict contains: - <code class="docutils literal notranslate"><span class="pre">w</span></code>: The width of the plot in columns out of a total of { lg: 12, sm: 6, xs: 4, xxs: 2 } columns. - <code class="docutils literal notranslate"><span class="pre">h</span></code>: The height of the plot. I don’t really know the scale of this honestly. Just try to see what fits best for you. - <code class="docutils literal notranslate"><span class="pre">x</span></code>: The position along the x axis of the left side of the plot (in columns). - <code class="docutils literal notranslate"><span class="pre">y</span></code>: The position along the y axis of the top part of the plot. - <code class="docutils literal notranslate"><span class="pre">id</span></code>: The ID of the plot to which this properties
+apply. It is available under <code class="docutils literal notranslate"><span class="pre">plot.id</span></code> - <code class="docutils literal notranslate"><span class="pre">moved</span></code>: Whether the plot has been moved. - <code class="docutils literal notranslate"><span class="pre">static</span></code>: Whether the GUI should prevent users from resizing/dragging this plot.</p>
+<p>I’d say the best strategy is probably to <strong>set the layout in the GUI and then copy it to build your automatic layouts</strong>. In my case, I like how this one looks:</p>
+<p>[{‘w’: 6, ‘h’: 28, ‘x’: 0, ‘y’: 0, ‘i’: ‘26c94e23-9f6b-4bce-b0a4-3363e69f0fd3’, ‘moved’: False, ‘static’: False}, {‘w’: 12, ‘h’: 14, ‘x’: 0, ‘y’: 28, ‘i’: ‘0a2f9502-3fbb-4c06-a402-8d46518d3bc3’, ‘moved’: False, ‘static’: False}, {‘w’: 6, ‘h’: 28, ‘x’: 6, ‘y’: 0, ‘i’: ‘f6ae7c4a-38c6-4d36-81cb-04c73a794555’, ‘moved’: False, ‘static’: False}]</p>
+<p>So I’m just going to use it automating the ID stuff:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">struct</span> <span class="o">=</span> <span class="s2">&quot;SrTiO3&quot;</span>
+<span class="n">tab_name</span> <span class="o">=</span> <span class="s2">&quot;Layout attempt&quot;</span>
+
+<span class="n">session</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="n">tab_name</span><span class="p">)</span>
+
+<span class="c1"># Get all the plots</span>
+<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="n">Plot</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&quot;../../../../files/tests/sisl/io/siesta/</span><span class="si">{</span><span class="n">struct</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PDOS&quot;</span><span class="p">,</span> <span class="s2">&quot;RHO&quot;</span><span class="p">,</span> <span class="s2">&quot;bands&quot;</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">tab_name</span><span class="p">)</span>
+
+<span class="c1"># This is how you update tab parameters</span>
+<span class="c1"># (in this case, we want to update the layouts parameter)</span>
+<span class="n">session</span><span class="o">.</span><span class="n">update_tab</span><span class="p">(</span>
+    <span class="n">tab_name</span><span class="p">,</span>
+    <span class="n">layouts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lg&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">plots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">plots</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">plots</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+    <span class="p">]}</span>
+<span class="p">)</span>
+
+<span class="c1"># And also I&#39;d like the PDOS to be splitted on species</span>
+<span class="n">plots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split_DOS</span><span class="p">(</span><span class="n">on</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">Erange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
+<span class="c1"># And the bands to show the gap</span>
+<span class="n">plots</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">gap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Erange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for PdosPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - TB trans: TypeError.expected str, bytes or os.PathLike object, not NoneType
+        - hamiltonian: TypeError.expected str, bytes or os.PathLike object, not NoneType
+        - siesta output: FileNotFoundError.[Errno 2] No such file or directory: &#39;&#34;../../../../files/tests/sisl/io/siesta/SrTiO3.PDOS&#39;  )
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for GridPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - grid file: SileError.rhoSileSiesta(SrTiO3.RHO, base=/home/runner/work/sisl/sisl/docs/visualization/files/tests/sisl/io/siesta).read_grid_size could not read grid sizes. (ierr=2)
+        - grid: Exception.  )
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for BandsPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - aiida bands: AttributeError.&#39;NoneType&#39; object has no attribute &#39;_get_bandplot_data&#39;
+        - path: Exception.You need to provide at least 2 points of the path to draw the bands. Please update the &#39;path&#39; setting. The current path is: []
+        - band structure: ValueError.No band structure (k points path) was provided
+        - bands file: FileNotFoundError.[Errno 2] No such file or directory: &#39;&#34;../../../../files/tests/sisl/io/siesta/SrTiO3.bands&#39;  )
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-365e5a174ba9&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     22</span>
+<span class="ansi-green-intense-fg ansi-bold">     23</span> <span class="ansi-red-fg"># And also I&#39;d like the PDOS to be splitted on species</span>
+<span class="ansi-green-fg">---&gt; 24</span><span class="ansi-red-fg"> </span>plots<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>split_DOS<span class="ansi-blue-fg">(</span>on<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;species&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>Erange<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     25</span> <span class="ansi-red-fg"># And the bands to show the gap</span>
+<span class="ansi-green-intense-fg ansi-bold">     26</span> plots<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>gap<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> Erange<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/plots/pdos.py</span> in <span class="ansi-cyan-fg">split_DOS</span><span class="ansi-blue-fg">(self, on, only, exclude, clean, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    699</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    700</span>         requests = self.get_param(&#39;requests&#39;)._generate_queries(
+<span class="ansi-green-fg">--&gt; 701</span><span class="ansi-red-fg">             on=on, only=only, exclude=exclude, query_gen=self._new_request, **kwargs)
+</span><span class="ansi-green-intense-fg ansi-bold">    702</span>
+<span class="ansi-green-intense-fg ansi-bold">    703</span>         <span class="ansi-red-fg"># If the user doesn&#39;t want to clean the plot, we will just add the requests to the existing ones</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">_generate_queries</span><span class="ansi-blue-fg">(self, on, only, exclude, query_gen, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    418</span>             only those that belong to carbon atoms<span class="ansi-blue-fg">.</span>
+<span class="ansi-green-intense-fg ansi-bold">    419</span>         &#34;&#34;&#34;
+<span class="ansi-green-fg">--&gt; 420</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_split_query<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">,</span> on<span class="ansi-blue-fg">=</span>on<span class="ansi-blue-fg">,</span> only<span class="ansi-blue-fg">=</span>only<span class="ansi-blue-fg">,</span> exclude<span class="ansi-blue-fg">=</span>exclude<span class="ansi-blue-fg">,</span> query_gen<span class="ansi-blue-fg">=</span>query_gen<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">_split_query</span><span class="ansi-blue-fg">(self, query, on, only, exclude, query_gen, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    338</span>
+<span class="ansi-green-intense-fg ansi-bold">    339</span>         <span class="ansi-red-fg"># Knowing what are our constraints (which may be none), get the available options</span>
+<span class="ansi-green-fg">--&gt; 340</span><span class="ansi-red-fg">         </span>values <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>get_options<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;+&#34;</span><span class="ansi-blue-fg">.</span>join<span class="ansi-blue-fg">(</span>on<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>constraints<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    341</span>
+<span class="ansi-green-intense-fg ansi-bold">    342</span>         <span class="ansi-red-fg"># We are going to make sure that, even if there was only one parameter to split on,</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">get_options</span><span class="ansi-blue-fg">(self, key, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    255</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    256</span>         <span class="ansi-red-fg"># Get the tadatframe</span>
+<span class="ansi-green-fg">--&gt; 257</span><span class="ansi-red-fg">         </span>df <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>orb_filtering_df
+<span class="ansi-green-intense-fg ansi-bold">    258</span>
+<span class="ansi-green-intense-fg ansi-bold">    259</span>         <span class="ansi-red-fg"># If there is no spin in this df, we are going to introduce it to avoid problems.</span>
+
+<span class="ansi-red-fg">AttributeError</span>: &#39;OrbitalQueries&#39; object has no attribute &#39;orb_filtering_df&#39;
+</pre></div></div>
+</div>
+<p>You can check the “Layout attempt” tab to see that we really achieved what we wanted.</p>
+</div>
+<div class="section" id="4.-BUILDING-YOUR-OWN-CUSTOM-SESSIONS">
+<h2>4. BUILDING YOUR OWN CUSTOM SESSIONS<a class="headerlink" href="#4.-BUILDING-YOUR-OWN-CUSTOM-SESSIONS" title="Permalink to this headline">¶</a></h2>
+<p>Well, at this point there is not much mistery to it. Specially if you have gone through the <a class="reference external" href="./DIY.ipynb">guide on how to build plots</a> You just need to extend the <code class="docutils literal notranslate"><span class="pre">Session</span></code> class. <code class="docutils literal notranslate"><span class="pre">Session</span></code>, as <code class="docutils literal notranslate"><span class="pre">Plot</span></code>, inherits from <code class="docutils literal notranslate"><span class="pre">Configurable</span></code>, so you have exactly the same management of settings.</p>
+<p><strong>If you have not read the guide for plots, don’t worry</strong>. The basics to build a session class are very simple.</p>
+<p>Let’s build a session using what we wrote in the previous section. We really just need to change the <code class="docutils literal notranslate"><span class="pre">session</span></code> variable for <code class="docutils literal notranslate"><span class="pre">self</span></code> and we have a method!</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Import the parent class</span>
+<span class="kn">from</span> <span class="nn">sisl.viz</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Start building our session</span>
+<span class="k">class</span> <span class="nc">VeryCoolSession</span><span class="p">(</span><span class="n">Session</span><span class="p">):</span>
+
+    <span class="c1"># Add the method to see PDOS, bands and RHO of a structure</span>
+    <span class="k">def</span> <span class="nf">see_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struct</span><span class="p">,</span> <span class="n">wdir</span><span class="o">=</span><span class="s1">&#39;../../../../files/tests/sisl/io/siesta&#39;</span><span class="p">,</span> <span class="n">tab_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">tab_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tab_name</span> <span class="o">=</span> <span class="n">struct</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="n">tab_name</span><span class="p">)</span>
+
+        <span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="n">Plot</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">wdir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">struct</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PDOS&quot;</span><span class="p">,</span> <span class="s2">&quot;RHO&quot;</span><span class="p">,</span> <span class="s2">&quot;bands&quot;</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">tab_name</span><span class="p">)</span>
+
+        <span class="c1"># This is how you update tab parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_tab</span><span class="p">(</span>
+            <span class="n">tab_name</span><span class="p">,</span>
+            <span class="n">layouts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lg&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">plots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+                <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">plots</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+                <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">plots</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+            <span class="p">]}</span>
+        <span class="p">)</span>
+
+        <span class="c1"># And also I&#39;d like the PDOS to be splitted ¿on species</span>
+        <span class="n">plots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split_DOS</span><span class="p">(</span><span class="n">on</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">Erange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+        <span class="c1"># And the bands to show the gap</span>
+        <span class="n">plots</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">gap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Erange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+
+</pre></div>
+</div>
+</div>
+<p>And that’s basically it.</p>
+<p>Yeah nice but how do I use this session now</p>
+<p>You just need to set the session of the GUI:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Maybe you want to save the existing one?</span>
+<span class="c1"># session.save(&quot;My first try.session&quot;)</span>
+
+<span class="c1"># We initialize the session</span>
+<span class="n">new_session</span> <span class="o">=</span> <span class="n">VeryCoolSession</span><span class="p">()</span>
+<span class="c1"># And then we just tell the GUI to use it</span>
+<span class="n">gui</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">new_session</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;__main__.VeryCoolSession at 0x7fd04f7f8048&gt;
+</pre></div></div>
+</div>
+<p>Now, let’s see if this works:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">new_session</span><span class="o">.</span><span class="n">autosync</span><span class="o">.</span><span class="n">see_results</span><span class="p">(</span><span class="s2">&quot;SrTiO3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for PdosPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - TB trans: TypeError.expected str, bytes or os.PathLike object, not NoneType
+        - hamiltonian: TypeError.expected str, bytes or os.PathLike object, not NoneType
+        - siesta output: FileNotFoundError.[Errno 2] No such file or directory: &#39;../../../../files/tests/sisl/io/siesta/SrTiO3.PDOS&#39;  )
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for GridPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - grid file: SileError.rhoSileSiesta(SrTiO3.RHO, base=/home/runner/work/sisl/sisl/files/tests/sisl/io/siesta).read_grid_size could not read grid sizes. (ierr=2)
+        - grid: Exception.  )
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for BandsPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - aiida bands: AttributeError.&#39;NoneType&#39; object has no attribute &#39;_get_bandplot_data&#39;
+        - path: Exception.You need to provide at least 2 points of the path to draw the bands. Please update the &#39;path&#39; setting. The current path is: []
+        - band structure: ValueError.No band structure (k points path) was provided
+        - bands file: FileNotFoundError.[Errno 2] No such file or directory: &#39;../../../../files/tests/sisl/io/siesta/SrTiO3.bands&#39;  )
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-dd2797bce0e7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>new_session<span class="ansi-blue-fg">.</span>autosync<span class="ansi-blue-fg">.</span>see_results<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;SrTiO3&#34;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/gui/server/sync.py</span> in <span class="ansi-cyan-fg">with_changes_emitted</span><span class="ansi-blue-fg">(emit, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     83</span>         <span class="ansi-green-fg">def</span> with_changes_emitted<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> emit<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     84</span>
+<span class="ansi-green-fg">---&gt; 85</span><span class="ansi-red-fg">             </span>ret <span class="ansi-blue-fg">=</span> method<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     86</span>
+<span class="ansi-green-intense-fg ansi-bold">     87</span>             <span class="ansi-green-fg">if</span> emit<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-1-6d93d5a350cd&gt;</span> in <span class="ansi-cyan-fg">see_results</span><span class="ansi-blue-fg">(self, struct, wdir, tab_name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     30</span>
+<span class="ansi-green-intense-fg ansi-bold">     31</span>         <span class="ansi-red-fg"># And also I&#39;d like the PDOS to be splitted ¿on species</span>
+<span class="ansi-green-fg">---&gt; 32</span><span class="ansi-red-fg">         </span>plots<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>split_DOS<span class="ansi-blue-fg">(</span>on<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;species&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>Erange<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     33</span>         <span class="ansi-red-fg"># And the bands to show the gap</span>
+<span class="ansi-green-intense-fg ansi-bold">     34</span>         plots<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>gap<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> Erange<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/plots/pdos.py</span> in <span class="ansi-cyan-fg">split_DOS</span><span class="ansi-blue-fg">(self, on, only, exclude, clean, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    699</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    700</span>         requests = self.get_param(&#39;requests&#39;)._generate_queries(
+<span class="ansi-green-fg">--&gt; 701</span><span class="ansi-red-fg">             on=on, only=only, exclude=exclude, query_gen=self._new_request, **kwargs)
+</span><span class="ansi-green-intense-fg ansi-bold">    702</span>
+<span class="ansi-green-intense-fg ansi-bold">    703</span>         <span class="ansi-red-fg"># If the user doesn&#39;t want to clean the plot, we will just add the requests to the existing ones</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">_generate_queries</span><span class="ansi-blue-fg">(self, on, only, exclude, query_gen, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    418</span>             only those that belong to carbon atoms<span class="ansi-blue-fg">.</span>
+<span class="ansi-green-intense-fg ansi-bold">    419</span>         &#34;&#34;&#34;
+<span class="ansi-green-fg">--&gt; 420</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_split_query<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">,</span> on<span class="ansi-blue-fg">=</span>on<span class="ansi-blue-fg">,</span> only<span class="ansi-blue-fg">=</span>only<span class="ansi-blue-fg">,</span> exclude<span class="ansi-blue-fg">=</span>exclude<span class="ansi-blue-fg">,</span> query_gen<span class="ansi-blue-fg">=</span>query_gen<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">_split_query</span><span class="ansi-blue-fg">(self, query, on, only, exclude, query_gen, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    338</span>
+<span class="ansi-green-intense-fg ansi-bold">    339</span>         <span class="ansi-red-fg"># Knowing what are our constraints (which may be none), get the available options</span>
+<span class="ansi-green-fg">--&gt; 340</span><span class="ansi-red-fg">         </span>values <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>get_options<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;+&#34;</span><span class="ansi-blue-fg">.</span>join<span class="ansi-blue-fg">(</span>on<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>constraints<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    341</span>
+<span class="ansi-green-intense-fg ansi-bold">    342</span>         <span class="ansi-red-fg"># We are going to make sure that, even if there was only one parameter to split on,</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/input_fields/queries.py</span> in <span class="ansi-cyan-fg">get_options</span><span class="ansi-blue-fg">(self, key, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    255</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    256</span>         <span class="ansi-red-fg"># Get the tadatframe</span>
+<span class="ansi-green-fg">--&gt; 257</span><span class="ansi-red-fg">         </span>df <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>orb_filtering_df
+<span class="ansi-green-intense-fg ansi-bold">    258</span>
+<span class="ansi-green-intense-fg ansi-bold">    259</span>         <span class="ansi-red-fg"># If there is no spin in this df, we are going to introduce it to avoid problems.</span>
+
+<span class="ansi-red-fg">AttributeError</span>: &#39;OrbitalQueries&#39; object has no attribute &#39;orb_filtering_df&#39;
+</pre></div></div>
+</div>
+<p>Just take a moment now to admire the simplicity of the previous line and the beauty and usefulness that it can bring to your research.</p>
+<p>With this, we end this short but intense tutorial. I hope that I have been able to convince you of the power this gives to you, but if not, thanks for the read anyway :)</p>
+<p>Just as a last thing, notice that you can add parameters to the session and they can be tweaked from the GUI. Give a glimpse at the <a class="reference external" href="./DIY.ipynb">notebook where plot building is explained</a> if you are further interested, there’s a section where parameters are introduced, close to the beggining.</p>
+<p>Oh, and by the way, you can load saved sessions just as we did with plots in the <a class="reference internal" href="Demo.html"><span class="doc">Demo Notebook</span></a></p>
+<p>If there is a request for further tutorials on sessions, we will extend more on the topic, so don’t hesitate to ask.</p>
+<p>Cheers!</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../showcase/GeometryPlot.html" class="btn btn-neutral float-right" title="GeometryPlot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Demo.html" class="btn btn-neutral float-left" title="Demo notebook" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2015-2021, Nick Papior.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
