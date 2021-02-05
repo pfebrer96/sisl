@@ -110,12 +110,12 @@
 </ul>
 <p class="caption"><span class="caption-text">Toolboxes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../toolbox/toolbox.html">Toolboxes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../toolbox.html">Toolboxes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Visualization</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../ase/index.html">ASE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../index.html">Plotly visualization framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Plotly</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
@@ -463,7 +463,7 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 </div><p><a class="reference external" href="https://github.com/pfebrer96/sisl/labels/%3C$plotclass$%3E"><img alt="GitHub issues by-label" src="https://img.shields.io/github/issues-raw/pfebrer96/sisl/%3C$plotclass$%3E?style=for-the-badge" /></a></p>
 <div class="section" id="&lt;plotclass&gt;">
 <h1>&lt;<span class="math notranslate nohighlight">\(plotclass\)</span>&gt;<a class="headerlink" href="#<plotclass>" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -472,6 +472,63 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <span class="kn">import</span> <span class="nn">sisl.viz</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+info:0: SislInfo: Please install tqdm (pip install tqdm) for better looking progress bars
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-156cfdef8a15&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">import</span> sisl
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> sisl<span class="ansi-blue-fg">.</span>viz
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/__init__.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     18</span>
+<span class="ansi-green-intense-fg ansi-bold">     19</span> <span class="ansi-red-fg"># Import everything from the plotly submodule</span>
+<span class="ansi-green-fg">---&gt; 20</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plotly <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
+<span class="ansi-green-intense-fg ansi-bold">     21</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plotly <span class="ansi-green-fg">import</span> plotutils
+<span class="ansi-green-intense-fg ansi-bold">     22</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/__init__.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     25</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>_user_customs <span class="ansi-green-fg">import</span> import_user_plots<span class="ansi-blue-fg">,</span> import_user_presets<span class="ansi-blue-fg">,</span> import_user_sessions<span class="ansi-blue-fg">,</span> import_user_plugins
+<span class="ansi-green-intense-fg ansi-bold">     26</span>
+<span class="ansi-green-fg">---&gt; 27</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plot <span class="ansi-green-fg">import</span> Plot<span class="ansi-blue-fg">,</span> Animation<span class="ansi-blue-fg">,</span> MultiplePlot<span class="ansi-blue-fg">,</span> SubPlots
+<span class="ansi-green-intense-fg ansi-bold">     28</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plots <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
+<span class="ansi-green-intense-fg ansi-bold">     29</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>session <span class="ansi-green-fg">import</span> Session
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/plot.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     21</span> <span class="ansi-green-fg">import</span> sisl
+<span class="ansi-green-intense-fg ansi-bold">     22</span>
+<span class="ansi-green-fg">---&gt; 23</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>configurable <span class="ansi-green-fg">import</span> Configurable<span class="ansi-blue-fg">,</span> ConfigurableMeta<span class="ansi-blue-fg">,</span> vizplotly_settings<span class="ansi-blue-fg">,</span> _populate_with_settings
+<span class="ansi-green-intense-fg ansi-bold">     24</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>_presets <span class="ansi-green-fg">import</span> get_preset
+<span class="ansi-green-intense-fg ansi-bold">     25</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plotutils <span class="ansi-green-fg">import</span> init_multiple_plots<span class="ansi-blue-fg">,</span> repeat_if_childs<span class="ansi-blue-fg">,</span> dictOfLists2listOfDicts<span class="ansi-blue-fg">,</span> trigger_notification<span class="ansi-blue-fg">,</span><span class="ansi-red-fg"> </span><span class="ansi-red-fg">\</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/configurable.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span> <span class="ansi-green-fg">from</span> sisl<span class="ansi-blue-fg">.</span>_dispatcher <span class="ansi-green-fg">import</span> AbstractDispatch
+<span class="ansi-green-intense-fg ansi-bold">     12</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>_presets <span class="ansi-green-fg">import</span> get_preset
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plotutils <span class="ansi-green-fg">import</span> get_configurable_docstring<span class="ansi-blue-fg">,</span> get_configurable_kwargs<span class="ansi-blue-fg">,</span> get_configurable_kwargs_to_pass
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span> __all__ <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;Configurable&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;vizplotly_settings&#34;</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/plotutils.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span> <span class="ansi-green-fg">import</span> itertools
+<span class="ansi-green-intense-fg ansi-bold">      9</span> <span class="ansi-green-fg">from</span> pathos<span class="ansi-blue-fg">.</span>pools <span class="ansi-green-fg">import</span> ProcessPool <span class="ansi-green-fg">as</span> Pool
+<span class="ansi-green-fg">---&gt; 10</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> tqdm
+<span class="ansi-green-intense-fg ansi-bold">     11</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span> <span class="ansi-green-fg">from</span> copy <span class="ansi-green-fg">import</span> deepcopy
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;tqdm&#39;
+</pre></div></div>
 </div>
 <div class="section" id="Basic-usage">
 <h2>Basic usage<a class="headerlink" href="#Basic-usage" title="Permalink to this headline">¶</a></h2>

@@ -113,12 +113,12 @@
 </ul>
 <p class="caption"><span class="caption-text">Toolboxes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="toolbox/toolbox.html">Toolboxes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="toolbox.html">Toolboxes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Visualization</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="visualization/ase/index.html">ASE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visualization/plotly/index.html">Plotly visualization framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization/plotly/index.html">Plotly</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
@@ -225,8 +225,8 @@
 <div class="section" id="sisl-tight-binding-and-dft-interface-library">
 <h1>sisl: tight-binding and DFT interface library<a class="headerlink" href="#sisl-tight-binding-and-dft-interface-library" title="Permalink to this headline">¶</a></h1>
 <p>The Python library <a class="reference external" href="http://github.com/zerothi/sisl">sisl</a> was born out of a need to handle(create and read), manipulate and analyse output from DFT programs.
-It was initially developed by Nick Papior (co-developer of <a class="reference external" href="https://departments.icmab.es/leem/siesta">Siesta</a>) as a side-project to <a class="reference external" href="https://gitlab.com/siesta-project/siesta">TranSiesta</a>
-and <a class="reference external" href="https://gitlab.com/siesta-project/siesta">TBtrans</a> to efficiently analyse TBtrans output for N-electrode calculations.
+It was initially developed by Nick Papior (co-developer of <a class="reference external" href="https://siesta-project.org">Siesta</a>) as a side-project to <a class="reference external" href="https://siesta-project.org">TranSiesta</a>
+and <a class="reference external" href="https://siesta-project.org">TBtrans</a> to efficiently analyse TBtrans output for N-electrode calculations.
 Since then it has expanded to accommodate a rich set of DFT code input/outputs such as (but not limited to)
 <a class="reference external" href="https://www.vasp.at">VASP</a>, <a class="reference external" href="http://www.openmx-square.org">OpenMX</a>, <a class="reference external" href="http://www.bigdft.org">BigDFT</a>, <a class="reference external" href="http://www.wannier.org">Wannier90</a>.</p>
 <p>A great deal of codes are implementing, roughly, the same thing.
@@ -240,7 +240,7 @@ in a consistent manner so the post-processing is the same, regardless of code be
 <p>In some regards it has overlap with <a class="reference external" href="https://wiki.fysik.dtu.dk/ase">ASE</a> and sisl also interfaces with ASE.</p>
 <div class="section" id="first-time-use">
 <h2>First time use<a class="headerlink" href="#first-time-use" title="Permalink to this headline">¶</a></h2>
-<p>Here we show 2 examples of using sisl together with <a class="reference external" href="https://departments.icmab.es/leem/siesta">Siesta</a>.</p>
+<p>Here we show 2 examples of using sisl together with <a class="reference external" href="https://siesta-project.org">Siesta</a>.</p>
 <p>To read in a Hamiltonian from a Siesta calculation and calculate the DOS for a given Monkhorst-Pack grid
 one would do:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sisl</span>
@@ -336,93 +336,22 @@ We recommend to specify the version of sisl in combination of this citation:</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Toolboxes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="toolbox/toolbox.html">Toolboxes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="toolbox.html">Toolboxes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="toolbox/ts_fft.html">TranSiesta Hartree correction for FFT Poisson solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toolbox/atom_plot.html">Plotting <em class="xref py py-obj">atom</em> output</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Visualization</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="visualization/ase/index.html">ASE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visualization/plotly/index.html">Plotly visualization framework</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="visualization/plotly/index.html#basic-tutorials">Basic Tutorials</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/basic-tutorials/Demo.html">Demo notebook</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/basic-tutorials/Demo.html#The-basics">The basics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/basic-tutorials/Demo.html#Let’s-talk-about-settings">Let’s talk about settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/basic-tutorials/Demo.html#Monitoring-changes">Monitoring changes</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/basic-tutorials/GUI%20with%20Python%20Demo.html">Using python to interact with sisl’s GUI</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/basic-tutorials/GUI%20with%20Python%20Demo.html#1.-LAUNCHING-THE-GUI">1. LAUNCHING THE GUI</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/basic-tutorials/GUI%20with%20Python%20Demo.html#2.-UNDERSTANDING-HOW-THE-GUI-WORKS">2. UNDERSTANDING HOW THE GUI WORKS</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/basic-tutorials/GUI%20with%20Python%20Demo.html#3.-CHANGING-THE-GUI’S-LAYOUT">3. CHANGING THE GUI’S LAYOUT</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/basic-tutorials/GUI%20with%20Python%20Demo.html#4.-BUILDING-YOUR-OWN-CUSTOM-SESSIONS">4. BUILDING YOUR OWN CUSTOM SESSIONS</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="visualization/plotly/index.html#showcase-of-plot-classes">Showcase of plot classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/showcase/GeometryPlot.html">GeometryPlot</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GeometryPlot.html#Plotting-in-3D,-2D-and-1D">Plotting in 3D, 2D and 1D</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GeometryPlot.html#Toggling-bonds,-atoms-and-cell">Toggling bonds, atoms and cell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GeometryPlot.html#Picking-which-atoms-to-display">Picking which atoms to display</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GeometryPlot.html#Setting-custom-colors-and-size-for-atoms.">Setting custom colors and size for atoms.</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/showcase/GridPlot.html">GridPlot</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GridPlot.html#Plotting-in-3D,-2D-and-1D">Plotting in 3D, 2D and 1D</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GridPlot.html#Isosurfaces-and-contours">Isosurfaces and contours</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GridPlot.html#Colorscales">Colorscales</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GridPlot.html#Using-only-part-of-the-grid">Using only part of the grid</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GridPlot.html#Applying-transformations">Applying transformations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GridPlot.html#Visualizing-supercells">Visualizing supercells</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/GridPlot.html#Performing-scans">Performing scans</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/showcase/BandsPlot.html">BandsPlot</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/BandsPlot.html#Getting-the-bands-that-you-want">Getting the bands that you want</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/BandsPlot.html#Quick-styling">Quick styling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/BandsPlot.html#Displaying-the-smallest-gaps">Displaying the smallest gaps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/BandsPlot.html#Displaying-custom-gaps">Displaying custom gaps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/BandsPlot.html#Individual-band-styling">Individual band styling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/BandsPlot.html#Displaying-spin-texture">Displaying spin texture</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/showcase/PdosPlot.html">PdosPlot</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/PdosPlot.html#PDOS-requests">PDOS requests</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/PdosPlot.html#Easy-and-fast-DOS-splitting">Easy and fast DOS splitting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/PdosPlot.html#Managing-existing-requests">Managing existing requests</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/showcase/WavefunctionPlot.html">WavefunctionPlot</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/WavefunctionPlot.html#Generating-wavefunctions-from-a-hamiltonian">Generating wavefunctions from a hamiltonian</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/WavefunctionPlot.html#Selecting-the-wavefunction">Selecting the wavefunction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/WavefunctionPlot.html#Grid-precision">Grid precision</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/showcase/WavefunctionPlot.html#GridPlot-settings">GridPlot settings</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="visualization/plotly/index.html#combining-plots">Combining plots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/combining-plots/Intro%20to%20multiple%20plots.html">Intro to multiple plots</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/combining-plots/Intro%20to%20multiple%20plots.html#Multiple-better-than-individual">Multiple better than individual</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/combining-plots/Intro%20to%20multiple%20plots.html#Types-of-multiple-plots">Types of multiple plots</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/combining-plots/Intro%20to%20multiple%20plots.html#Merging-existing-plots">Merging existing plots</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/combining-plots/Intro%20to%20multiple%20plots.html#Let-MultiplePlot-handle-plot-creation">Let <code class="docutils literal notranslate"><span class="pre">MultiplePlot</span></code> handle plot creation</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="visualization/plotly/index.html#do-it-yourself">Do it yourself</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="visualization/plotly/diy/Building%20a%20plot%20class.html">Building a plot class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/diy/Building%20a%20plot%20class.html#Class-definition">Class definition</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/diy/Building%20a%20plot%20class.html#Parameters">Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/diy/Building%20a%20plot%20class.html#Flow-methods">Flow methods</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/diy/Building%20a%20plot%20class.html#Accessing-settings">Accessing settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization/plotly/diy/Building%20a%20plot%20class.html#Additional-public-methods">Additional public methods</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="visualization/plotly/index.html">Plotly</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="visualization/plotly/index.html#basic-tutorials">Basic Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualization/plotly/index.html#showcase-of-plot-classes">Showcase of plot classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualization/plotly/index.html#combining-plots">Combining plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualization/plotly/index.html#do-it-yourself">Do it yourself</a></li>
 </ul>
 </li>
 </ul>

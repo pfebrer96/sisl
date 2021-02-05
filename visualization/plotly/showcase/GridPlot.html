@@ -112,12 +112,12 @@
 </ul>
 <p class="caption"><span class="caption-text">Toolboxes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../toolbox/toolbox.html">Toolboxes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../toolbox.html">Toolboxes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Visualization</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../ase/index.html">ASE</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Plotly visualization framework</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Plotly</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#basic-tutorials">Basic Tutorials</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#showcase-of-plot-classes">Showcase of plot classes</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="GeometryPlot.html">GeometryPlot</a></li>
@@ -192,7 +192,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../index.html">Plotly visualization framework</a> &raquo;</li>
+          <li><a href="../index.html">Plotly</a> &raquo;</li>
         
       <li>GridPlot</li>
     
@@ -494,7 +494,7 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <p class="admonition-title fa fa-exclamation-circle">Note</p>
 <p>Dedicated software like VESTA might be faster in rendering big 3D grids, but the strength of this plot class lies in its great <strong>flexibility</strong>, <strong>tunability</strong> (change settings as you wish to customize the display from python) <strong>and convenience</strong> (no need to open another software, you can see the grid directly in your notebook). Also, you can <strong>combine your grid plots</strong> however you want <strong>with the other plot classes</strong> in the framework.</p>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -503,6 +503,63 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <span class="kn">import</span> <span class="nn">sisl.viz</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+info:0: SislInfo: Please install tqdm (pip install tqdm) for better looking progress bars
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-156cfdef8a15&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">import</span> sisl
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> sisl<span class="ansi-blue-fg">.</span>viz
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/__init__.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     18</span>
+<span class="ansi-green-intense-fg ansi-bold">     19</span> <span class="ansi-red-fg"># Import everything from the plotly submodule</span>
+<span class="ansi-green-fg">---&gt; 20</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plotly <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
+<span class="ansi-green-intense-fg ansi-bold">     21</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plotly <span class="ansi-green-fg">import</span> plotutils
+<span class="ansi-green-intense-fg ansi-bold">     22</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/__init__.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     25</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>_user_customs <span class="ansi-green-fg">import</span> import_user_plots<span class="ansi-blue-fg">,</span> import_user_presets<span class="ansi-blue-fg">,</span> import_user_sessions<span class="ansi-blue-fg">,</span> import_user_plugins
+<span class="ansi-green-intense-fg ansi-bold">     26</span>
+<span class="ansi-green-fg">---&gt; 27</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plot <span class="ansi-green-fg">import</span> Plot<span class="ansi-blue-fg">,</span> Animation<span class="ansi-blue-fg">,</span> MultiplePlot<span class="ansi-blue-fg">,</span> SubPlots
+<span class="ansi-green-intense-fg ansi-bold">     28</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plots <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
+<span class="ansi-green-intense-fg ansi-bold">     29</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>session <span class="ansi-green-fg">import</span> Session
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/plot.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     21</span> <span class="ansi-green-fg">import</span> sisl
+<span class="ansi-green-intense-fg ansi-bold">     22</span>
+<span class="ansi-green-fg">---&gt; 23</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>configurable <span class="ansi-green-fg">import</span> Configurable<span class="ansi-blue-fg">,</span> ConfigurableMeta<span class="ansi-blue-fg">,</span> vizplotly_settings<span class="ansi-blue-fg">,</span> _populate_with_settings
+<span class="ansi-green-intense-fg ansi-bold">     24</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>_presets <span class="ansi-green-fg">import</span> get_preset
+<span class="ansi-green-intense-fg ansi-bold">     25</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plotutils <span class="ansi-green-fg">import</span> init_multiple_plots<span class="ansi-blue-fg">,</span> repeat_if_childs<span class="ansi-blue-fg">,</span> dictOfLists2listOfDicts<span class="ansi-blue-fg">,</span> trigger_notification<span class="ansi-blue-fg">,</span><span class="ansi-red-fg"> </span><span class="ansi-red-fg">\</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/configurable.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span> <span class="ansi-green-fg">from</span> sisl<span class="ansi-blue-fg">.</span>_dispatcher <span class="ansi-green-fg">import</span> AbstractDispatch
+<span class="ansi-green-intense-fg ansi-bold">     12</span> <span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>_presets <span class="ansi-green-fg">import</span> get_preset
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> <span class="ansi-blue-fg">.</span>plotutils <span class="ansi-green-fg">import</span> get_configurable_docstring<span class="ansi-blue-fg">,</span> get_configurable_kwargs<span class="ansi-blue-fg">,</span> get_configurable_kwargs_to_pass
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span> __all__ <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;Configurable&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;vizplotly_settings&#34;</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/plotutils.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span> <span class="ansi-green-fg">import</span> itertools
+<span class="ansi-green-intense-fg ansi-bold">      9</span> <span class="ansi-green-fg">from</span> pathos<span class="ansi-blue-fg">.</span>pools <span class="ansi-green-fg">import</span> ProcessPool <span class="ansi-green-fg">as</span> Pool
+<span class="ansi-green-fg">---&gt; 10</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> tqdm
+<span class="ansi-green-intense-fg ansi-bold">     11</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span> <span class="ansi-green-fg">from</span> copy <span class="ansi-green-fg">import</span> deepcopy
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;tqdm&#39;
+</pre></div></div>
 </div>
 <p>The first thing that we need to do to plot a grid is having a grid, so let’s get one!</p>
 <p>In this case, we are going to use an electronic density grid from a <code class="docutils literal notranslate"><span class="pre">.RHO</span></code> file in SIESTA. There are multiple ways of getting the plot:</p>
@@ -532,36 +589,15 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">SileError</span>                                 Traceback (most recent call last)
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-8aec5ebf8b80&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span>
 <span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-red-fg"># From a sisl grid, you can do grid.plot()</span>
-<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg"> </span>grid <span class="ansi-blue-fg">=</span> sisl<span class="ansi-blue-fg">.</span>get_sile<span class="ansi-blue-fg">(</span>rho_file<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>read_grid<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span> plot <span class="ansi-blue-fg">=</span> grid<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> grid <span class="ansi-blue-fg">=</span> sisl<span class="ansi-blue-fg">.</span>get_sile<span class="ansi-blue-fg">(</span>rho_file<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>read_grid<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 5</span><span class="ansi-red-fg"> </span>plot <span class="ansi-blue-fg">=</span> grid<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      6</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> <span class="ansi-red-fg"># All siles that implement read_grid can also be directly plotted</span>
 
-<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/io/siesta/binaries.py</span> in <span class="ansi-cyan-fg">read_grid</span><span class="ansi-blue-fg">(self, index, dtype, *args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1001</span>         index <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;spin&#39;</span><span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1002</span>         <span class="ansi-red-fg"># Read the sizes and cell</span>
-<span class="ansi-green-fg">-&gt; 1003</span><span class="ansi-red-fg">         </span>nspin<span class="ansi-blue-fg">,</span> mesh <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>read_grid_size<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1004</span>         cell <span class="ansi-blue-fg">=</span> _siesta<span class="ansi-blue-fg">.</span>read_grid_cell<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>file<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1005</span>         _bin_check<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;read_grid&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;could not read grid cell.&#39;</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/io/siesta/binaries.py</span> in <span class="ansi-cyan-fg">read_grid_size</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    983</span>         <span class="ansi-red-fg"># Read the sizes</span>
-<span class="ansi-green-intense-fg ansi-bold">    984</span>         nspin<span class="ansi-blue-fg">,</span> mesh <span class="ansi-blue-fg">=</span> _siesta<span class="ansi-blue-fg">.</span>read_grid_sizes<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>file<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 985</span><span class="ansi-red-fg">         </span>_bin_check<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;read_grid_size&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;could not read grid sizes.&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    986</span>         <span class="ansi-green-fg">return</span> nspin<span class="ansi-blue-fg">,</span> mesh
-<span class="ansi-green-intense-fg ansi-bold">    987</span>
-
-<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/io/siesta/binaries.py</span> in <span class="ansi-cyan-fg">_bin_check</span><span class="ansi-blue-fg">(obj, method, message)</span>
-<span class="ansi-green-intense-fg ansi-bold">     38</span>     ierr <span class="ansi-blue-fg">=</span> _siesta<span class="ansi-blue-fg">.</span>io_m<span class="ansi-blue-fg">.</span>iostat_query<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">if</span> ierr <span class="ansi-blue-fg">!=</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 40</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> SileError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;{str(obj)}.{method} {message} (ierr={ierr})&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     41</span>
-<span class="ansi-green-intense-fg ansi-bold">     42</span>
-
-<span class="ansi-red-fg">SileError</span>: rhoSileSiesta(SrTiO3.RHO, base=/home/runner/work/sisl/sisl/files/tests/sisl/io/siesta).read_grid_size could not read grid sizes. (ierr=2)
+<span class="ansi-red-fg">AttributeError</span>: &#39;Grid&#39; object has no attribute &#39;plot&#39;
 </pre></div></div>
 </div>
 <p>Anyway, you will end up having the grid under <code class="docutils literal notranslate"><span class="pre">plot.grid</span></code>.</p>
