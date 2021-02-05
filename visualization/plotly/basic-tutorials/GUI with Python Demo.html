@@ -482,8 +482,8 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <span style="white-space: nowrap;"><a href="https://mybinder.org/v2/gh/zerothi/sisl/master?filepath=docs/visualization/plotly/basic-tutorials/GUI with Python Demo.ipynb"><img alt="Binder badge" src="https://mybinder.org/badge_logo.svg" style="vertical-align:text-bottom"></a>.</span>
 </div><div class="section" id="Using-python-to-interact-with-sisl’s-GUI">
 <h1>Using python to interact with sisl’s GUI<a class="headerlink" href="#Using-python-to-interact-with-sisl’s-GUI" title="Permalink to this headline">¶</a></h1>
-<p>This notebook will show you how you can benefit from knowing how to interact with the <a class="reference external" href="https://github.com/pfebrer96/sisl/tree/GUI/sisl/viz/GUI">graphical interface</a>. Some things just make no sense to do with just clicks, but having a dashboard to visualize and layout your automatically-generated plots is great. However there are some things that the GUI can already help you do automatically. <strong>You will be a true master in the moment you know how to use sisl plots in pyton, how to use the GUI
-and how to make the two worlds interact</strong>.</p>
+<p>This notebook will show you how you can benefit from knowing how to interact with the <a class="reference external" href="https://github.com/pfebrer/sisl-gui">graphical interface</a>. Some things just make no sense to do with just clicks, but having a dashboard to visualize and layout your automatically-generated plots is great. However there are some things that the GUI can already help you do automatically. <strong>You will be a true master in the moment you know how to use sisl plots in pyton, how to use the GUI and how to make the
+two worlds interact</strong>.</p>
 <p>But don’t worry, it is not that difficult really to become a true master :)</p>
 <p>You will also understand that you can build your own custom sessions to adapt to your needs, <strong>boost your productivity and save you hours of work</strong>.</p>
 <p><strong>Disclaimer</strong>: <em>This notebook will be very simple and straightforward.</em></p>
@@ -523,16 +523,27 @@ and how to make the two worlds interact</strong>.</p>
 }
 </style></div>
 </div>
-<div class="section" id="1.-LAUNCHING-THE-GUI">
-<h2>1. LAUNCHING THE GUI<a class="headerlink" href="#1.-LAUNCHING-THE-GUI" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sisl.viz</span> <span class="kn">import</span> <span class="n">gui</span>
+<span></span><span class="c1"># This is just for convenience to retreive files</span>
+<span class="kn">import</span> <span class="nn">sisl._environ</span>
+<span class="n">siesta_files</span> <span class="o">=</span> <span class="n">sisl</span><span class="o">.</span><span class="n">_environ</span><span class="o">.</span><span class="n">get_environ_variable</span><span class="p">(</span><span class="s2">&quot;SISL_FILES_TESTS&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;sisl&quot;</span> <span class="o">/</span> <span class="s2">&quot;io&quot;</span> <span class="o">/</span> <span class="s2">&quot;siesta&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="1.-LAUNCHING-THE-GUI">
+<h2>1. LAUNCHING THE GUI<a class="headerlink" href="#1.-LAUNCHING-THE-GUI" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sisl_gui</span>
 
-<span class="n">gui</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+<span class="n">sisl_gui</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -542,13 +553,13 @@ and how to make the two worlds interact</strong>.</p>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ImportError</span>                               Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-e1a62ce2dee4&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> sisl<span class="ansi-blue-fg">.</span>viz <span class="ansi-green-fg">import</span> gui
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-df4c463be604&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> sisl_gui
 <span class="ansi-green-intense-fg ansi-bold">      2</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span> gui<span class="ansi-blue-fg">.</span>launch<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> sisl_gui<span class="ansi-blue-fg">.</span>launch<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">ImportError</span>: cannot import name &#39;gui&#39;
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;sisl_gui&#39;
 </pre></div></div>
 </div>
 <p>A browser tab should have opened. Do you see it?</p>
@@ -560,11 +571,11 @@ and how to make the two worlds interact</strong>.</p>
 <p>There is a session. This session contains tabs. Tabs contain plots.</p>
 <p>How can I see that session?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">session</span> <span class="o">=</span> <span class="n">gui</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+<span></span><span class="n">session</span> <span class="o">=</span> <span class="n">sisl_gui</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -575,21 +586,21 @@ and how to make the two worlds interact</strong>.</p>
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-da8e017014df&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>session <span class="ansi-blue-fg">=</span> gui<span class="ansi-blue-fg">.</span>get_session<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-1603cddeda25&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>session <span class="ansi-blue-fg">=</span> sisl_gui<span class="ansi-blue-fg">.</span>get_session<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;gui&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;sisl_gui&#39; is not defined
 </pre></div></div>
 </div>
 <p>What can I do with it?</p>
 <p>Use half screen for the GUI and another half for this notebook and I will show you. Or, you know, use two monitors in case you are living a fancy life.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Let&#39;s write the session to a new variable for convenience</span>
-<span class="n">session</span> <span class="o">=</span> <span class="n">gui</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">sisl_gui</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
 
 <span class="c1"># Then add a new tab ( run help(session) to see all the available methods )</span>
 <span class="n">session</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="s2">&quot;Tab added from jupyter&quot;</span><span class="p">)</span>
@@ -603,14 +614,14 @@ and how to make the two worlds interact</strong>.</p>
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-1aceff6771ed&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-098a35bbfb5e&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg"># Let&#39;s write the session to a new variable for convenience</span>
-<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>session <span class="ansi-blue-fg">=</span> gui<span class="ansi-blue-fg">.</span>get_session<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>session <span class="ansi-blue-fg">=</span> sisl_gui<span class="ansi-blue-fg">.</span>get_session<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      3</span>
 <span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-red-fg"># Then add a new tab ( run help(session) to see all the available methods )</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span> session<span class="ansi-blue-fg">.</span>add_tab<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Tab added from jupyter&#34;</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;gui&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;sisl_gui&#39; is not defined
 </pre></div></div>
 </div>
 <p>Do you see the magic?</p>
@@ -619,7 +630,7 @@ and how to make the two worlds interact</strong>.</p>
 <p>Lame.</p>
 <p>I know. That’s why there are better ways. You can either emit the changes when you are ready:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -642,7 +653,7 @@ and how to make the two worlds interact</strong>.</p>
 </div>
 <p>Or use the magic of autosync:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -666,7 +677,7 @@ and how to make the two worlds interact</strong>.</p>
 <p>That’s cool, but do I have to write autosync each time?.</p>
 <p>No, the autosync property basically returns your session with autosyncing super-powers. So, you can store that and then run your methods happily:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -700,18 +711,33 @@ and how to make the two worlds interact</strong>.</p>
 </div>
 <p>We can now start to add plots.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sisl.viz</span> <span class="kn">import</span> <span class="n">Plot</span>
 
 <span class="c1"># Let&#39;s start a PDOS plot</span>
-<span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="s2">&quot;../../../../files/tests/sisl/io/siesta/SrTiO3.PDOS&quot;</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="n">siesta_files</span> <span class="o">/</span> <span class="s2">&quot;SrTiO3.PDOS&quot;</span><span class="p">)</span>
 
 <span class="n">session</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;First tab&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for PdosPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - TB trans: TypeError.expected str, bytes or os.PathLike object, not NoneType
+        - hamiltonian: TypeError.expected str, bytes or os.PathLike object, not NoneType
+        - siesta output: FileNotFoundError.[Errno 2] No such file or directory: &#39;_THIS_DIRECTORY_DOES_NOT_EXIST_/sisl/io/siesta/SrTiO3.PDOS&#39;  )
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -720,8 +746,8 @@ and how to make the two worlds interact</strong>.</p>
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-c16a62614300&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> plot <span class="ansi-blue-fg">=</span> Plot<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;../../../../files/tests/sisl/io/siesta/SrTiO3.PDOS&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-a2e8634837f7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> plot <span class="ansi-blue-fg">=</span> Plot<span class="ansi-blue-fg">(</span>siesta_files <span class="ansi-blue-fg">/</span> <span class="ansi-blue-fg">&#34;SrTiO3.PDOS&#34;</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span>
 <span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg"> </span>session<span class="ansi-blue-fg">.</span>add_plot<span class="ansi-blue-fg">(</span>plot<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;First tab&#34;</span><span class="ansi-blue-fg">)</span>
 
@@ -733,7 +759,7 @@ and how to make the two worlds interact</strong>.</p>
 <p>Maybe you don’t have the tab open in the GUI.</p>
 <p>Now, you should be able to interact as you wish with it. Since the reference is kept, you are able to run the methods on your notebook variable directly. Like so:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -765,17 +791,40 @@ and how to make the two worlds interact</strong>.</p>
 </div>
 <p>Let’s add two more plots to this tab.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">bands</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="s2">&quot;../../../../files/tests/sisl/io/siesta/SrTiO3.bands&quot;</span><span class="p">)</span>
-<span class="n">rho</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="s2">&quot;../../../../files/tests/sisl/io/siesta/SrTiO3.RHO&quot;</span><span class="p">)</span>
+<span></span><span class="n">bands</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="n">siesta_files</span> <span class="o">/</span> <span class="s2">&quot;SrTiO3.bands&quot;</span><span class="p">)</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="n">siesta_files</span> <span class="o">/</span> <span class="s2">&quot;SrTiO3.RHO&quot;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">bands</span><span class="p">):</span>
     <span class="n">session</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="s2">&quot;First tab&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for BandsPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - aiida bands: AttributeError.&#39;NoneType&#39; object has no attribute &#39;_get_bandplot_data&#39;
+        - path: Exception.You need to provide at least 2 points of the path to draw the bands. Please update the &#39;path&#39; setting. The current path is: []
+        - band structure: ValueError.No band structure (k points path) was provided
+        - bands file: FileNotFoundError.[Errno 2] No such file or directory: &#39;_THIS_DIRECTORY_DOES_NOT_EXIST_/sisl/io/siesta/SrTiO3.bands&#39;  )
+The plot has been initialized correctly, but the current settings were not enough to generate the figure.
+ (Error: Could not read or generate data for GridPlot from any of the possible sources.
+
+ Here are the errors for each source:
+
+        - grid file: SileError.rhoSileSiesta(SrTiO3.RHO, base=/home/runner/work/sisl/sisl/docs/visualization/plotly/basic-tutorials/_THIS_DIRECTORY_DOES_NOT_EXIST_/sisl/io/siesta).read_grid_size could not read grid sizes. (ierr=2)
+        - grid: Exception.  )
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -784,7 +833,7 @@ and how to make the two worlds interact</strong>.</p>
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-7b3bc902a478&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-7b6e2dc7fa60&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      3</span>
 <span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">for</span> pt <span class="ansi-green-fg">in</span> <span class="ansi-blue-fg">(</span>rho<span class="ansi-blue-fg">,</span> bands<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
 <span class="ansi-green-fg">----&gt; 5</span><span class="ansi-red-fg">     </span>session<span class="ansi-blue-fg">.</span>add_plot<span class="ansi-blue-fg">(</span>pt<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;First tab&#34;</span><span class="ansi-blue-fg">)</span>
@@ -797,7 +846,7 @@ and how to make the two worlds interact</strong>.</p>
 <h2>3. CHANGING THE GUI’S LAYOUT<a class="headerlink" href="#3.-CHANGING-THE-GUI’S-LAYOUT" title="Permalink to this headline">¶</a></h2>
 <p>Each tab has a <code class="docutils literal notranslate"><span class="pre">layouts</span></code> attribute:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -826,7 +875,7 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <p>[{‘w’: 6, ‘h’: 28, ‘x’: 0, ‘y’: 0, ‘i’: ‘26c94e23-9f6b-4bce-b0a4-3363e69f0fd3’, ‘moved’: False, ‘static’: False}, {‘w’: 12, ‘h’: 14, ‘x’: 0, ‘y’: 28, ‘i’: ‘0a2f9502-3fbb-4c06-a402-8d46518d3bc3’, ‘moved’: False, ‘static’: False}, {‘w’: 6, ‘h’: 28, ‘x’: 6, ‘y’: 0, ‘i’: ‘f6ae7c4a-38c6-4d36-81cb-04c73a794555’, ‘moved’: False, ‘static’: False}]</p>
 <p>So I’m just going to use it automating the ID stuff:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -836,7 +885,7 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <span class="n">session</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="n">tab_name</span><span class="p">)</span>
 
 <span class="c1"># Get all the plots</span>
-<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="n">Plot</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&quot;../../../../files/tests/sisl/io/siesta/</span><span class="si">{</span><span class="n">struct</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PDOS&quot;</span><span class="p">,</span> <span class="s2">&quot;RHO&quot;</span><span class="p">,</span> <span class="s2">&quot;bands&quot;</span><span class="p">)]</span>
+<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="n">Plot</span><span class="p">(</span><span class="n">siesta_files</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">struct</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PDOS&quot;</span><span class="p">,</span> <span class="s2">&quot;RHO&quot;</span><span class="p">,</span> <span class="s2">&quot;bands&quot;</span><span class="p">)]</span>
 
 <span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
     <span class="n">session</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">tab_name</span><span class="p">)</span>
@@ -866,7 +915,7 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-365e5a174ba9&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-49b7064a35d7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      2</span> tab_name <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#34;Layout attempt&#34;</span>
 <span class="ansi-green-intense-fg ansi-bold">      3</span>
 <span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg"> </span>session<span class="ansi-blue-fg">.</span>add_tab<span class="ansi-blue-fg">(</span>tab_name<span class="ansi-blue-fg">)</span>
@@ -884,26 +933,25 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <p><strong>If you have not read the guide for plots, don’t worry</strong>. The basics to build a session class are very simple.</p>
 <p>Let’s build a session using what we wrote in the previous section. We really just need to change the <code class="docutils literal notranslate"><span class="pre">session</span></code> variable for <code class="docutils literal notranslate"><span class="pre">self</span></code> and we have a method!</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Import the parent class</span>
 <span class="kn">from</span> <span class="nn">sisl.viz</span> <span class="kn">import</span> <span class="n">Session</span>
-<span class="kn">import</span> <span class="nn">os</span>
 
 <span class="c1"># Start building our session</span>
 <span class="k">class</span> <span class="nc">VeryCoolSession</span><span class="p">(</span><span class="n">Session</span><span class="p">):</span>
 
     <span class="c1"># Add the method to see PDOS, bands and RHO of a structure</span>
-    <span class="k">def</span> <span class="nf">see_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struct</span><span class="p">,</span> <span class="n">wdir</span><span class="o">=</span><span class="s1">&#39;../../../../files/tests/sisl/io/siesta&#39;</span><span class="p">,</span> <span class="n">tab_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">see_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struct</span><span class="p">,</span> <span class="n">wdir</span><span class="o">=</span><span class="n">siesta_files</span><span class="p">,</span> <span class="n">tab_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">tab_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">tab_name</span> <span class="o">=</span> <span class="n">struct</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="n">tab_name</span><span class="p">)</span>
 
-        <span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="n">Plot</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">wdir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">struct</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PDOS&quot;</span><span class="p">,</span> <span class="s2">&quot;RHO&quot;</span><span class="p">,</span> <span class="s2">&quot;bands&quot;</span><span class="p">)]</span>
+        <span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="n">Plot</span><span class="p">(</span><span class="n">wdir</span> <span class="o">/</span>  <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">struct</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PDOS&quot;</span><span class="p">,</span> <span class="s2">&quot;RHO&quot;</span><span class="p">,</span> <span class="s2">&quot;bands&quot;</span><span class="p">)]</span>
 
         <span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">tab_name</span><span class="p">)</span>
@@ -930,7 +978,7 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <p>Yeah nice but how do I use this session now</p>
 <p>You just need to set the session of the GUI:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -940,7 +988,7 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <span class="c1"># We initialize the session</span>
 <span class="n">new_session</span> <span class="o">=</span> <span class="n">VeryCoolSession</span><span class="p">()</span>
 <span class="c1"># And then we just tell the GUI to use it</span>
-<span class="n">gui</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">new_session</span><span class="p">)</span>
+<span class="n">sisl_gui</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">new_session</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -951,17 +999,17 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-4d571c90d771&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-7d0eb8163fcc&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span> new_session <span class="ansi-blue-fg">=</span> VeryCoolSession<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-red-fg"># And then we just tell the GUI to use it</span>
-<span class="ansi-green-fg">----&gt; 7</span><span class="ansi-red-fg"> </span>gui<span class="ansi-blue-fg">.</span>set_session<span class="ansi-blue-fg">(</span>new_session<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 7</span><span class="ansi-red-fg"> </span>sisl_gui<span class="ansi-blue-fg">.</span>set_session<span class="ansi-blue-fg">(</span>new_session<span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;gui&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;sisl_gui&#39; is not defined
 </pre></div></div>
 </div>
 <p>Now, let’s see if this works:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
