@@ -1,0 +1,4 @@
+﻿.. automodule:: sisl.viz.plotly
+   :no-members:
+   :no-undoc-members:
+   :no-inherited-members:
