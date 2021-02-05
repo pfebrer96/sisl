@@ -348,7 +348,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "plot.scan(steps=5)"
+    "plot.scan(num=5)"
    ]
   },
   {
@@ -364,7 +364,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "plot.scan(along=2, start=0, stop=plot.grid.cell[2,2], steps=10)"
+    "plot.scan(along=2, start=0, stop=plot.grid.cell[2,2], num=10)"
    ]
   },
   {
@@ -380,7 +380,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "plot.scan(mode=\"as_is\", steps=15)"
+    "plot.scan(mode=\"as_is\", num=15)"
    ]
   },
   {
@@ -398,7 +398,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "plot.update_settings(axes=[2]).scan(mode=\"as_is\", steps=15)"
+    "plot.update_settings(axes=[2]).scan(mode=\"as_is\", num=15)"
    ]
   },
   {

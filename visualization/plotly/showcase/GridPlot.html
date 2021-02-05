@@ -908,7 +908,7 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -919,8 +919,8 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-c8c3cea53f79&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>steps<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">5</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-24eaf434775e&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>num<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">5</span><span class="ansi-blue-fg">)</span>
 
 <span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
 </pre></div></div>
@@ -931,7 +931,7 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">along</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">plot</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">along</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">plot</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -942,8 +942,8 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-bca987a34643&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>along<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> start<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> stop<span class="ansi-blue-fg">=</span>plot<span class="ansi-blue-fg">.</span>grid<span class="ansi-blue-fg">.</span>cell<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> steps<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-3b583241859b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>along<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> start<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> stop<span class="ansi-blue-fg">=</span>plot<span class="ansi-blue-fg">.</span>grid<span class="ansi-blue-fg">.</span>cell<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> num<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">)</span>
 
 <span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
 </pre></div></div>
@@ -954,7 +954,7 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;as_is&quot;</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;as_is&quot;</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -965,8 +965,8 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-602bbd58318f&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;as_is&#34;</span><span class="ansi-blue-fg">,</span> steps<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">15</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-e34ac1179835&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;as_is&#34;</span><span class="ansi-blue-fg">,</span> num<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">15</span><span class="ansi-blue-fg">)</span>
 
 <span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
 </pre></div></div>
@@ -978,7 +978,7 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;as_is&quot;</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span></span><span class="n">plot</span><span class="o">.</span><span class="n">update_settings</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;as_is&quot;</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -989,8 +989,8 @@ Download IPython notebook <a href="https://raw.githubusercontent.com/zerothi/sis
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-b8c3205b2a84&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>axes<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;as_is&#34;</span><span class="ansi-blue-fg">,</span> steps<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">15</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">&lt;ipython-input-1-b1f4883f5899&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>update_settings<span class="ansi-blue-fg">(</span>axes<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>scan<span class="ansi-blue-fg">(</span>mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;as_is&#34;</span><span class="ansi-blue-fg">,</span> num<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">15</span><span class="ansi-blue-fg">)</span>
 
 <span class="ansi-red-fg">NameError</span>: name &#39;plot&#39; is not defined
 </pre></div></div>
