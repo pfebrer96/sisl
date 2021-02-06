@@ -20,6 +20,12 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.6'
+      
+      - name: Build the docs
+        run: |
+          cd docs
+          SISL_FILES_TESTS=${GITHUB_WORKSPACE}/files/tests make html
+          cd ..
 
       - name: Install sisl
         run: |
