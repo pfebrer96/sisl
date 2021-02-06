@@ -556,8 +556,8 @@ two worlds interact</strong>.</p>
 
 Api running on http://localhost:4000...
 connect the GUI to this address or send it to someone for sharing.
-
 The session has started succesfully. Happy visualization!
+
 
 </pre></div></div>
 </div>
@@ -599,7 +599,7 @@ The session has started succesfully. Happy visualization!
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;sisl.viz.plotly.sessions.blank.BlankSession at 0x7f5701a7c978&gt;
+&lt;sisl.viz.plotly.sessions.blank.BlankSession at 0x7f736fa83668&gt;
 </pre></div></div>
 </div>
 <p>Do you see the magic?</p>
@@ -622,7 +622,7 @@ The session has started succesfully. Happy visualization!
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-407dfcaf2973&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>session<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
 
@@ -645,7 +645,46 @@ The session has started succesfully. Happy visualization!
 <span class="ansi-green-intense-fg ansi-bold">     29</span>
 <span class="ansi-green-intense-fg ansi-bold">     30</span>
 
-<span class="ansi-red-fg">AttributeError</span>: &#39;BlankSession&#39; object has no attribute &#39;_get_dict_for_GUI&#39;
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 <p>Or use the magic of autosync:</p>
@@ -664,7 +703,7 @@ The session has started succesfully. Happy visualization!
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-3fdc48805fd8&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>session<span class="ansi-blue-fg">.</span>autosync<span class="ansi-blue-fg">.</span>add_tab<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;This is syncing!&#34;</span><span class="ansi-blue-fg">)</span>
 
@@ -694,7 +733,46 @@ The session has started succesfully. Happy visualization!
 <span class="ansi-green-intense-fg ansi-bold">     29</span>
 <span class="ansi-green-intense-fg ansi-bold">     30</span>
 
-<span class="ansi-red-fg">AttributeError</span>: &#39;BlankSession&#39; object has no attribute &#39;_get_dict_for_GUI&#39;
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 <p>That’s cool, but do I have to write autosync each time?.</p>
@@ -721,7 +799,7 @@ The session has started succesfully. Happy visualization!
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-abd4387ef676&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span>
 <span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-red-fg"># Just delete our useless tabs</span>
@@ -754,7 +832,46 @@ The session has started succesfully. Happy visualization!
 <span class="ansi-green-intense-fg ansi-bold">     29</span>
 <span class="ansi-green-intense-fg ansi-bold">     30</span>
 
-<span class="ansi-red-fg">AttributeError</span>: &#39;BlankSession&#39; object has no attribute &#39;_get_dict_for_GUI&#39;
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 <p>We can now start to add plots.</p>
@@ -778,7 +895,7 @@ The session has started succesfully. Happy visualization!
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-a2e8634837f7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      4</span> plot <span class="ansi-blue-fg">=</span> Plot<span class="ansi-blue-fg">(</span>siesta_files <span class="ansi-blue-fg">/</span> <span class="ansi-blue-fg">&#34;SrTiO3.PDOS&#34;</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span>
@@ -810,7 +927,46 @@ The session has started succesfully. Happy visualization!
 <span class="ansi-green-intense-fg ansi-bold">     29</span>
 <span class="ansi-green-intense-fg ansi-bold">     30</span>
 
-<span class="ansi-red-fg">AttributeError</span>: &#39;BlankSession&#39; object has no attribute &#39;_get_dict_for_GUI&#39;
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 <p>Can you see it?</p>
@@ -833,7 +989,7 @@ The session has started succesfully. Happy visualization!
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-20ce18d0bd9a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">.</span>autosync<span class="ansi-blue-fg">.</span>split_DOS<span class="ansi-blue-fg">(</span>on<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;species&#34;</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-red-fg"># Yes, plots can also autosync after they have been bound to a session</span>
@@ -864,14 +1020,46 @@ The session has started succesfully. Happy visualization!
 <span class="ansi-green-intense-fg ansi-bold">     47</span>
 <span class="ansi-green-intense-fg ansi-bold">     48</span>
 
-<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl/viz/plotly/plot.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, key)</span>
-<span class="ansi-green-intense-fg ansi-bold">    725</span>                 <span class="ansi-green-fg">pass</span>
-<span class="ansi-green-intense-fg ansi-bold">    726</span>
-<span class="ansi-green-fg">--&gt; 727</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> AttributeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#34;The attribute &#39;{key}&#39; was not found either in the plot, its figure, or in shared attributes.&#34;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    728</span>
-<span class="ansi-green-intense-fg ansi-bold">    729</span>     <span class="ansi-green-fg">def</span> __setattr__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> val<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
 
-<span class="ansi-red-fg">AttributeError</span>: The attribute &#39;_get_dict_for_GUI&#39; was not found either in the plot, its figure, or in shared attributes.
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 <p>Let’s add two more plots to this tab.</p>
@@ -894,7 +1082,7 @@ The session has started succesfully. Happy visualization!
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-7b6e2dc7fa60&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      3</span>
 <span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">for</span> pt <span class="ansi-green-fg">in</span> <span class="ansi-blue-fg">(</span>rho<span class="ansi-blue-fg">,</span> bands<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
@@ -926,7 +1114,46 @@ The session has started succesfully. Happy visualization!
 <span class="ansi-green-intense-fg ansi-bold">     29</span>
 <span class="ansi-green-intense-fg ansi-bold">     30</span>
 
-<span class="ansi-red-fg">AttributeError</span>: &#39;BlankSession&#39; object has no attribute &#39;_get_dict_for_GUI&#39;
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 </div>
@@ -948,7 +1175,7 @@ The session has started succesfully. Happy visualization!
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-d20a8bbe9584&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>session<span class="ansi-blue-fg">.</span>tab<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;First tab&#34;</span><span class="ansi-blue-fg">)</span>
 
@@ -978,7 +1205,46 @@ The session has started succesfully. Happy visualization!
 <span class="ansi-green-intense-fg ansi-bold">     29</span>
 <span class="ansi-green-intense-fg ansi-bold">     30</span>
 
-<span class="ansi-red-fg">AttributeError</span>: &#39;BlankSession&#39; object has no attribute &#39;_get_dict_for_GUI&#39;
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 <p>This <code class="docutils literal notranslate"><span class="pre">layouts</span></code> attribute is a dictionary stating how plots should be displayed in different screen sizes (e.g. <code class="docutils literal notranslate"><span class="pre">lg</span></code> is the largest and <code class="docutils literal notranslate"><span class="pre">xxs</span></code> is the smallest). You can change this very easily using the GUI by resizing and dragging your plots, but if you need the same layout every time it is definitely not ideal.</p>
@@ -1028,7 +1294,7 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-49b7064a35d7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      2</span> tab_name <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#34;Layout attempt&#34;</span>
 <span class="ansi-green-intense-fg ansi-bold">      3</span>
@@ -1062,7 +1328,46 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <span class="ansi-green-intense-fg ansi-bold">     29</span>
 <span class="ansi-green-intense-fg ansi-bold">     30</span>
 
-<span class="ansi-red-fg">AttributeError</span>: &#39;BlankSession&#39; object has no attribute &#39;_get_dict_for_GUI&#39;
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 <p>You can check the “Layout attempt” tab to see that we really achieved what we wanted.</p>
@@ -1138,7 +1443,7 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;__main__.VeryCoolSession at 0x7f570058dbe0&gt;
+&lt;__main__.VeryCoolSession at 0x7f736e591630&gt;
 </pre></div></div>
 </div>
 <p>Now, let’s see if this works:</p>
@@ -1157,7 +1462,7 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-1-dd2797bce0e7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>new_session<span class="ansi-blue-fg">.</span>autosync<span class="ansi-blue-fg">.</span>see_results<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;SrTiO3&#34;</span><span class="ansi-blue-fg">)</span>
 
@@ -1187,7 +1492,46 @@ apply. It is available under <code class="docutils literal notranslate"><span cl
 <span class="ansi-green-intense-fg ansi-bold">     29</span>
 <span class="ansi-green-intense-fg ansi-bold">     30</span>
 
-<span class="ansi-red-fg">AttributeError</span>: &#39;VeryCoolSession&#39; object has no attribute &#39;_get_dict_for_GUI&#39;
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/sisl_gui/server/emiters.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(socketio, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         socketio<span class="ansi-blue-fg">.</span>emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>real_emit<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask_socketio/__init__.py</span> in <span class="ansi-cyan-fg">emit</span><span class="ansi-blue-fg">(event, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    810</span>         namespace <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;namespace&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    811</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 812</span><span class="ansi-red-fg">         </span>namespace <span class="ansi-blue-fg">=</span> flask<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">.</span>namespace
+<span class="ansi-green-intense-fg ansi-bold">    813</span>     callback <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;callback&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    814</span>     broadcast <span class="ansi-blue-fg">=</span> kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;broadcast&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    345</span>         <span class="ansi-green-fg">if</span> name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;__members__&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    346</span>             <span class="ansi-green-fg">return</span> dir<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 347</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_get_current_object<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    348</span>
+<span class="ansi-green-intense-fg ansi-bold">    349</span>     <span class="ansi-green-fg">def</span> __setitem__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/werkzeug/local.py</span> in <span class="ansi-cyan-fg">_get_current_object</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    305</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;__release_local__&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 306</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    307</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    308</span>             <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__local<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.6.12/x64/lib/python3.6/site-packages/flask/globals.py</span> in <span class="ansi-cyan-fg">_lookup_req_object</span><span class="ansi-blue-fg">(name)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     top <span class="ansi-blue-fg">=</span> _request_ctx_stack<span class="ansi-blue-fg">.</span>top
+<span class="ansi-green-intense-fg ansi-bold">     37</span>     <span class="ansi-green-fg">if</span> top <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 38</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>_request_ctx_err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>     <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Working outside of request context.
+
+This typically means that you attempted to use functionality that needed
+an active HTTP request.  Consult the documentation on testing for
+information about how to avoid this problem.
 </pre></div></div>
 </div>
 <p>Just take a moment now to admire the simplicity of the previous line and the beauty and usefulness that it can bring to your research.</p>
