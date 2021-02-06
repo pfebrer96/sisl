@@ -13,6 +13,10 @@
 
 import glob
 autosummary_generate = glob.glob('*.rst') + glob.glob('*/*.rst')
+print("ALL")
+print(list(glob.glob('*')))
+print("RST")
+print(list(glob.glob('*.rst')))
 autosummary_generate = [f for f in autosummary_generate if 'api-generated' not in f]
 print(f"\nAUTOSUMMARY_GENERATE\n {autosummary_generate}")
 
