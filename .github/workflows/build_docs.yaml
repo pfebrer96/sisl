@@ -20,6 +20,10 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.6'
+
+      - name: Install dependencies to build the docs
+        run: |
+          pip install IPython sphinx sphinx-gallery sphinx-rtd-theme nbsphinx ipykernel
       
       - name: Build the docs
         run: |
