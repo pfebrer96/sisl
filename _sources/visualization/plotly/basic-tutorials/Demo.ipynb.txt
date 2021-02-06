@@ -62,7 +62,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "Plot(siesta_files / \"SrTiO3.PDOS\", axes=[0,1], nsc=[2,1,1], zsmooth='best')"
+    "Plot(siesta_files / \"SrTiO3.RHO\", axes=[0,1], nsc=[2,1,1], zsmooth='best')"
    ]
   },
   {
@@ -86,7 +86,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "plot = Plot(siesta_files / \"SrTiO3.PDOS\", axes=[0,1], nsc=[2,1,1], zsmooth=\"best\")\n",
+    "plot = Plot(siesta_files / \"SrTiO3.RHO\", axes=[0,1], nsc=[2,1,1], zsmooth=\"best\")\n",
     "plot.__class__"
    ]
   },
