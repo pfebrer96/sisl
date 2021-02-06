@@ -724,21 +724,6 @@ two worlds interact</strong>.</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-The plot has been initialized correctly, but the current settings were not enough to generate the figure.
- (Error: Could not read or generate data for PdosPlot from any of the possible sources.
-
- Here are the errors for each source:
-
-        - TB trans: TypeError.expected str, bytes or os.PathLike object, not NoneType
-        - hamiltonian: TypeError.expected str, bytes or os.PathLike object, not NoneType
-        - siesta output: FileNotFoundError.[Errno 2] No such file or directory: &#39;_THIS_DIRECTORY_DOES_NOT_EXIST_/sisl/io/siesta/SrTiO3.PDOS&#39;  )
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
@@ -802,29 +787,6 @@ The plot has been initialized correctly, but the current settings were not enoug
     <span class="n">session</span><span class="o">.</span><span class="n">add_plot</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="s2">&quot;First tab&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-The plot has been initialized correctly, but the current settings were not enough to generate the figure.
- (Error: Could not read or generate data for BandsPlot from any of the possible sources.
-
- Here are the errors for each source:
-
-        - aiida bands: AttributeError.&#39;NoneType&#39; object has no attribute &#39;_get_bandplot_data&#39;
-        - path: Exception.You need to provide at least 2 points of the path to draw the bands. Please update the &#39;path&#39; setting. The current path is: []
-        - band structure: ValueError.No band structure (k points path) was provided
-        - bands file: FileNotFoundError.[Errno 2] No such file or directory: &#39;_THIS_DIRECTORY_DOES_NOT_EXIST_/sisl/io/siesta/SrTiO3.bands&#39;  )
-The plot has been initialized correctly, but the current settings were not enough to generate the figure.
- (Error: Could not read or generate data for GridPlot from any of the possible sources.
-
- Here are the errors for each source:
-
-        - grid file: SileError.rhoSileSiesta(SrTiO3.RHO, base=/home/runner/work/sisl/sisl/docs/visualization/plotly/basic-tutorials/_THIS_DIRECTORY_DOES_NOT_EXIST_/sisl/io/siesta).read_grid_size could not read grid sizes. (ierr=2)
-        - grid: Exception.  )
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
