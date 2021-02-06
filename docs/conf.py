@@ -11,15 +11,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import glob
-autosummary_generate = glob.glob('*.rst') + glob.glob('*/*.rst')
-print("ALL")
-print(list(glob.glob('*')))
-print("RST")
-print(list(glob.glob('*.rst')))
-autosummary_generate = [f for f in autosummary_generate if 'api-generated' not in f]
-print(f"\nAUTOSUMMARY_GENERATE\n {autosummary_generate}")
-
 import sys
 import os
 import pathlib
@@ -145,7 +136,7 @@ rst_epilog = ''.join(open('epilog.dummy').readlines())
 import glob
 autosummary_generate = glob.glob('*.rst') + glob.glob('*/*.rst')
 autosummary_generate = [f for f in autosummary_generate if 'api-generated' not in f]
-print(f"\nAUTOSUMMARY_GENERATE\n {autosummary_generate}")
+autosummary_generate = True
 
 # General information about the project.
 project = 'sisl'
