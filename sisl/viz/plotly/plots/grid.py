@@ -884,23 +884,63 @@ class GridPlot(Plot):
 
             vertices = vertices + self._get_offsets()
 
-            # Create the mesh trace and add it to the plot
-            x, y, z = vertices.T
-            I, J, K = faces.T
+            name = iso.get("name", "").replace("$isoval$", str(isoval))
 
-            self.add_trace(go.Mesh3d(x=x,
-                        y=y,
-                        z=z,
-                        i=I,
-                        j=J,
-                        k=K,
-                        color=iso.get("color"),
-                        opacity=iso.get("opacity"),
-                        name=iso.get("name", "").replace("$isoval$", str(isoval)),
-                        **kwargs
-            ))
+            try:
+                import bpy
+                self._draw_iso_blender(vertices, faces, normals, intensities, name, iso, **kwargs)
+            except ModuleNotFoundError:
+                self._draw_iso_plotly(vertices, faces, normals, intensities, name, iso, **kwargs)
 
         self.layout.scene = {'aspectmode': 'data'}
+    
+    def _draw_iso_plotly(self, vertices, faces, normals, intensities, name, iso, **kwargs):
+
+        # Create the mesh trace and add it to the plot
+        x, y, z = vertices.T
+        I, J, K = faces.T
+
+        self.add_trace(go.Mesh3d(x=x,
+            y=y,
+            z=z,
+            i=I,
+            j=J,
+            k=K,
+            color=iso.get("color"),
+            opacity=iso.get("opacity"),
+            name=name,
+            **kwargs
+        ))
+    
+    def _draw_iso_blender(self, vertices, faces, normals, intensities, name, iso, **kwargs):
+        import bpy
+
+        mesh = bpy.data.meshes.new(name)  # add the new mesh
+
+        obj = bpy.data.objects.new(mesh.name, mesh)
+
+        col = bpy.data.collections.get("Grids")
+
+        if col is None:
+            col = bpy.data.collections.new("Grids")
+            bpy.context.scene.collection.children.link(col)
+
+        col.objects.link(obj)
+        bpy.context.view_layer.objects.active = obj
+
+        edges = []
+        mesh.from_pydata(vertices, edges, faces.tolist())
+
+        mat = bpy.data.materials.new("material")
+        mat.use_nodes = True
+
+        color = iso.get("color")
+        if color is not None:
+            mat.node_tree.nodes["Principled BSDF"].inputs[0].default_value = ( *color , 1 )
+        
+        mat.node_tree.nodes["Principled BSDF"].inputs[19].default_value = iso.get("opacity", 1)
+
+        mesh.materials.append(mat)
 
     def _after_get_figure(self, axes):
 
