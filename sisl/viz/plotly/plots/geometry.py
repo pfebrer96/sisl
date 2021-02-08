@@ -1079,7 +1079,15 @@ class GeometryPlot(Plot):
             **kwargs
         }
 
-    def _atom_trace3D(self, xyz, r, color="gray", name=None, group=None, showlegend=False, vertices=15, **kwargs):
+    def _atom_trace3D(self, *args, **kwargs):
+
+        try:
+            import bpy
+            self._atom_trace3D_blender(*args, **kwargs)
+        except ModuleNotFoundError:
+            self._atom_trace3D_plotly(*args, **kwargs)
+    
+    def _atom_trace3D_plotly(self, xyz, r, color="gray", name=None, group=None, showlegend=False, vertices=15, **kwargs):
 
         trace = {
             'type': 'mesh3d',
@@ -1096,6 +1104,16 @@ class GeometryPlot(Plot):
         }
 
         return trace
+    
+    def _atom_trace3D_blender(self, xyz, r, color="gray", name=None, vertices=15, **kwargs):
+        import bpy
+        
+        bpy.ops.mesh.primitive_uv_sphere_add(
+                        segments=vertices, ring_count=vertices,
+                        align='WORLD', enter_editmode=False,
+                        location=xyz, radius=r)
+
+        return {}
 
     def _bonds_trace3D(self, bonds, geom_xyz, bonds_width=10, bonds_color='gray', bonds_labels=None,
         atoms=False, atoms_color="blue", atoms_size=None, name=None, coloraxis='coloraxis', legendgroup=None, **kwargs):
