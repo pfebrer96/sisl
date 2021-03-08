@@ -1,6 +1,5 @@
 """
 This file defines all the classes that are plotable.
-
 It does so by patching them accordingly
 """
 import sisl
