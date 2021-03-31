@@ -28,7 +28,7 @@ register = register_plotable
 
 for HSile in get_siles(attrs=["read_hamiltonian"]):
     # register(HSile, WavefunctionPlot, 'H', default=HSile != siesta.fdfSileSiesta)
-    # register(HSile, PdosPlot, "H")
+    register(HSile, PdosPlot, "H")
     register(HSile, BandsPlot, "H")
     # register(HSile, FatbandsPlot, "H")
 
@@ -40,8 +40,8 @@ for HSile in get_siles(attrs=["read_hamiltonian"]):
 register(siesta.bandsSileSiesta, BandsPlot, 'bands_file', default=True)
 # register(siesta.bandsSileSiesta, FatbandsPlot, 'bands_file')
 
-# register(siesta.pdosSileSiesta, PdosPlot, 'pdos_file', default=True)
-# register(tbtrans.tbtncSileTBtrans, PdosPlot, 'tbt_out', default=True)
+register(siesta.pdosSileSiesta, PdosPlot, 'pdos_file', default=True)
+register(tbtrans.tbtncSileTBtrans, PdosPlot, 'tbt_out', default=True)
 
 # -----------------------------------------------------
 #           Register plotable sisl objects

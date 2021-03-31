@@ -222,18 +222,6 @@ class PdosPlot(Plot):
 
     )
 
-    _layout_defaults = {
-        'xaxis_title': 'Density of states [1/eV]',
-        'xaxis_mirror': True,
-        'yaxis_mirror': True,
-        'yaxis_title': 'Energy [eV]',
-        'showlegend': True
-    }
-
-    _shortcuts = {
-
-    }
-
     @classmethod
     def _default_animation(self, wdir = None, frame_names = None, **kwargs):
 
@@ -389,19 +377,18 @@ class PdosPlot(Plot):
         E_PDOS = self.PDOS.where(
             (self.PDOS.E > Emin) & (self.PDOS.E < Emax), drop=True)
 
-        requests_param = self.get_param("requests")
+        # Build the dictionary that will be passed to the drawer
+        for_drawer = {"Es": E_PDOS.E.values - E0, "PDOS_values": {}, "request_metadata": {}}
 
-        #Go request by request and plot the corresponding PDOS contribution
+        # Go request by request and extract the corresponding PDOS contribution
         for request in requests:
-            self._draw_request(request, E_PDOS, requests_param, E0)
+            self._get_request_PDOS(request, E_PDOS, values_storage=for_drawer["PDOS_values"], metadata_storage=for_drawer["request_metadata"])
 
-        self.update_layout(yaxis_range=np.array([Emin - E0, Emax - E0]))
+        return for_drawer
 
-        return self.data
-
-    def _draw_request(self, request, E_PDOS, requests_param, E0):
+    def _get_request_PDOS(self, request, E_PDOS=None, values_storage=None, metadata_storage=None):
         """
-        Draws a given PDOS request.
+        Extracts the PDOS values that correspond to a specific request.
 
         This has been made a function so that it can call itself recursively
         to support splitting individual requests.
@@ -409,14 +396,29 @@ class PdosPlot(Plot):
         Parameters
         --------------
         request: dict
-            the request to draw
+            the request to process
         E_PDOS: DataArray
             the part of the PDOS dataarray that falls in the energy range that we want to draw.
-        requests_param: OrbitalQueries
-            the requests input field, so that we don't need to retrieve it each time
-        E0: float
-            the energy reference that we should use for drawing this request.
+
+            If not, provided the full PDOS data stored in `self.PDOS` is used.
+        values_storage: dict, optional
+            a dictionary where the PDOS values will be stored using the request's name as the key.
+        metadata_storage: dict, optional
+            a dictionary where metadata for the request will be stored using the request's name as the key.
+
+        Returns
+        ----------
+        np.ndarray
+            PDOS values obtained from the request
         """
+
+        # Get the full PDOS data if a filtered PDOS has not been provided
+        if E_PDOS is None:
+            E_PDOS = self.PDOS
+
+        # Get the requests parameter, which will be needed to retrieve available options
+        # and get the list of orbitals that correspond to a given request.
+        requests_param = self.get_param("requests")
 
         request = self._new_request(**request)
 
@@ -441,15 +443,15 @@ class PdosPlot(Plot):
             # Note that we need to set split_on to None for the new requests, otherwise the
             # cycle would be infinite
             splitted_request = requests_param._split_query(request, on=request["split_on"], split_on=None, query_gen=query_gen, vary="dash")
-            # Now that we have them, draw them
+            # Now that we have them, process them
             for req in splitted_request:
-                self._draw_request(req, E_PDOS, requests_param, E0)
+                self._get_request_PDOS(req, E_PDOS, values_storage=values_storage, metadata_storage=metadata_storage)
             # Since we have already drawn all the requests, we don't need to do anything else
             # This would not be true if we wanted to represent the "total request" as well, but we
             # don't give that option yet. Just removing the return would draw the total
             return
 
-        # From now on, the code focuses on actually drawing the request
+        # From now on, the code focuses on actually extracting the PDOS values for the request
 
         # Use only the active requests
         if not request["active"]:
@@ -470,15 +472,29 @@ class PdosPlot(Plot):
         else:
             req_PDOS = req_PDOS.sum(["orb", "spin"])
 
-        self.add_trace({
-            'type': 'scatter',
-            'x': req_PDOS.values * request["scale"],
-            'y': req_PDOS.E.values - E0,
-            'mode': 'lines',
-            'name': request["name"],
-            'line': {'width': request["linewidth"], "color": request["color"], "dash": request["dash"]},
-            "hoverinfo": "name",
-        })
+        # Finally, multiply the values by the scale factor
+        values = req_PDOS.values * request["scale"]
+        req_name = request["name"]
+
+        if values_storage is not None:
+            if req_name in values_storage:
+                raise ValueError(f"There are multiple requests that are named '{req_name}'")
+            values_storage[req_name] = values
+            
+        if metadata_storage is not None:
+            # Build the dictionary that contains metadata for this request.
+            metadata = {
+                "style": {
+                    "line": {'width': request["linewidth"], "color": request["color"], "dash": request["dash"]}
+                }
+            }
+
+            metadata_storage[req_name] = metadata
+
+        return values
+
+    def draw(self, drawer_info):
+        self._drawer.draw_PDOS_lines(drawer_info)
 
     # ----------------------------------
     #        CONVENIENCE METHODS
