@@ -6,6 +6,8 @@ from ...plot import SubPlots, MultiplePlot, Animation
 
 class BlenderDrawer(Drawer):
 
+    figure = None
+
     def clear(self):
         """ Clears the blender scene so that data can be reset
 
