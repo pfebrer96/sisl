@@ -19,8 +19,8 @@ from ._plotables import register_plotable
 
 register = register_plotable
 
-# for GridSile in get_siles(attrs=["read_grid"]):
-#     register(GridSile, GridPlot, 'grid_file', default=True)
+for GridSile in get_siles(attrs=["read_grid"]):
+    register(GridSile, GridPlot, 'grid_file', default=True)
 
 # for GeomSile in get_siles(attrs=["read_geometry"]):
 #     register(GeomSile, GeometryPlot, 'geom_file', default=True)

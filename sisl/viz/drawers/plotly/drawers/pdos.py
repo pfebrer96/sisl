@@ -3,6 +3,7 @@ import numpy as np
 from ....plots import PdosPlot
 from ..drawer import PlotlyDrawer
 
+
 class PlotlyPDOSDrawer(PlotlyDrawer):
 
     _layout_defaults = {
@@ -14,7 +15,7 @@ class PlotlyPDOSDrawer(PlotlyDrawer):
     }
 
     def draw_PDOS_lines(self, drawer_info):
-        
+
         lines = drawer_info["PDOS_values"]
         Es = drawer_info["Es"]
 
@@ -22,7 +23,7 @@ class PlotlyPDOSDrawer(PlotlyDrawer):
             self.draw_PDOS_line(Es, values, drawer_info["request_metadata"][name], name)
 
         self.update_layout(yaxis_range=[min(Es), max(Es)])
-    
+
     def draw_PDOS_line(self, Es, values, request_metadata, name):
 
         line_style = request_metadata["style"]["line"]
@@ -36,6 +37,6 @@ class PlotlyPDOSDrawer(PlotlyDrawer):
             'line': line_style,
             "hoverinfo": "name",
         })
-        
+
 
 PdosPlot._drawers.register("plotly", PlotlyPDOSDrawer)

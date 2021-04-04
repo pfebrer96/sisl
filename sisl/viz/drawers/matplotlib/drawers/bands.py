@@ -3,6 +3,7 @@ import numpy as np
 from ....plots import BandsPlot
 from ..drawer import MatplotlibDrawer
 
+
 class MatplotlibBandsDrawer(MatplotlibDrawer):
 
     _ax_defaults = {
@@ -13,7 +14,7 @@ class MatplotlibBandsDrawer(MatplotlibDrawer):
     def _init_ax(self):
         super()._init_ax()
         self.ax.grid(axis="x")
-    
+
     def draw_bands(self, filtered_bands, spin_texture, spin_moments, spin_polarized, bands_color, spindown_color, bands_width, spin, add_band_trace_data):
 
         # if spin_texture:
@@ -34,7 +35,6 @@ class MatplotlibBandsDrawer(MatplotlibDrawer):
         #             'line': {"color": , 'width': },
         #         }
 
-        
         for spin_bands, spin in zip(filtered_bands.transpose('spin', 'band', 'k'), filtered_bands.spin.values):
             for band in spin_bands:
                 self.ax.plot(band.k.values, band.values, color=[bands_color, spindown_color][spin], linewidth=bands_width)

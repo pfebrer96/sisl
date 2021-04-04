@@ -480,7 +480,7 @@ class PdosPlot(Plot):
             if req_name in values_storage:
                 raise ValueError(f"There are multiple requests that are named '{req_name}'")
             values_storage[req_name] = values
-            
+
         if metadata_storage is not None:
             # Build the dictionary that contains metadata for this request.
             metadata = {

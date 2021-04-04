@@ -9,6 +9,7 @@ from plotly.subplots import make_subplots
 from .._plot_drawers import Drawer
 from ...plot import SubPlots, MultiplePlot, Animation
 
+
 class PlotlyDrawer(Drawer):
 
     _layout_defaults = {}
@@ -47,7 +48,7 @@ class PlotlyDrawer(Drawer):
         if not self.figure.layout["title"]:
             self.update_layout(title = '{} {}'.format(getattr(self, "struct", ""), self.plot_name()))
         return go.FigureWidget(self.figure, )
-    
+
     def _update_ipywidget(self, fig_widget):
         """ Updates a figure widget so that it is in sync with this plot's data
 
@@ -304,8 +305,9 @@ class PlotlyDrawer(Drawer):
 
         return py.plot(self.figure, *args, **kwargs)
 
+
 class PlotlyMultiplePlotDrawer(PlotlyDrawer):
-    
+
     def draw(self, drawer_info, childs):
         for child in childs:
             self._draw_child_in_fig(child, self.figure)
@@ -315,6 +317,7 @@ class PlotlyMultiplePlotDrawer(PlotlyDrawer):
         child._drawer.figure = figure
         child.get_figure(clear_fig=False)
         child._drawer.figure = child_fig
+
 
 class PlotlySubplotsDrawer(PlotlyDrawer):
 
@@ -372,6 +375,7 @@ class PlotlySubplotsDrawer(PlotlyDrawer):
 
         self.update_layout(**new_layouts)
 
+
 class PlotlyAnimationDrawer(PlotlyDrawer):
 
     def draw(self, drawer_info, childs, get_frame_names):
@@ -393,7 +397,7 @@ class PlotlyAnimationDrawer(PlotlyDrawer):
         frame_names = []
         for i, plot in enumerate(childs):
             frame_name = get_frame_names(i)
-            
+
             frame_names.append(frame_name)
 
         if ani_method is None:

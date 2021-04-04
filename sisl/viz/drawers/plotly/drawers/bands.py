@@ -3,6 +3,7 @@ import numpy as np
 from ....plots import BandsPlot
 from ..drawer import PlotlyDrawer
 
+
 class PlotlyBandsDrawer(PlotlyDrawer):
 
     _layout_defaults = {
@@ -12,7 +13,7 @@ class PlotlyBandsDrawer(PlotlyDrawer):
         'xaxis_showgrid': True,
         'yaxis_title': 'Energy [eV]'
     }
-    
+
     def draw_bands(self, filtered_bands, spin_texture, spin_moments, spin_polarized, bands_color, spindown_color, bands_width, spin, add_band_trace_data):
 
         if not callable(add_band_trace_data):

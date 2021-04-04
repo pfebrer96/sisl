@@ -4,6 +4,7 @@ from ..configurable import _populate_with_settings
 
 __all__ = []
 
+
 class Drawers:
 
     def __init__(self, plot_cls):
@@ -25,6 +26,7 @@ class Drawers:
             if drawer_name not in self._drawers:
                 raise NotImplementedError(f"There is no '{drawer_name}' drawer implemented for {self._plot_cls.__name__} or the drawer has not been loaded.")
             plot._drawer = self._drawers[drawer_name]()
+
 
 class Drawer(ABC):
 

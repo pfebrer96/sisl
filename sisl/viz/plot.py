@@ -1468,6 +1468,8 @@ def entry_point(name):
 #------------------------------------------------
 #       CLASSES TO SUPPORT COMPOSITE PLOTS
 #------------------------------------------------
+
+
 class MultiplePlot(Plot):
     """ General handler of a group of plots that need to be rendered together
 
@@ -1724,6 +1726,7 @@ class MultiplePlot(Plot):
     def draw(self, drawer_info):
         self._drawer.draw(drawer_info, self.child_plots)
 
+
 class Animation(MultiplePlot):
     """ Version of MultiplePlot that renders each plot in a different animation frame
 
@@ -1811,7 +1814,7 @@ class Animation(MultiplePlot):
             _plugins["_get_frame_names"] = lambda self, i: f"Frame {i}"
 
         super().__init__(*args, **kwargs, _plugins=_plugins)
-    
+
     def draw(self, drawer_info):
         self._drawer.draw(drawer_info, self.child_plots, self._get_frame_names)
 
