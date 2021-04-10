@@ -2,7 +2,6 @@ from collections import defaultdict
 
 import numpy as np
 from pathlib import Path
-from plotly.colors import DEFAULT_PLOTLY_COLORS
 
 import sisl
 from ..plot import Plot, entry_point
@@ -118,7 +117,7 @@ class FatbandsPlot(BandsPlot):
 
     _update_methods = {
         "read_data": [],
-        "set_data": ["_draw_gaps", "_draw_fatbands"],
+        "set_data": ["_draw_gaps", "_get_groups_weights"],
         "get_figure": []
     }
 
@@ -330,99 +329,132 @@ class FatbandsPlot(BandsPlot):
         self.get_param('groups').update_options(self.geometry, spin)
 
     def _set_data(self):
+        # We get the information that the Bandsplot wants to send to the drawer
+        from_bandsplot = super()._set_data()
 
-        # We let the bands plot draw the bands
-        super()._set_data(draw_before_bands=self._draw_fatbands,
-                         # Avoid bands being displayed in the legend individually (it would be a mess)
-                         add_band_trace_data=lambda band, plot: {'showlegend': False}
-        )
+        # And add some extra information related to the weights.
+        return {
+            **from_bandsplot,
+            **self._get_groups_weights()
+        }
 
-    def _draw_fatbands(self, groups, E0, bands_range, scale):
+    def draw(self, *args, **kwargs):
+        self._drawer.draw(*args, **kwargs)
 
+        self._draw_gaps()
+
+    def _get_groups_weights(self, groups, E0, bands_range, scale):
+        """Returns a dictionary with information about all the weights that have been requested
+
+        The return of this function is expected to be passed to the drawers.
+        """
         # We get the bands range that is going to be plotted
         # Remember that the BandsPlot will have updated this setting accordingly,
         # so it's safe to use it directly
-        plotted_bands = bands_range
+        min_band, max_band = bands_range
 
-        # If we don't have weights for all plotted bands (specially possible if we
-        # have read from the WFSX file), reduce the range of the bands. Note that this
-        # does not affect the bands displayed, just the "fatbands".
-        plotted_bands[0] = max(self.weights.band.values.min(), plotted_bands[0])
-        plotted_bands[1] = min(self.weights.band.values.max(), plotted_bands[1])
-
-        # Get the bands that matter
-        plot_eigvals = self.bands.sel(band=np.arange(*plotted_bands)) - E0
         # Get the weights that matter
-        plot_weights = self.weights.sel(band=np.arange(*plotted_bands))
+        plot_weights = self.weights.sel(band=slice(min_band, max_band))
 
-        # If the user didn't provide groups and didn't specify that groups is an
-        # empty list, we are going to build the default groups, which is to split by species
-        # in case there is more than one species or else, by orbitals
         if groups is None:
-            if len(self.geometry.atoms.atom) > 1:
-                group_by = 'species'
-            else:
-                group_by = 'orbitals'
+            groups = ()
 
-            return self.split_groups(group_by)
-
-        # We are going to need a trace that goes forward and then back so that
-        # it is self-fillable
-        xs = self.bands.k.values
-        area_xs = [*xs, *np.flip(xs)]
-
-        prev_traces = len(self.data)
-
-        groups_param = self.get_param("groups")
         if scale is None:
             # Probably we can calculate a more suitable scale
             scale = 1
 
-        # Let's plot each group of orbitals as an area that surrounds each band
+        groups_weights = {}
+        groups_metadata = {}
+        # Here we get the values of the weights for each group of orbitals.
         for i, group in enumerate(groups):
 
-            group = groups_param.complete_query(group, name=f"Group {i+1}")
-
-            #Use only the active requests
+            # Use only the active requests
             if not group.get("active", True):
                 continue
 
-            orb = groups_param.get_orbitals(group)
+            # Give a name to the request in case it didn't have one.
+            if group.get("name") is None:
+                group["name"] = f"Group {i}"
 
-            # Get the weights for the requested orbitals
-            weights = plot_weights.sel(orb=orb)
+            # Multiply the groups' scale by the global scale
+            group["scale"] = group.get("scale", 1) * scale
 
-            # Now get a particular spin component if the user wants it
-            if group["spin"] is not None:
-                weights = weights.sel(spin=group["spin"])
+            # Get the weight values for the request and store them to send to the drawer
+            self._get_group_weights(group, plot_weights, values_storage=groups_weights, metadata_storage=groups_metadata)
 
-            if group["normalize"]:
-                weights = weights.mean("orb")
-            else:
-                weights = weights.sum("orb")
+        return {"groups_weights": groups_weights, "groups_metadata": groups_metadata}
 
-            if group["color"] is None:
-                group["color"] = random_color()
+    def _get_group_weights(self, group, weights=None, values_storage=None, metadata_storage=None):
+        """Extracts the weight values that correspond to a specific fatbands request.
 
-            for ispin, (spin_eigvals, spin_weights) in enumerate(zip(plot_eigvals.transpose("spin", "band", "k"), weights.transpose("spin", "band", "k"))):
+        Parameters
+        --------------
+        group: dict
+            the request to process.
+        weights: DataArray, optional
+            the part of the weights dataarray that falls in the energy range that we want to draw.
 
-                self.add_traces([{
-                    "type": "scatter",
-                    "mode": "lines",
-                    "x": area_xs,
-                    "y": [*(band + band_weights*scale*group["scale"]), *np.flip(band - band_weights*scale*group["scale"])],
-                    "line":{"width": 0, "color": group["color"]},
-                    "showlegend": i == 0 and ispin == 0,
-                    "name": group["name"],
-                    "legendgroup":group["name"],
-                    "fill": "toself"
-                } for i, (band, band_weights) in enumerate(zip(spin_eigvals, spin_weights))])
+            If not provided, the full weights data stored in `self.weights` is used.
+        values_storage: dict, optional
+            a dictionary where the weights values will be stored using the request's name as the key.
+        metadata_storage: dict, optional
+            a dictionary where metadata for the request will be stored using the request's name as the key.
+
+        Returns
+        ----------
+        xarray.DataArray
+            The weights resulting from the request. They are indexed by spin, band and k value.
+        """
+
+        if weights is None:
+            weights = self.weights
+
+        groups_param = self.get_param("groups")
+
+        group = groups_param.complete_query(group)
+
+        orb = groups_param.get_orbitals(group)
+
+        # Get the weights for the requested orbitals
+        weights = weights.sel(orb=orb)
+
+        # Now get a particular spin component if the user wants it
+        if group["spin"] is not None:
+            weights = weights.sel(spin=group["spin"])
+
+        if group["normalize"]:
+            weights = weights.mean("orb")
+        else:
+            weights = weights.sum("orb")
+
+        if group["color"] is None:
+            group["color"] = random_color()
+
+        group_name = group["name"]
+        values = weights.transpose("spin", "band", "k") * group["scale"]
+
+        if values_storage is not None:
+            if group_name in values_storage:
+                raise ValueError(f"There are multiple groups that are named '{req_name}'")
+            values_storage[group_name] = values
+
+        if metadata_storage is not None:
+            # Build the dictionary that contains metadata for this group.
+            metadata = {
+                "style": {
+                    "line": {"color": group["color"]}
+                }
+            }
+
+            metadata_storage[group_name] = metadata
+
+        return values
 
     # -------------------------------------
     #         Convenience methods
     # -------------------------------------
 
-    def split_groups(self, on="species", only=None, exclude=None, clean=True, colors=DEFAULT_PLOTLY_COLORS, **kwargs):
+    def split_groups(self, on="species", only=None, exclude=None, clean=True, colors=(), **kwargs):
         """
         Builds groups automatically to draw their contributions.
 
@@ -468,12 +500,13 @@ class FatbandsPlot(BandsPlot):
         groups = self.get_param('groups')._generate_queries(
             on=on, only=only, exclude=exclude, **kwargs)
 
-        # Repeat the colors in case there are more groups than colors
-        colors = np.tile(colors, len(groups) // len(colors) + 1)
+        if len(colors) > 0:
+            # Repeat the colors in case there are more groups than colors
+            colors = np.tile(colors, len(groups) // len(colors) + 1)
 
-        # Asign colors
-        for i, _ in enumerate(groups):
-            groups[i]['color'] = colors[i]
+            # Asign colors
+            for i, _ in enumerate(groups):
+                groups[i]['color'] = colors[i]
 
         # If the user doesn't want to clean the plot, we will just add the groups to the existing ones
         if not clean:
@@ -482,8 +515,7 @@ class FatbandsPlot(BandsPlot):
         return self.update_settings(groups=groups)
 
     def scale_fatbands(self, factor, from_current=False):
-        """
-        Scales all bands by a given factor.
+        """Scales all bands by a given factor.
 
         Basically, it updates 'scale' setting.
 

@@ -58,11 +58,11 @@ register(tbtrans.tbtncSileTBtrans, PdosPlot, 'tbt_out', default=True)
 # register(sisl.Hamiltonian, WavefunctionPlot, 'H', default=True)
 # register(sisl.Hamiltonian, PdosPlot, "H")
 register(sisl.Hamiltonian, BandsPlot, "H")
-# register(sisl.Hamiltonian, FatbandsPlot, "H")
+register(sisl.Hamiltonian, FatbandsPlot, "H")
 
 # Band structure
 register(sisl.BandStructure, BandsPlot, "band_structure", default=True)
-# register(sisl.BandStructure, FatbandsPlot, "band_structure")
+register(sisl.BandStructure, FatbandsPlot, "band_structure")
 
 # Eigenstate
 # register(sisl.EigenstateElectron, WavefunctionPlot, 'eigenstate', default=True)
