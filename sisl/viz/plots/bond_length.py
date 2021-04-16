@@ -199,12 +199,6 @@ class BondLengthMap(GeometryPlot):
             help="""Whether the color bar should be displayed or not."""
         ),
 
-        IntegerInput(
-            key="points_per_bond", name="Points per bond",
-            default=10,
-            help="Number of points that fill a bond. <br>More points will make it look more like a line but will slow plot rendering down."
-        ),
-
     )
 
     _layout_defaults = {
