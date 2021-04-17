@@ -19,6 +19,21 @@ class BlenderDrawer(Drawer):
 
         return self
 
+    @staticmethod
+    def _to_rgb_color(color)
+
+        if isinstance(color, str):
+            try:
+                import matplotlib.colors
+
+                color = matplotlib.colors.to_rgb(color)
+            except ModuleNotFoundError:
+                raise ValueError("Blender does not understand string colors."+
+                    "Please provide the color in rgb (tuple of length 3, values from 0 to 1) or install matplotlib so that we can convert it."
+                )
+
+        return color
+
 
 class BlenderMultiplePlotDrawer(BlenderDrawer):
 

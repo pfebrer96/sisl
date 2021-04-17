@@ -428,7 +428,7 @@ class GeometryPlot(Plot):
         unique: bool, optional
             if `False`, a full path to draw a cell is returned.
             if `True`, only unique points are returned, in no particular order.
-        
+
         Returns
         ---------
         np.ndarray of shape (x, 3)
@@ -481,7 +481,7 @@ class GeometryPlot(Plot):
         axis = cls._sanitize_axis(geometry, axis)
 
         return xyz.dot(axis)/np.linalg.norm(axis)
-    
+
     @classmethod
     def _projected_2Dcoords(cls, geometry, xyz=None, xaxis="x", yaxis="y"):
         """
@@ -515,7 +515,7 @@ class GeometryPlot(Plot):
         yaxis = cls._sanitize_axis(geometry, yaxis)
 
         return np.array([xyz.dot(ax)/fnorm(ax) for ax in (xaxis, yaxis)])
-    
+
     def _get_atoms_bonds(self, bonds, atom, geom=None, sanitize_atom=True):
         """Gets the bonds where the given atoms are involved"""
         if atom is None:
@@ -808,7 +808,7 @@ class GeometryPlot(Plot):
             bonds = []
             bonds_props = []
 
-        return {"geometry": self.geometry, "atoms": atoms, "bonds": bonds, "atoms_props": atoms_props, "bonds_props": bonds_props} 
+        return {"geometry": self.geometry, "atoms": atoms, "bonds": bonds, "atoms_props": atoms_props, "bonds_props": bonds_props}
 
     def _default_wrap_atom3D(self, at):
 

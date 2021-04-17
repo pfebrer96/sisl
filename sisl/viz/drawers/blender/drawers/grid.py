@@ -38,9 +38,10 @@ class BlenderGridDrawer(BlenderDrawer):
             mat = bpy.data.materials.new("material")
             mat.use_nodes = True
 
-            color = isosurf["color"]
+            color = self._to_rgb_color(isosurf["color"])
+
             if color is not None:
-                mat.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (*isosurf["color"], 1)
+                mat.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (*color, 1)
 
             mat.node_tree.nodes["Principled BSDF"].inputs[19].default_value = isosurf["opacity"]
 

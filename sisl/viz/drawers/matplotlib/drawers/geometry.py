@@ -51,9 +51,10 @@ class MatplotlibGeometryDrawer(MatplotlibDrawer):
                 geometry=geometry, cell=cell,
                 xaxis=xaxis, yaxis=yaxis
             )
-        
+
         self.ax.set_xlabel(f'{("X","Y", "Z")[drawer_info["xaxis"]]} axis [Ang]')
         self.ax.set_ylabel(f'{("X","Y", "Z")[drawer_info["yaxis"]]} axis [Ang]')
+        self.ax.axis("equal")
 
     def _plot_atoms_2D(self, xy, xaxis="x", yaxis="y", color="gray", size=10, name='atoms', text=None, group=None, showlegend=True, **kwargs):
         self.ax.scatter(xy[0], xy[1], s=size, color=color, label=name)
@@ -111,27 +112,7 @@ class MatplotlibGeometryDrawer(MatplotlibDrawer):
                 text = np.repeat(bonds_text, points_per_bond)
 
         self.ax.plot(x, y, fmt, label=name, color=bonds_color, markersize=bonds_size, linewidth=bonds_size)
-    
-    def _bond_2D_trace(self, xys, width=2, color="gray", name=None, group=None, showlegend=False, **kwargs):
-        """
-        Returns a bond trace in 2d.
-        """
-        x, y = np.array(xys).T
 
-        trace = {
-            "type": "scatter",
-            'mode': 'lines',
-            'name': name,
-            'x': x,
-            'y': y,
-            'line': {'width': width, 'color': color},
-            'legendgroup': group,
-            'showlegend': showlegend,
-            **kwargs
-        }
-
-        return trace
-    
     def _plot_cell_axes_2D(self, geometry, cell, xaxis="x", yaxis="y"):
         cell_xy = GeometryPlot._projected_2Dcoords(geometry, xyz=cell, xaxis=xaxis, yaxis=yaxis).T
 

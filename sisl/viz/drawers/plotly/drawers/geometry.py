@@ -56,7 +56,7 @@ class PlotlyGeometryDrawer(PlotlyDrawer):
                     xaxis=xaxis, yaxis=yaxis
                     )
             )
-        
+
         self.add_traces(traces)
 
         axes_titles = {f'{ax}_title': f'{("X","Y","Z")[drawer_info[ax]]} axis [Ang]' for ax in ("xaxis", "yaxis")}
@@ -148,7 +148,7 @@ class PlotlyGeometryDrawer(PlotlyDrawer):
         }
 
         return trace
-    
+
     def _bond_2D_trace(self, xys, width=2, color="#ccc", name=None, group=None, showlegend=False, **kwargs):
         """
         Returns a bond trace in 2d.
@@ -168,7 +168,7 @@ class PlotlyGeometryDrawer(PlotlyDrawer):
         }
 
         return trace
-    
+
     def _cell_2D_axes_traces(self, geometry, cell, xaxis="x", yaxis="y"):
         cell_xy = GeometryPlot._projected_2Dcoords(geometry, xyz=cell, xaxis=xaxis, yaxis=yaxis).T
 
@@ -197,7 +197,7 @@ class PlotlyGeometryDrawer(PlotlyDrawer):
         }
 
     def draw_3D(self, drawer_info):
-        
+
         geometry = drawer_info["geometry"]
         bonds_props = drawer_info["bonds_props"]
 
@@ -327,7 +327,7 @@ class PlotlyGeometryDrawer(PlotlyDrawer):
         }
 
         self.add_traces((trace, labels_trace) if bonds_labels else (trace,))
-    
+
     def _atom_3D_trace(self, xyz, size, color="gray", name=None, group=None, showlegend=False, vertices=15, **kwargs):
 
         trace = {
@@ -345,7 +345,7 @@ class PlotlyGeometryDrawer(PlotlyDrawer):
         }
 
         return trace
-    
+
     def _bond_3D_trace(self, xyz1, xyz2, size=0.3, color="#ccc", name=None, group=None, showlegend=False, line_kwargs={}, **kwargs):
 
         # Drawing cylinders instead of lines would be better, but rendering would be slower
