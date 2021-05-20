@@ -27,8 +27,8 @@ class LDOSmap(Plot):
             "files": ["$struct$.DIM", "$struct$.PLD", "*.ion", "$struct$.selected.WFSX"],
             "codes": {
 
-                "denchar": {
-                    "reason": "The 'denchar' code is used in this case to generate STS spectra."
+                "stm": {
+                    "reason": "The 'ol-stm' code is used in this case to generate STS spectra."
                 }
 
             }
@@ -113,9 +113,23 @@ class LDOSmap(Plot):
             help = "Determines whether values surrounding a point should be summed or averaged"
         ),
 
+        DropdownInput(
+            key = "WFSX_type", name = "WFSX file type",
+            default = "selected",
+            width = "s100% m50% l40%",
+            params = {
+                "options":  [{"label": "selected", "value": "selected"}, {"label": "fullBZ", "value": "fullBZ"}],
+                "isMulti": False,
+                "placeholder": "",
+                "isClearable": False,
+                "isSearchable": True,
+            },
+            help = "The version of the WFSX file that we should take as an input for ol-stm"
+        ),
+
         QueriesInput(
             key = "points", name = "Path corners",
-            default = [{"x": 0, "y": 0, "z": 0, "atom": None, "active": True}],
+            default = [{"x": 0, "y": 0, "z": 0, "atoms": None, "active": True}],
             queryForm = [
 
                 *[FloatInput(
@@ -128,19 +142,20 @@ class LDOSmap(Plot):
                 ) for key in ("x", "y", "z")],
 
                 DropdownInput(
-                    key = "atom", name = "Atom index",
+                    key = "atoms", name = "Atom index",
                     default = None,
                     params = {
                         "options":  [],
-                        "isMulti": False,
+                        "isMulti": True,
                         "placeholder": "",
                         "isClearable": True,
                         "isSearchable": True,
                     },
-                    help = """You can provide an atom index instead of the coordinates<br>
+                    help = """You can provide atom indices instead of the coordinates<br>
                     If an atom is provided, x, y and z will be interpreted as the supercell indices.<br>
                     That is: atom 23 [x=0,y=0,z=0] is atom 23 in the primary cell, while atom 23 [x=1,y=0,z=0]
-                    is the image of atom 23 in the adjacent cell in the direction of x"""
+                    is the image of atom 23 in the adjacent cell in the direction of x.
+                    If you provide a list of atoms, the mean of their positions will be taken."""
                 )
             ],
             help = """Provide the points to generate the path through which STS need to be calculated."""
@@ -171,27 +186,23 @@ class LDOSmap(Plot):
         'yaxis_title': "E-Ef (eV)"
     }
 
-    def _getdencharSTSfdf(self, stsPosition, Erange, nE, STSEta):
+    def _get_olstm_fdf(self, sts_points, Erange, nE, STSEta):
 
-        return """
-            Denchar.PlotSTS .true.
-            Denchar.PlotWaveFunctions   .false.
-            Denchar.PlotCharge .false.
+        return f"""
+            %block STM.Points
+                {np.array2string(sts_points, threshold=np.inf).replace("[", "").replace("]", "")}
+            %endblock STM.Points
 
-            %block Denchar.STSposition
-                {} {} {}
-            %endblock Denchar.STSposition
+            STM.Emin {Erange[0] + self.fermi} eV
+            STM.Emax {Erange[1] + self.fermi} eV
+            STS.NumberOfPoints {nE}
 
-            Denchar.STSEmin {} eV
-            Denchar.STSEmax {} eV
-            Denchar.STSEnergyPoints {}
-            Denchar.CoorUnits Ang
-            Denchar.STSEta {} eV
-            """.format(*stsPosition, *(np.array(Erange) + self.fermi), nE, STSEta)
+            STS.Broadening {STSEta}
+            """
 
     @entry_point('siesta')
-    def _read_siesta_output(self, Erange, nE, STSEta, root_fdf, trajectory, points, dist_step, widen_func):
-        """Function that uses denchar to get STSpecra along a path"""
+    def _read_siesta_output(self, WFSX_type, Erange, nE, STSEta, root_fdf, trajectory, points, dist_step, widen_func):
+        """Function that uses ol-stm to get STSpecra along a path"""
 
         fdf_sile = self.get_sile(root_fdf)
         root_dir = fdf_sile._directory
@@ -200,7 +211,7 @@ class LDOSmap(Plot):
 
         #Find fermi level
         self.fermi = False
-        for out_fileName in (self.struct, self.fdf_sile.base_file.replace(".fdf", "")):
+        for out_fileName in (fdf_sile.base_file.replace(".fdf", ""),):
             try:
                 for line in open(fdf_sile.dir_file(f"{out_fileName}.out")):
                     if "Fermi =" in line:
@@ -225,7 +236,8 @@ class LDOSmap(Plot):
 
         #Copy selected WFSX into WFSX if it exists (denchar reads from .WFSX)
         system_label = fdf_sile.get("SystemLabel", default="siesta")
-        shutil.copyfile(fdf_sile.dir_file(f"{system_label}.selected.WFSX"),
+        self.system_label = system_label
+        shutil.copyfile(fdf_sile.dir_file(f"{system_label}.{WFSX_type}.WFSX"),
             fdf_sile.dir_file(f"{system_label}.WFSX"))
 
         #Get the fdf file and replace include paths so that they work
@@ -244,7 +256,7 @@ class LDOSmap(Plot):
         #Inform that the WFSX file is used so that changes in it can be followed
         self.follow(fdf_sile.dir_file(f"{system_label}.WFSX"))
 
-        def getSpectraForPath(argsTuple):
+        def get_spectra_for_path(argsTuple):
 
             path, nE, iPath, root_dir, struct, STSflags, args, kwargs = argsTuple
 
@@ -260,35 +272,16 @@ class LDOSmap(Plot):
             #Link all the needed files to this directory
             os.system("ln -s ../*fdf ../*out ../*ion* ../*WFSX ../*DIM ../*PLD . ")
 
-            spectra = []; failedPoints = 0
+            #Write the fdf
+            with open(tempFdf, "w") as fh:
+                fh.writelines(kwargs["fdfLines"])
+                fh.write(STSflags)
 
-            for i, point in enumerate(path):
+            #Do the STS calculation for the point
+            os.system("stm < {} > STSout".format(tempFdf))
 
-                #Write the fdf
-                with open(tempFdf, "w") as fh:
-                    fh.writelines(kwargs["fdfLines"])
-                    fh.write(STSflags[i])
-
-                #Do the STS calculation for the point
-                os.system("denchar < {} > /dev/null".format(tempFdf))
-
-                if i%100 == 0 and i != 0:
-                    print("PATH {}. Points calculated: {}".format(int(iPath), i))
-
-                #Retrieve and save the output appropiately
-                try:
-                    spectrum = np.loadtxt(outputFile)
-
-                    spectra.append(spectrum[:, 1])
-                except Exception as e:
-
-                    print("Error calculating the spectra for point {}: \n{}".format(point, e))
-                    failedPoints += 1
-                    #If any spectrum was read, just fill it with zeros
-                    spectra.append(np.zeros(nE))
-
-            if failedPoints:
-                print("Path {} finished with {} error{} ({}/{} points succesfully calculated)".format(int(iPath), failedPoints, "s" if failedPoints > 1 else "", len(path) - failedPoints, len(path)))
+            #Retrieve and save the output appropiately
+            spectra = np.loadtxt(outputFile)
 
             os.chdir("..")
             shutil.rmtree(tempDir, ignore_errors=True)
@@ -296,13 +289,13 @@ class LDOSmap(Plot):
             return spectra
 
         self.spectra = run_multiple(
-            getSpectraForPath,
+            get_spectra_for_path,
             self.path,
             nE,
             pathIs,
-            root_dir, self.struct,
+            root_dir, self.system_label,
             #All the strings that need to be added to each file
-            [[self._getdencharSTSfdf(point, Erange, nE, STSEta) for point in points] for points in self.path],
+            [self._get_olstm_fdf(points, Erange, nE, STSEta) for points in self.path],
             kwargsList = {"root_fdf": root_fdf, "fdfLines": self.fdfLines},
             messageFn = lambda nTasks, nodes: "Calculating {} simultaneous paths in {} nodes".format(nTasks, nodes),
             serial = self.isChildPlot
@@ -333,26 +326,27 @@ class LDOSmap(Plot):
             self.pointsByStage = np.array([len(self.path)])
             self.distances = np.array([np.linalg.norm(self.path[-1] - self.path[0])])
         else:
+            print(points)
             #Otherwise, we will calculate the trajectory according to the points provided
-            points = []
+            sanitized_points = []
             for reqPoint in points:
 
-                if reqPoint.get("atom"):
+                if reqPoint.get("atoms") is not None:
                     translate = np.array([reqPoint.get("x", 0), reqPoint.get("y", 0), reqPoint.get("z", 0)]).dot(self.geom.cell)
-                    points.append(self.geom[reqPoint["atom"]] + translate)
+                    sanitized_points.append(self.geom.center(reqPoint["atoms"]) + translate)
                 else:
-                    points.append([reqPoint["x"], reqPoint["y"], reqPoint["z"]])
-            points = np.array(points)
+                    sanitized_points.append([reqPoint["x"], reqPoint["y"], reqPoint["z"]])
+            points = np.array(sanitized_points)
 
-            nCorners = len(points)
-            if nCorners < 2:
-                raise ValueError("You need more than 1 point to generate a path! You better provide 2 next time...\n")
+            n_corners = len(points)
+            if n_corners < 2:
+                raise ValueError(f"You need at least 2 points to generate a path and you provided {n_corners}.")
 
             #Generate an evenly distributed path along the points provided
             self.path = []
             #This array will store the number of points that each stage has
-            self.pointsByStage = np.zeros(nCorners - 1)
-            self.distances = np.zeros(nCorners - 1)
+            self.pointsByStage = np.zeros(n_corners - 1)
+            self.distances = np.zeros(n_corners - 1)
 
             for i, point in enumerate(points[1:]):
 
