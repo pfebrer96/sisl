@@ -1,6 +1,6 @@
 from ..backend import Backend
 
-from ....plots.grid import GridPlot
+from ....plots.grid import GridPlot, WavefunctionPlot
 
 class GridBackend(Backend):
     """Draws a grid as provided by `GridPlot`.
@@ -36,4 +36,8 @@ class GridBackend(Backend):
         """Should draw all the isosurfaces of the grid in 3D"""
         raise NotImplementedError(f"{self.__class__.__name__} does not implement displaying grids in 3D")
 
+class WavefunctionBackend(GridBackend):
+    pass
+
 GridPlot.backends.register_template(GridBackend)
+WavefunctionPlot.backends.register_template(WavefunctionBackend)

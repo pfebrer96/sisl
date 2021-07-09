@@ -1,5 +1,5 @@
 from .bands import MatplotlibBandsBackend
-from .grid import MatplotlibGridBackend
+from .grid import MatplotlibGridBackend, MatplotlibWavefunctionBackend
 from .pdos import MatplotlibPDOSBackend
 from .fatbands import MatplotlibFatbandsBackend
 from .geometry import MatplotlibGeometryBackend

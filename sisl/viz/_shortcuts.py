@@ -21,8 +21,6 @@ class ShortCutable:
     def __init__(self, *args, **kwargs):
         self._shortcuts = {}
 
-        super().__init__(*args, **kwargs)
-
     def shortcut(self, keys):
         """
         Gets the dict that represents a shortcut.

@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 
-from ....plots.grid import GridPlot
+from ....plots.grid import GridPlot, WavefunctionPlot
 from ..backend import MatplotlibBackend
-from ...templates import GridBackend
+from ...templates import GridBackend, WavefunctionBackend
 
 
 class MatplotlibGridBackend(MatplotlibBackend, GridBackend):
@@ -56,4 +56,8 @@ class MatplotlibGridBackend(MatplotlibBackend, GridBackend):
 
             self.ax.plot_trisurf(x, y, z, linewidth=0, antialiased=True)
 
+class MatplotlibWavefunctionBackend(WavefunctionBackend, MatplotlibGridBackend):
+    pass
+
 GridPlot.backends.register("matplotlib", MatplotlibGridBackend)
+WavefunctionPlot.backends.register("matplotlib", MatplotlibWavefunctionBackend)

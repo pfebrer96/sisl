@@ -1,11 +1,12 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
+from sisl.viz.plots.bands import BandsPlot
 import numpy as np
 
 import sisl
 from sisl.messages import warn
-from ..plot import Plot, entry_point
+from ..plot import Plot
 from ..plotutils import find_files, random_color
 from ..input_fields import (
     TextInput, SileInput, SwitchInput, ColorPicker, DropdownInput, CreatableDropdown,
@@ -257,70 +258,15 @@ class PdosPlot(Plot):
             _description="Split the total DOS along the different spin"
         )
 
-    @entry_point('siesta output')
-    def _read_siesta_output(self, pdos_file):
-        """
-        Reads the pdos from a SIESTA .PDOS file.
-        """
-        #Get the info from the .PDOS file
-        self.geometry, self.E, self.PDOS = self.get_sile(pdos_file or "pdos_file").read_data()
-
-    @entry_point("TB trans")
-    def _read_TBtrans(self, root_fdf, tbt_nc):
-        """
-        Reads the PDOS from a *.TBT.nc file coming from a TBtrans run.
-        """
-        #Get the info from the .PDOS file
-        tbt_sile = self.get_sile("tbt_nc")
-        self.PDOS = tbt_sile.DOS(sum=False).data.T
-        self.E = tbt_sile.E
-
-        read_geometry_kwargs = {}
-        # Try to get the basis information from the root_fdf, if possible
-        try:
-            read_geometry_kwargs["atom"] = self.get_sile("root_fdf").read_geometry(output=True).atoms
-        except (FileNotFoundError, TypeError):
-            pass
-
-        # Read the geometry from the TBT.nc file and get only the device part
-        self.geometry = tbt_sile.read_geometry(**read_geometry_kwargs).sub(tbt_sile.a_dev)
-
-    @entry_point('hamiltonian')
-    def _read_from_H(self, kgrid, kgrid_displ, Erange, nE, E0):
-        """
-        Calculates the PDOS from a sisl Hamiltonian.
-        """
-        if not hasattr(self, "H"):
-            self.setup_hamiltonian()
-
-        # Get the kgrid or generate a default grid by checking the interaction between cells
-        # This should probably take into account how big the cell is.
-        if kgrid is None:
-            kgrid = [3 if nsc > 1 else 1 for nsc in self.H.geometry.nsc]
-
-        if Erange is None:
-            raise ValueError('You need to provide an energy range to calculate the PDOS from the Hamiltonian')
-
-        self.E = np.linspace(Erange[0], Erange[-1], nE) + E0
-
-        self.mp = sisl.MonkhorstPack(self.H, kgrid, kgrid_displ)
-
-        # Define the available spins
-        spin_indices = [0]
-        if self.H.spin.is_polarized:
-            spin_indices = [0, 1]
-
-        # Calculate the PDOS for all available spins
-        PDOS = []
-        for spin in spin_indices:
-            PDOS.append(self.mp.apply.average.PDOS(self.E, spin=spin, eta=True))
-        self.PDOS = np.array(PDOS)
-
-    def _after_read(self, geometry):
+    def _after_read(self, read_returns):
         """
         Creates the PDOS dataarray and updates the "requests" input field.
         """
         from xarray import DataArray
+
+        self.PDOS = read_returns["PDOS"]
+        self.E = read_returns["E"]
+        self.geometry = read_returns["geometry"]
 
         # Check if the PDOS contains spin resolution (there should be three dimensions,
         # and the first one should be the spin components)
@@ -336,12 +282,6 @@ class PdosPlot(Plot):
         # there is no spin resolution
         if self.PDOS.ndim == 2:
             self.PDOS = np.expand_dims(self.PDOS, axis=0)
-
-        # Set the geometry.
-        if geometry is not None:
-            if geometry.no != self.PDOS.shape[1]:
-                raise ValueError(f"The geometry provided contains {geometry.no} orbitals, while we have PDOS information of {self.PDOS.shape[1]}.")
-            self.geometry = geometry
 
         self.get_param('requests').update_options(self.geometry, self.spin)
 
@@ -772,3 +712,106 @@ class PdosPlot(Plot):
             requests = [*self.get_setting("requests", copy=False), *requests]
 
         return self.update_settings(requests=requests)
+
+def _validate_entry_point_output(returns):
+    """
+    An entry point for PdosPlot should return a dictionary containing the following keys:
+
+        - "PDOS": numpy array of shape (no, nE) or (nspin, no, nE)
+            Array containing the PDOS values for all orbitals and all energies.
+            If there's information for multiple spins, you need the additional spin dimension (should be the first),
+            otherwise you can either provide an array with shape (1, no, nE) or (no, nE), it doesn't matter.
+        - "E": numpy array of shape (nE,)
+            Array containing all the energy values for which there is information
+        - "geometry": sisl.Geometry
+            The geometry associated with the PDOS values. It should have the same number of orbitals as the PDOS array,
+            and ordered in the same way!
+    """
+    # Validations for the PDOS array
+    assert "PDOS" in returns, "PDOS not returned by the entry point"
+    PDOS = returns["PDOS"]
+    assert isinstance(PDOS, np.ndarray), "The returned PDOS is not a numpy array"
+    assert PDOS.ndim in [2, 3], "PDOS array has the wrong dimensionality"
+    
+    # Validations for the energy values
+    assert "E" in returns, "E not returned by the entry point"
+    assert isinstance(returns["E"], np.ndarray), "The returned PDOS is not a numpy array"
+    nE = returns["E"].shape[0]
+    PDOS_nE = PDOS.shape[PDOS.ndim - 1]
+    assert nE == PDOS_nE, "The number of energy points ({nE}) does not match the dimensionality of the PDOS array ({PDOS_nE})"
+
+    # Validations for the geometry
+    assert "geometry" in returns, "Geometry is not returned by the entry point"
+    assert isinstance(returns["geometry"], sisl.Geometry), "The geometry return is not a sisl Geometry"
+    no = returns["geometry"].no
+    PDOS_no = PDOS.shape[PDOS.ndim - 2]
+    assert no == PDOS_no, "The number of orbitals in the geometry ({no}) does not match the dimensionality of the PDOS array ({PDOS_no})"
+    
+PdosPlot.entry_points.register_output_validator(_validate_entry_point_output)
+
+def _read_siesta_output(self, pdos_file):
+    """Reads the pdos from a SIESTA .PDOS file."""
+    #Get the info from the .PDOS file
+    geometry, E, PDOS = self.get_sile(pdos_file or "pdos_file").read_data()
+
+    return {
+        "geometry": geometry,
+        "E": E,
+        "PDOS": PDOS,
+    }
+
+PdosPlot.entry_points.register("siesta_output", _read_siesta_output)
+
+def _read_TBtrans(self, root_fdf, tbt_nc):
+    """Reads the PDOS from a *.TBT.nc file coming from a TBtrans run."""
+    tbt_sile = self.get_sile("tbt_nc")
+    PDOS = tbt_sile.DOS(sum=False).data.T
+    E = tbt_sile.E
+
+    read_geometry_kwargs = {}
+    # Try to get the basis information from the root_fdf, if possible
+    try:
+        read_geometry_kwargs["atom"] = self.get_sile("root_fdf").read_geometry(output=True).atoms
+    except (FileNotFoundError, TypeError):
+        pass
+
+    # Read the geometry from the TBT.nc file and get only the device part
+    geometry = tbt_sile.read_geometry(**read_geometry_kwargs).sub(tbt_sile.a_dev)
+
+    return {"PDOS": PDOS, "E": E, "geometry": geometry}
+
+PdosPlot.entry_points.register("tbtrans", _read_TBtrans)
+
+def _read_from_H(self, kgrid, kgrid_displ, Erange, nE, E0, geometry):
+    """
+    Calculates the PDOS from a sisl Hamiltonian.
+    """
+    if not hasattr(self, "H"):
+        self.setup_hamiltonian()
+
+    # Get the kgrid or generate a default grid by checking the interaction between cells
+    # This should probably take into account how big the cell is.
+    if kgrid is None:
+        kgrid = [3 if nsc > 1 else 1 for nsc in self.H.geometry.nsc]
+
+    if Erange is None:
+        raise ValueError('You need to provide an energy range to calculate the PDOS from the Hamiltonian')
+
+    E = np.linspace(Erange[0], Erange[-1], nE) + E0
+
+    self.mp = sisl.MonkhorstPack(self.H, kgrid, kgrid_displ)
+
+    # Define the available spins
+    spin_indices = [0]
+    if self.H.spin.is_polarized:
+        spin_indices = [0, 1]
+
+    # Calculate the PDOS for all available spins
+    PDOS = []
+    for spin in spin_indices:
+        PDOS.append(self.mp.apply.average.PDOS(E, spin=spin, eta=True))
+    PDOS = np.array(PDOS)
+
+    return {"PDOS": PDOS, "E": E, "geometry": geometry or self.geometry}
+
+PdosPlot.entry_points.register("hamiltonian", _read_from_H)

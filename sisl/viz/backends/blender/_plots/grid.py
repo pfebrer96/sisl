@@ -1,6 +1,6 @@
-from ....plots.grid import GridPlot
+from ....plots.grid import GridPlot, WavefunctionPlot
 from ..backend import BlenderBackend
-from ...templates import GridBackend
+from ...templates import GridBackend, WavefunctionBackend
 
 import bpy
 
@@ -34,4 +34,8 @@ class BlenderGridBackend(BlenderBackend, GridBackend):
 
             mesh.materials.append(mat)
 
+class BlenderWavefunctionBackend(WavefunctionBackend, BlenderGridBackend):
+    pass
+
 GridPlot.backends.register("blender", BlenderGridBackend)
+WavefunctionPlot.backends.register("blender", BlenderWavefunctionBackend)

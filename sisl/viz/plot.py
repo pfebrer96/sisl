@@ -11,7 +11,7 @@ from copy import deepcopy
 import time
 from types import MethodType, FunctionType
 import itertools
-from functools import partial
+from functools import partial, wraps
 from pathlib import Path
 
 import dill
@@ -20,9 +20,9 @@ import sisl
 from sisl.messages import info, warn
 
 from .backends._plot_backends import Backends
+from ._entry_points import EntryPoints
 from .configurable import (
     Configurable, ConfigurableMeta,
-    vizplotly_settings, _populate_with_settings
 )
 from ._presets import get_preset
 from .plotutils import (
@@ -116,6 +116,8 @@ class PlotMeta(ConfigurableMeta):
 
         return super().__call__(cls, *args, **kwargs)
 
+def entry_point(name):
+    return lambda func: func
 
 class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
     """ Parent class of all plot classes
@@ -165,12 +167,6 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
     ...
 
     """
-    _update_methods = {
-        "read_data": [],
-        "set_data": [],
-        "get_figure": []
-    }
-
     _param_groups = (
         {
             "key": "dataread",
@@ -182,6 +178,16 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
     )
 
     _parameters = (
+
+        DropdownInput(
+            key="entry_point", name="Entry point order",
+            default=[],
+            params={
+                "isMulti": True
+            },
+            width="s100% m50% l33%",
+            help="The order in which entry points should be attempted.",
+        ),
 
         SileInput(
             key = "root_fdf", name = "Path to fdf file",
@@ -214,71 +220,30 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
 
     )
 
-    @property
-    def read_data_methods(self):
-        entry_points_names = [entry_point._method.__name__ for entry_point in self.entry_points]
+    @classmethod
+    def _create_update_maps(cls):
+        """For a given class, should generate the update maps."""
+        return {
+            "read_data": ("entry_point",),
+            "set_data": tuple(inspect.signature(cls._set_data).parameters)[1:],
+            "get_figure": ("backend",)
+        }
+    
+    def _run_updates(self, for_keys):
+        """ Runs the functions/methods that are supposed to be ran when given settings are updated
 
-        return ["_before_read", "_after_read", *entry_points_names, *self._update_methods["read_data"]]
-
-    @property
-    def set_data_methods(self):
-        return ["_set_data", *self._update_methods["set_data"]]
-
-    @property
-    def get_figure_methods(self):
-        return ["_after_get_figure", *self._update_methods["get_figure"]]
-
-    def _parse_update_funcs(self, func_names):
-        """ Decides which functions to run when the settings of the plot are updated
-
-        This is called in self._run_updates as a final oportunity to decide what functions to run.
-
-        In the case of plots, all we basically want to know is if we need to read the data again (execute
-        `read_data`), set new data for the plot without needing to read (execute `set_data`) or just update 
-        some aesthetic aspects of the plot (execute `get_figure`).
-
-        When Plot sees one of the following functions in the list of functions with updated parameters:
-            - "_before_read", "_after_read", any entry point function, functions in cls._update_methods["read_data"]
-
-        it knows that `read_data` needs to be executed. (which afterwards triggers `set_data` and `get_figure`).
-
-        Otherwise, if any of this functions is present:
-            - "_set_data", functions in cls._update_methods["set_data"]
-
-        it executes `set_data` (and `get_figure` subsequentially)
-
-        Finally, if it finds:
-            - "_after_get_figure", functions in cls._update_methods["get_figure"]
-
-        it executes `get_figure`.
-
-        WARNING: If it doesn't find any of these, it will return the unparsed list of functions,
-        and all functions will get executed.
+        It uses the `_run_on_update` dict, which contains what to run
+        in case each setting is updated.
 
         Parameters
         -----------
-        func_names: set of str
-            the unique functions names that are to be executed unless you modify them.
-
-        Returns
-        -----------
-        array-like of str
-            the final list of functions that will be executed.
-
-        See also
-        ------------
-        ``Configurable._run_updates``
+        for_keys: array-like of str
+            the keys of the settings that have been updated.
         """
-        if len(func_names.intersection(self.read_data_methods)) > 0:
-            return ["read_data"]
-
-        if len(func_names.intersection(self.set_data_methods)) > 0:
-            return ["set_data"]
-
-        if len(func_names.intersection(self.get_figure_methods)) > 0:
-            return ["get_figure"]
-
-        return func_names
+        for f_name in ("read_data", "set_data", "get_figure"):
+            if len(set(self._run_on_update[f_name]).intersection(for_keys)) > 0:
+                getattr(self, f_name)()
+                break
 
     @classmethod
     def from_plotly(cls, plotly_fig):
@@ -314,22 +279,6 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
         if cls is Plot:
             return None
         return getattr(cls, "_suffix", cls.__name__.lower().replace("plot", ""))
-
-    @classmethod
-    def entry_points_help(cls):
-        """ Generates a helpful message about the entry points of the plot class """
-        string = ""
-
-        for entry_point in cls.entry_points:
-
-            string += f"{entry_point._name.capitalize()}\n------------\n\n"
-            string += (entry_point.help or "").lstrip()
-
-            string += "\nSettings used:\n\t- "
-            string += '\n\t- '.join(map(lambda ab: ab[1], entry_point._method._settings))
-            string += "\n\n"
-
-        return string
 
     @property
     def _innotebook(self):
@@ -611,17 +560,21 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
         """
         super().__init_subclass__()
 
-        # Register the entry points of this class.
-        cls.entry_points = []
-        for key, val in inspect.getmembers(cls, lambda x: isinstance(x, EntryPoint)):
-            cls.entry_points.append(val)
-            # After registering an entry point, we will just set the method
-            setattr(cls, key, _populate_with_settings(val._method, [param["key"] for param in cls._get_class_params()[0]]))
-
+        cls.entry_points = EntryPoints(cls)
         cls.backends = Backends(cls)
 
-    @vizplotly_settings('before', init=True)
-    def __init__(self, *args, H = None, attrs_for_plot={}, only_init=False, presets=None, layout={}, _debug=False, **kwargs):
+        true_set_data = cls._set_data
+        set_data_settings = tuple(inspect.signature(true_set_data).parameters)[1:]
+        @wraps(true_set_data)
+        def _set_data(self, **kwargs):
+            settings_vals = {key: self.get_setting(key) for key in set_data_settings}
+            settings_vals.update(kwargs)
+            return true_set_data(self, **settings_vals)
+        
+        cls._set_data = _set_data
+
+    def __init__(self, *args, H=None, attrs_for_plot={}, only_init=False, presets=None, layout={}, _debug=False, **kwargs):
+        Configurable.__init__(self, presets=None, **kwargs)
         # Give an ID to the plot
         self.id = str(uuid.uuid4())
 
@@ -757,7 +710,6 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
         self.add_shortcut("ctrl+z", "Undo settings", self.undo_settings, _description="Takes the settings of the plot one step back")
 
     @repeat_if_childs
-    @vizplotly_settings('before')
     def read_data(self, update_fig=True, **kwargs):
         """ This method is responsible for organizing the data-reading step
 
@@ -770,14 +722,18 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
         call_method_if_present(self, "_before_read")
 
         # We try to read from the different entry points available
-        self._read_from_sources()
+        entry_points = self.get_setting("entry_point")
+        if isinstance(entry_points, str):
+            entry_points = [entry_points]
+        returns, settings_used = self._read_from_sources(entry_points)
+        self._update_read_data_settings(settings_used)
 
         # We don't update the last dataread here in case there has been a succesful data read because we want to
         # wait for the after_read() method to be succesful
         if self.source is None:
             self.last_dataread = 0
 
-        call_method_if_present(self, "_after_read")
+        self._after_read(returns)
 
         if self.source is not None:
             self.last_dataread = time.time()
@@ -787,7 +743,7 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
 
         return self
 
-    def _read_from_sources(self):
+    def _read_from_sources(self, entry_points):
         """ Tries to read the data from the different available entry points in the plot class
 
         If it fails to read from all entry points, it raises an exception.
@@ -795,24 +751,35 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
         # It is possible that the class does not implement any entry points,
         # because it doesn't need to read any data. Then the plotting process
         # will basically start at set_data.
-        if not self.entry_points:
+        if not entry_points:
             return
 
         errors = []
+        settings_used = set()
         # Try to read data using all the different entry points
         # This is just a first implementation. One of the reasons entry points
         # have been implemented is that we can do smarter things than this.
-        for entry_point in self.entry_points:
+        for entry_point in entry_points:
             try:
-                returns = getattr(self, entry_point._method_attr)()
+                if entry_point not in self.entry_points.options:
+                    raise KeyError(f"{self.__class__.__name__} doesn't have a '{entry_point}' entry point registered")
+                settings_used = settings_used.union(self.entry_points.entry_point_settings(entry_point))
+                returns = self.entry_points.use(entry_point, self)
                 self.source = entry_point
-                return returns
+                return returns, settings_used
             except Exception as e:
-                errors.append("\t- {}: {}.{}".format(entry_point._name, type(e).__name__, e))
+                errors.append("\t- {}: {}.{}".format(entry_point, type(e).__name__, e))
         else:
+            self._update_read_data_settings(settings_used)
             self.source = None
             raise ValueError("Could not read or generate data for {} from any of the possible sources.\nHere are the errors for each source:\n{}"
                              .format(self.__class__.__name__, "\n".join(errors)))
+
+    def _update_read_data_settings(self, settings_used):
+        self._run_on_update["read_data"] = (*settings_used, "entry_point")
+    
+    def _after_read(self, read_returns):
+        pass
 
     def follow(self, *files, to_abs=True, unfollow=False):
         """ Makes sure that the object knows which files to follow in order to trigger updates
@@ -835,7 +802,7 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
 
         self._files_to_follow = new_files if unfollow else [*self._files_to_follow, *new_files]
 
-    def get_sile(self, path, results_path, root_fdf, *args, follow=True, follow_kwargs={}, file_contents=None, **kwargs):
+    def get_sile(self, path, *args, follow=True, follow_kwargs={}, file_contents=None, **kwargs):
         """ A wrapper around get_sile so that the reading of the file is registered
 
         It has to main functions:
@@ -861,6 +828,12 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
         **kwargs:
             passed to sisl.get_sile
         """
+        if isinstance(path, sisl.Sile):
+            return path
+
+        root_fdf = self.get_setting("root_fdf")
+        results_path = self.get_setting("results_path")
+
         # If path is a setting name, retrieve it
         if path in self.settings:
             setting_key = path
@@ -889,7 +862,7 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
 
         if follow:
             self.follow(path, **follow_kwargs)
-
+        
         return sisl.get_sile(path, *args, **kwargs)
 
     def updates_available(self):
@@ -1067,7 +1040,6 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
 
         return self
 
-    @vizplotly_settings('before')
     def setup_hamiltonian(self, **kwargs):
         """ Sets up the hamiltonian for calculations with sisl """
         NEW_FDF = True
@@ -1098,13 +1070,11 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
         return self
 
     @repeat_if_childs
-    @vizplotly_settings('before')
     def set_data(self, update_fig = True, **kwargs):
         """ Method to process the data that has been read beforehand by read_data() and prepare the figure
 
         If everything is succesful, it calls the next step in plotting (`get_figure`)
         """
-
         self._for_backend = self._set_data()
 
         if update_fig:
@@ -1112,7 +1082,10 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
 
         return self
 
-    def get_figure(self, backend, clear_fig=True, **kwargs):
+    def _set_data(self):
+        pass
+
+    def get_figure(self, clear_fig=True, **kwargs):
         """
         Generates a figure out of the already processed data.
 
@@ -1126,6 +1099,7 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
         self.figure: plotly.graph_objs.Figure
             the plotly figure.
         """
+        backend = self.get_setting("backend")
         # Initialize the backend
         if backend is None:
             # It is possible to not use any plotting backend. 
@@ -1420,52 +1394,6 @@ class Plot(ShortCutable, Configurable, metaclass=PlotMeta):
             dill.dump(self, handle, protocol=dill.HIGHEST_PROTOCOL)
 
         return True
-
-
-class EntryPoint:
-
-    def __init__(self, name, setting_key, method, instance=None):
-        self._name = name
-        self._method_attr = method.__name__
-        self._setting_key = setting_key
-        self._method = method
-        self.help = method.__doc__
-
-
-def entry_point(name):
-    """ Helps registering entry points for plots
-
-    See the usage section to get a fast intuitive way of how to use it.
-
-    Basically, you need to provide some parameters (which are described
-    in the parameters section), and this function will return a decorator that
-    you can use in the functions of your plot class that do the reading part.
-
-    A function that is meant to read data but it's not marked as an entry_point
-    will be invisible to Plot.
-
-    NOTE: A plot class can have no entry points. This is perfectly fine if the 
-    class does not need to read data for some reason. In this case, we will go straight
-    into the data setting methods (i.e. set_data).
-
-    Examples
-    -----------
-
-    >>> class MyPlot(Plot):
-    >>>     @entry_point('siesta_output')
-    >>>     def _lets_read_from_siesta_output(self):
-    >>>         ...do some work here
-    >>> 
-    >>>     @entry_point('ask_mum'):
-    >>>     def _we_are_quite_lost_so_we_better_ask_mum(self):
-    >>>         self.call_mum()
-
-    Parameters
-    -----------
-    name: str
-        the name of the entry point that the decorated function implements.
-    """
-    return partial(EntryPoint, name, ())
 
 #------------------------------------------------
 #       CLASSES TO SUPPORT COMPOSITE PLOTS

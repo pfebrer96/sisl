@@ -5,11 +5,14 @@ from collections import defaultdict
 from functools import partial
 import itertools
 
+import xarray as xr
+from sisl.viz.input_fields.sisl_obj import HamiltonianInput
+
 import numpy as np
 
 import sisl
-from ..plot import Plot, entry_point
-from ..plotutils import call_method_if_present, find_files
+from ..plot import Plot
+from ..plotutils import find_files
 from ..input_fields import (
     TextInput, SwitchInput, ColorPicker, DropdownInput,
     IntegerInput, FloatInput, RangeInput, RangeSlider,
@@ -264,137 +267,19 @@ class BandsPlot(Plot):
         return cls.animated("bands_file", bands_files, frame_names = _get_frame_names, wdir = wdir, **kwargs)
 
     def _after_init(self):
-        self.spin = sisl.Spin("")
-
         self.add_shortcut("g", "Toggle gap", self.toggle_gap)
+    
+    def _after_read(self, read_returns):
 
-    @entry_point('aiida bands')
-    def _read_aiida_bands(self, aiida_bands):
-        """
-        Creates the bands plot reading from an aiida BandsData node.
-        """
-        import xarray as xr
-
-        plot_data = aiida_bands._get_bandplot_data(cartesian=True)
-        bands = plot_data["y"]
-
-        # Expand the bands array to have an extra dimension for spin
-        if bands.ndim == 2:
-            bands = np.expand_dims(bands, 0)
-
-        # Get the info about where to put the labels
-        tick_info = defaultdict(list)
-        for tick, label in plot_data["labels"]:
-            tick_info["ticks"].append(tick)
-            tick_info["ticklabels"].append(label)
-
-        # Construct the dataarray
-        self.bands = xr.DataArray(
-            bands,
-            coords={
-                "spin": np.arange(0, bands.shape[0]),
-                "k": plot_data["x"],
-                "band": np.arange(0, bands.shape[2]),
-            },
-            dims=("spin", "k", "band"),
-            attrs={**tick_info}
-        )
-
-    @entry_point('band structure')
-    def _read_from_H(self, band_structure, eigenstate_map):
-        """
-        Uses a sisl's `BandStructure` object to calculate the bands.
-        """
-        import xarray as xr
-
-        if band_structure is None:
-            raise ValueError("No band structure (k points path) was provided")
-
-        if not isinstance(getattr(band_structure, "parent", None), sisl.Hamiltonian):
-            self.setup_hamiltonian()
-            band_structure.set_parent(self.H)
-        else:
-            self.H = band_structure.parent
-
-        # Define the spin class of this calculation.
-        self.spin = self.H.spin
-
-        self.ticks = band_structure.lineartick()
-
-        # We define a wrapper to get the values out of the eigenstates
-        # to give the possibility to the user to do something inbetween
-        # NOTE THAT THIS IS USED BY FAT BANDS TO GET THE WEIGHTS SIMULTANEOUSLY
-        eig_map = eigenstate_map
-
-        # Also, in this wrapper we will get the spin moments in case it is a non_colinear
-        # or spin-orbit calculation
-        if self.spin.is_noncolinear or self.spin.is_spinorbit:
-            self.spin_moments = []
-        elif hasattr(self, "spin_moments"):
-            del self.spin_moments
-
-        def bands_wrapper(eigenstate, spin_index):
-            if callable(eig_map):
-                eig_map(eigenstate, self, spin_index)
-            if hasattr(self, "spin_moments"):
-                self.spin_moments.append(eigenstate.spin_moment())
-            return eigenstate.eig
-
-        # Define the available spins
-        spin_indices = [0]
-        if self.spin.is_polarized:
-            spin_indices = [0, 1]
-
-        # Get the eigenstates for all the available spin components
-        bands_arrays = []
-        for spin_index in spin_indices:
-
-            # Non collinear routines don't accept the keyword argument "spin"
-            spin_kwarg = {"spin": spin_index}
-            if self.spin.is_noncolinear:
-                spin_kwarg = {}
-
-            spin_bands = band_structure.apply.dataarray.eigenstate(
-                wrap=partial(bands_wrapper, spin_index=spin_index),
-                **spin_kwarg,
-                coords=('band',),
-            )
-
-            bands_arrays.append(spin_bands)
-
-        # Merge everything into a single dataarray with a spin dimension
-        self.bands = xr.concat(bands_arrays, "spin").assign_coords({"spin": spin_indices}).transpose("k", "spin", "band")
-
-        self.bands['k'] = band_structure.lineark()
-        # Inform of where to place the ticks
-        self.bands.attrs = {"ticks": self.ticks[0], "ticklabels": self.ticks[1], **bands_arrays[0].attrs}
-
-        if hasattr(self, "spin_moments"):
-            self.spin_moments = xr.DataArray(
-                self.spin_moments,
-                coords={
-                    "k": self.bands.k,
-                    "band": self.bands.band,
-                    "axis": ["x", "y", "z"]
-                },
-                dims=("k", "band", "axis")
-            )
-
-    @entry_point('bands file')
-    def _read_siesta_output(self, bands_file, band_structure):
-        """
-        Reads the bands information from a SIESTA bands file.
-        """
-        if band_structure:
-            raise ValueError("A path was provided, therefore we can not use the .bands file even if there is one")
-
-        self.bands = self.get_sile(bands_file or "bands_file").read_data(as_dataarray=True)
-
-        # Define the spin class of the results we have retrieved
-        if len(self.bands.spin.values) == 2:
-            self.spin = sisl.Spin("p")
-
-    def _after_read(self):
+        self.bands = read_returns["bands"]
+        self.spin_moments = read_returns.get("spin_moments")
+        self.spin = read_returns.get("spin")
+        if self.spin is None:
+            if self.spin_moments is not None:
+                self.spin = sisl.Spin(sisl.Spin.SPINORBIT)
+            else:
+                # Infer the spin class from the bands
+                self.spin = sisl.Spin([sisl.Spin.UNPOLARIZED, sisl.Spin.POLARIZED][len(self.bands.spin) - 1])
 
         # Inform the spin input of what spin class are we handling
         self.get_param("spin").update_options(self.spin)
@@ -450,7 +335,7 @@ class BandsPlot(Plot):
             if isinstance(spin[0], int):
                 filtered_bands = filtered_bands.sel(spin=spin)
             elif isinstance(spin[0], str):
-                if not hasattr(self, "spin_moments"):
+                if self.spin_moments is None:
                     raise ValueError(f"You requested spin texture ({spin[0]}), but spin moments have not been calculated. The spin class is {self.spin.kind}")
                 self.spin_texture = True
 
@@ -579,25 +464,57 @@ class BandsPlot(Plot):
 
         return san_k
 
-        # Inform of the path that it's being used if we can
-        # THIS IS ONLY WORKING PROPERLY FOR FRACTIONAL UNITS OF THE BAND POINTS RN
-        if hasattr(self, "fdf_sile") and self.fdf_sile.get("BandLines"):
+    def _get_gap_coords(self, from_k, to_k=None, gap_spin=0, **kwargs):
+        """
+        Calculates the coordinates of a gap given some k values.
+        Parameters
+        -----------
+        from_k: float or str
+            The k value where you want the gap to start (bottom limit).
+            If "to_k" is not provided, it will be interpreted also as the top limit.
+            If a k-value is a float, it will be directly interpreted
+            as the position in the graph's k axis.
+            If a k-value is a string, it will be attempted to be parsed
+            into a float. If not possible, it will be interpreted as a label
+            (e.g. "Gamma").
+        to_k: float or str, optional
+            same as "from_k" but in this case represents the top limit.
+            If not provided, "from_k" will be used.
+        gap_spin: int, optional
+            the spin component where you want to draw the gap.
+        **kwargs:
+            keyword arguments that are passed directly to the new trace.
+        
+        Returns
+        -----------
+        tuple
+            A tuple containing (k_values, E_values)
+        """
+        if to_k is None:
+            to_k = from_k
 
-            try:
-                self.siesta_path = []
-                points = self.fdf_sile.get("BandLines")
+        ks = [None, None]
+        # Parse the names of the kpoints into their numeric values
+        # if a string was provided.
+        for i, val in enumerate((from_k, to_k)):
+            ks[i] = self._sanitize_k(val)
 
-                for i, point in enumerate(points):
+        VB, CB = self.gap_info["bands"]
+        Es = [self.bands.sel(k=k, band=band, spin=gap_spin, method="nearest") for k, band in zip(ks, (VB, CB))]
+        # Get the real values of ks that have been obtained
+        # because we might not have exactly the ks requested
+        ks = [np.ravel(E.k)[0] for E in Es]
+        Es = [np.ravel(E)[0] for E in Es]
 
-                    divisions, x, y, z, *others = point.split()
-                    divisions = int(divisions) - int(points[i-1].split()[0]) if i > 0 else None
-                    tick = others[0] if len(others) > 0 else None
+        return ks, Es
 
-                    self.siesta_path.append({"active": True, "x": float(x), "y": float(y), "z": float(z), "divisions": divisions, "tick": tick})
+    def toggle_gap(self):
+        """
+        If the gap was being displayed, hide it. Else, show it.
+        """
+        return self.update_settings(gap= not self.settings["gap"])
 
-                    self.update_settings(path=self.siesta_path, run_updates=False, no_log=True)
-            except Exception as e:
-                print(f"Could not correctly read the bands path from siesta.\n Error {e}")
+    def plot_Ediff(self, band1, band2):
         """
         Plots the energy difference between two bands.
 
@@ -738,3 +655,174 @@ class BandsPlot(Plot):
         eff_m = 1 / (2 * coeff_2)
 
         return eff_m
+
+
+def _validate_entry_point_output(returns):
+    """
+    An entry point for BandsPlot should return a dictionary containing the following keys:
+
+        - "bands": xarray.DataArray with coordinates ("bands", "k", "spin") (the order doesn't matter)
+            Array that contains all the eigenstate values.
+        - "spin_moment": xarray.DataArray with coordinates ("bands", "k", "axis") (the order doesn't matter), optional
+            Array containing all the values of the spin moments for each eigenstate.
+            The axis coordinate should have "x", "y" and "z" values.
+        - "spin": sisl.Spin, optional
+            The spin class of the calculation. If not provided it will be inferred by checking whether
+            spin moments have been provided and if not, using the length of the spin coordinate of the bands.
+    """
+    # Validations for the bands array
+    assert "bands" in returns, "Bands not returned by the entry point"
+    assert isinstance(returns["bands"], xr.DataArray), f"Returned bands are not an xarray.DataArray. Their type is {type(returns['bands'])}"
+    expected_coords = ["band", "k", "spin"]
+    coords = returns["bands"].coords
+    assert set(coords) == set(expected_coords), \
+        f"Returned bands do not have the expected coordinates: {expected_coords}. Coordinates are: {coords}"
+
+    if returns.get("spin") is not None:
+        assert isinstance(returns["spin"], sisl.Spin), "Returned spin is not an instance of sisl.Spin"
+
+    if returns.get("spin_moments") is not None:
+        assert isinstance(returns["spin_moments"], xr.DataArray), "Returned spin_moments are not an xarray.DataArray"
+        expected_coords = ["band", "k", "axis"]
+        coords = returns["spin_moments"].coords
+        assert set(coords) == set(expected_coords), \
+            f"Returned spin moments do not have the expected coordinates: {expected_coords}. Coordinates are: {coords}"
+        expected_axes = ["x", "y", "z"]
+        axes = returns["spin_moments"].axis
+        assert set(axes) == set(expected_axes), \
+            f"The value of the axis coordinate of the spin moments should be {expected_axes}, but they are {axes}"
+    
+BandsPlot.entry_points.register_output_validator(_validate_entry_point_output)
+
+def _read_aiida_bands(self, aiida_bands):
+    """
+    Creates the bands plot reading from an aiida BandsData node.
+    """
+    plot_data = aiida_bands._get_bandplot_data(cartesian=True)
+    bands = plot_data["y"]
+
+    # Expand the bands array to have an extra dimension for spin
+    if bands.ndim == 2:
+        bands = np.expand_dims(bands, 0)
+
+    # Get the info about where to put the labels
+    tick_info = defaultdict(list)
+    for tick, label in plot_data["labels"]:
+        tick_info["ticks"].append(tick)
+        tick_info["ticklabels"].append(label)
+
+    # Construct the dataarray
+    bands_array = xr.DataArray(
+        bands,
+        coords={
+            "spin": np.arange(0, bands.shape[0]),
+            "k": plot_data["x"],
+            "band": np.arange(0, bands.shape[2]),
+        },
+        dims=("spin", "k", "band"),
+        attrs={**tick_info}
+    )
+
+    return {
+        "bands": bands_array
+    }
+
+BandsPlot.entry_points.register('aiida_bands', _read_aiida_bands)
+
+def _read_from_H(self, band_structure, eigenstate_map):
+    """
+    Uses a sisl's `BandStructure` object to calculate the bands.
+    """
+    if band_structure is None:
+        raise ValueError("No band structure (k points path) was provided")
+
+    if not isinstance(getattr(band_structure, "parent", None), sisl.Hamiltonian):
+        self.setup_hamiltonian()
+        band_structure.set_parent(self.H)
+    else:
+        self.H = band_structure.parent
+
+    # Define the spin class of this calculation.
+    spin = self.H.spin
+
+    ticks = band_structure.lineartick()
+
+    # We define a wrapper to get the values out of the eigenstates
+    # to give the possibility to the user to do something inbetween
+    # NOTE THAT THIS IS USED BY FAT BANDS TO GET THE WEIGHTS SIMULTANEOUSLY
+    eig_map = eigenstate_map
+
+    # Also, in this wrapper we will get the spin moments in case it is a non_colinear
+    # or spin-orbit calculation
+    spin_moments_avail = spin.is_noncolinear or spin.is_spinorbit
+    spin_moments = [] if spin_moments_avail else None
+
+    def bands_wrapper(eigenstate, spin_index):
+        if callable(eig_map):
+            eig_map(eigenstate, self, spin_index)
+        if spin_moments_avail:
+            spin_moments.append(eigenstate.spin_moment())
+        return eigenstate.eig
+
+    # Define the available spins
+    spin_indices = [0]
+    if spin.is_polarized:
+        spin_indices = [0, 1]
+
+    # Get the eigenstates for all the available spin components
+    bands_arrays = []
+    for spin_index in spin_indices:
+
+        # Non collinear routines don't accept the keyword argument "spin"
+        spin_kwarg = {"spin": spin_index}
+        if spin.is_noncolinear:
+            spin_kwarg = {}
+
+        spin_bands = band_structure.apply.dataarray.eigenstate(
+            wrap=partial(bands_wrapper, spin_index=spin_index),
+            **spin_kwarg,
+            coords=('band',),
+        )
+
+        bands_arrays.append(spin_bands)
+
+    # Merge everything into a single dataarray with a spin dimension
+    bands = xr.concat(bands_arrays, "spin").assign_coords({"spin": spin_indices}).transpose("k", "spin", "band")
+
+    bands['k'] = band_structure.lineark()
+    # Inform of where to place the ticks
+    bands.attrs = {"ticks": ticks[0], "ticklabels": ticks[1], **bands_arrays[0].attrs}
+
+    if spin_moments_avail:
+        spin_moments = xr.DataArray(
+            spin_moments,
+            coords={
+                "k": bands.k,
+                "band": bands.band,
+                "axis": ["x", "y", "z"]
+            },
+            dims=("k", "band", "axis")
+        )
+    
+    return {
+        "bands": bands,
+        "spin": spin,
+        "spin_moments": spin_moments,
+    }
+
+BandsPlot.entry_points.register('band_structure', _read_from_H)
+
+def _read_siesta_output(self, bands_file, band_structure):
+    """
+    Reads the bands information from a SIESTA bands file.
+    """
+    if band_structure:
+        raise ValueError("A path was provided, therefore we can not use the .bands file even if there is one")
+
+    bands = self.get_sile(bands_file or "bands_file").read_data(as_dataarray=True)
+    
+    return {
+        "bands": bands,
+    }
+
+BandsPlot.entry_points.register('bands_file', _read_siesta_output)

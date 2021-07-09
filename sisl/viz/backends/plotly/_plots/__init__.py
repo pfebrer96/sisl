@@ -1,5 +1,5 @@
 from .bands import PlotlyBandsBackend
-from .grid import PlotlyGridBackend
+from .grid import PlotlyGridBackend, PlotlyWavefunctionBackend
 from .pdos import PlotlyPDOSBackend
 from .fatbands import PlotlyFatbandsBackend
 from .geometry import PlotlyGeometryBackend

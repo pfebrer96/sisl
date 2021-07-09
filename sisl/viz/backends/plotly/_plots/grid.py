@@ -1,8 +1,8 @@
 import plotly.graph_objects as go
 
-from ....plots.grid import GridPlot
+from ....plots.grid import GridPlot, WavefunctionPlot
 from ..backend import PlotlyBackend
-from ...templates import GridBackend
+from ...templates import GridBackend, WavefunctionBackend
 
 
 class PlotlyGridBackend(PlotlyBackend, GridBackend):
@@ -67,4 +67,8 @@ class PlotlyGridBackend(PlotlyBackend, GridBackend):
     def _after_get_figure(self):
         self.update_layout(legend_orientation='h')
 
+class PlotlyWavefunctionBackend(WavefunctionBackend, PlotlyGridBackend):
+    pass
+
 GridPlot.backends.register("plotly", PlotlyGridBackend)
+WavefunctionPlot.backends.register("plotly", PlotlyWavefunctionBackend)

@@ -19,8 +19,8 @@ The plotly backend.
 
 from .plot import Plot, Animation, MultiplePlot, SubPlots
 from .plots import *
-from .session import Session
-from .sessions import *
+#from .session import Session
+#from .sessions import *
 from .plotutils import load
 from ._plotables import register_plotable
 from ._plotables_register import *

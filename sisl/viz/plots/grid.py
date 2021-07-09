@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 from collections import defaultdict
+from sisl.grid import Grid
 import numpy as np
 import plotly.graph_objects as go
 from scipy.ndimage import affine_transform
@@ -10,7 +11,7 @@ import sisl
 from sisl.messages import warn
 from sisl._supercell import cell_invert
 from sisl import _array as _a
-from ..plot import Plot, entry_point
+from ..plot import Plot
 from ..input_fields import (
     TextInput, SileInput, Array1DInput, SwitchInput,
     ColorPicker, DropdownInput, CreatableDropdown, IntegerInput, FloatInput, RangeInput, RangeSlider,
@@ -425,24 +426,8 @@ class GridPlot(Plot):
 
         self._add_shortcuts()
 
-    @entry_point('grid')
-    def _read_nosource(self, grid):
-        """
-        Reads the grid directly from a sisl grid.
-        """
-        self.grid = grid
-
-        if self.grid is None:
-            raise ValueError("grid was not set")
-
-    @entry_point('grid file')
-    def _read_grid_file(self, grid_file):
-        """
-        Reads the grid from any sile that implements `read_grid`.
-        """
-        self.grid = self.get_sile(grid_file).read_grid()
-
-    def _after_read(self):
+    def _after_read(self, read_returns):
+        self.grid = read_returns["grid"]
 
         #Inform of the new available ranges
         range_keys = ("x_range", "y_range", "z_range")
@@ -452,7 +437,8 @@ class GridPlot(Plot):
             self.get_param(key, as_dict=False).update_marks()
 
     def _set_data(self, axes, nsc, interp, trace_name, transforms, represent, grid_file,
-        x_range, y_range, z_range, plot_geom, geom_kwargs, transform_bc, reduce_method):
+        crange, cmid, colorscale, zsmooth, isos,
+        offset, x_range, y_range, z_range, plot_geom, geom_kwargs, transform_bc, reduce_method):
 
         if trace_name is None and grid_file:
             trace_name = grid_file.name
@@ -520,8 +506,14 @@ class GridPlot(Plot):
         self._ndim = values.ndim
         prepare_func = getattr(self, f"_prepare{self._ndim}D")
 
+        kwargs = {
+            1: dict(),
+            2: dict(crange=crange, cmid=cmid, colorscale=colorscale, zsmooth=zsmooth, isos=isos),
+            3: dict(isos=isos)
+        }[self._ndim]
+
         # Use it
-        backend_info = prepare_func(grid, values, axes, nsc, trace_name, showlegend=bool(trace_name) or values.ndim == 3)
+        backend_info = prepare_func(grid, values, axes, nsc, trace_name, showlegend=bool(trace_name) or values.ndim == 3, **kwargs)
 
         backend_info["ndim"] = self._ndim
 
@@ -539,9 +531,7 @@ class GridPlot(Plot):
 
         backend_info["geom_plot"] = geom_plot
 
-        return backend_info
-
-        
+        return backend_info     
 
     def _get_ax_range(self, grid, ax, nsc):
 
@@ -554,7 +544,11 @@ class GridPlot(Plot):
 
         return ax_vals
 
-    def _get_offset(self, grid, ax, offset, x_range, y_range, z_range):
+    def _get_offset(self, grid, ax):
+        offset = self.get_setting("offset")
+        x_range = self.get_setting("x_range")
+        y_range = self.get_setting("y_range")
+        z_range = self.get_setting("z_range")
 
         ax_range = [x_range, y_range, z_range][ax]
         grid_offset =  _a.asarrayd(offset) + self.offsets["vacuum"]
@@ -1141,6 +1135,34 @@ class GridPlot(Plot):
 
         return fig
 
+def _validate_entry_point_output_GridPlot(returns):
+    """
+    An entry point for GridPlot should simply return a dictionary with one key:
+        - "grid": A sisl Grid object.
+    """
+    # Validations for the grid
+    assert "grid" in returns, "The entry point did not return a grid"
+    assert isinstance(returns["grid"], sisl.Grid), \
+        f"The grid returned by the entry point is not a sisl Grid, it is of type: {type(returns['grid'])}"
+    
+GridPlot.entry_points.register_output_validator(_validate_entry_point_output_GridPlot)
+
+def _use_grid_setting(self, grid):
+    """
+    Reads the grid directly from a sisl grid.
+    """
+    return {"grid": grid}
+
+GridPlot.entry_points.register("grid", _use_grid_setting)
+
+def _read_grid_file(self, grid_file):
+    """Reads the grid from any sile that implements `read_grid`."""
+    grid = self.get_sile("grid_file").read_grid()
+
+    return {"grid": grid}
+
+GridPlot.entry_points.register("grid_file", _read_grid_file)
+
 class WavefunctionPlot(GridPlot):
     """
     An extension of GridPlot specifically tailored for plotting wavefunctions
@@ -1324,29 +1346,9 @@ class WavefunctionPlot(GridPlot):
         'atoms': None,
     }
 
-    @entry_point('eigenstate')
-    def _read_nosource(self, eigenstate):
-        """
-        Uses an already calculated Eigenstate object to generate the wavefunctions.
-        """
-        if eigenstate is None:
-            raise ValueError('No eigenstate was provided')
-
-        self.eigenstate = eigenstate
-
-    @entry_point('hamiltonian')
-    def _read_from_H(self, k, spin):
-        """
-        Calculates the eigenstates from a Hamiltonian and then generates the wavefunctions.
-        """
-        self.setup_hamiltonian()
-
-        self.eigenstate = self.H.eigenstate(k, spin=spin[0])
-
-    def _after_read(self):
-        # Just avoid here GridPlot's _after_grid. Note that we are
-        # calling it later in _set_data
-        pass
+    def _after_read(self, read_returns):
+        self.eigenstate = read_returns["eigenstate"]
+        self.geometry = read_returns["geometry"]
 
     def _set_data(self, i, geometry, grid, k, grid_prec, nsc):
 
@@ -1369,12 +1371,54 @@ class WavefunctionPlot(GridPlot):
 
         if grid is None:
             dtype = np.float64 if (np.array(k) == 0).all() else np.complex128
-            self.grid = sisl.Grid(grid_prec, geometry=tiled_geometry, dtype=dtype)
+            grid = sisl.Grid(grid_prec, geometry=tiled_geometry, dtype=dtype)
 
         # GridPlot's after_read basically sets the x_range, y_range and z_range options
         # which need to know what the grid is, that's why we are calling it here
-        super()._after_read()
+        super()._after_read({"grid": grid})
 
         self.eigenstate[i].wavefunction(self.grid)
 
-        super()._set_data(nsc=nsc)
+        return super()._set_data(nsc=nsc)
+
+def _validate_entry_point_output_WavefunctionPlot(returns):
+    """
+    An entry point for WavefunctionPlot should return a dictionary with two keys:
+        - "eigenstate": sisl.EigenstateElectron
+            The object containing the coefficients of the eigenstate.
+        - "geometry": sisl.Geometry
+            The geometry associated with the eigenstate. It should contain the basis,
+            so that we can project the coefficients of the state to generate a 3D grid
+            with the wavefunction values.
+    """
+    # Validations for the eigenstate
+    assert "eigenstate" in returns, "The entry point did not return an eigenstate"
+    assert isinstance(returns["eigenstate"], sisl.EigenstateElectron), \
+        f"The eigenstate returned by the entry point is of type: {type(returns['eigenstate'])}"
+
+    # Validations for the geometry
+    assert "geometry" in returns, "The entry point did not return a geometry"
+    assert isinstance(returns["geometry"], sisl.Geometry), \
+        f"The geometry returned by the entry point is not a sisl.Geometry¡, but: {type(returns['geometry'])}"
+    
+WavefunctionPlot.entry_points.register_output_validator(_validate_entry_point_output_WavefunctionPlot)
+
+def _use_eigenstate_setting(self, eigenstate, geometry):
+    """
+    Uses an already calculated Eigenstate object to generate the wavefunctions.
+    """
+    return {"eigenstate": eigenstate, "geometry": geometry}
+
+WavefunctionPlot.entry_points.register("eigenstate", _use_eigenstate_setting)
+
+def _read_from_H(self, k, spin, geometry):
+    """
+    Calculates the eigenstates from a Hamiltonian and then generates the wavefunctions.
+    """
+    self.setup_hamiltonian()
+
+    eigenstate = self.H.eigenstate(k, spin=spin[0])
+
+    return {"eigenstate": eigenstate, "geometry": geometry or self.geometry}
+
+WavefunctionPlot.entry_points.register("hamiltonian", _read_from_H)

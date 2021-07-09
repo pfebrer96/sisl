@@ -7,7 +7,7 @@ import numpy as np
 
 from sisl import Geometry, PeriodicTable, Atom, AtomGhost
 from sisl.utils.mathematics import fnorm
-from ..plot import Plot, entry_point
+from ..plot import Plot
 from ..input_fields import (
     ProgramaticInput,
     SwitchInput, DropdownInput, AtomSelect, GeomAxisSelect,
@@ -280,33 +280,9 @@ class GeometryPlot(Plot):
             },
         }
 
-    @entry_point('geometry')
-    def _read_nosource(self, geometry):
-        """
-        Reads directly from a sisl geometry.
-        """
-        self.geometry = geometry or getattr(self, "geometry", None)
-
-        if self.geometry is None:
-            raise ValueError("No geometry has been provided.")
-
-    @entry_point('geometry file')
-    def _read_siesta_output(self, geom_file, root_fdf):
-        """
-        Reads from a sile that contains a geometry using the `read_geometry` method.
-        """
-        geom_file = geom_file or root_fdf
-
-        self.geometry = self.get_sile(geom_file).read_geometry()
-
-    def _after_read(self, show_bonds, nsc):
-        # Tile the geometry. It shouldn't be done here, since we will need to calculate the bonds for
-        # the whole supercell. FIND A SMARTER WAY!!
-        for ax, reps in enumerate(nsc):
-            self.geometry = self.geometry.tile(reps, ax)
-
-        if show_bonds:
-            self.bonds = self.find_all_bonds(self.geometry)
+    def _after_read(self, read_returns):
+        self.geometry = read_returns["geometry"]
+        self.bonds = read_returns.get("bonds")
 
         self.get_param("atoms").update_options(self.geometry)
 
@@ -854,3 +830,44 @@ class GeometryPlot(Plot):
             "xyz2": self.geometry[bond[1]],
             "r": 15
         }
+
+def _validate_entry_point_output(returns):
+    """
+    An entry point for GeometryPlot should return a dictionary with the keys:
+        - "geometry": A sisl Geometry object.
+    """
+    # Validations for the geometry
+    assert "geometry" in returns, "The entry point did not return a geometry"
+    assert isinstance(returns["geometry"], sisl.Geometry), \
+        f"The geometry returned by the entry point is not a sisl Geometry, but: {type(returns['geometry'])}"
+    
+GeometryPlot.entry_points.register_output_validator(_validate_entry_point_output)
+
+def _use_geometry_setting(self, geometry, nsc, show_bonds):
+    """
+    Reads directly from a sisl geometry.
+    """
+    geometry = geometry
+
+    for ax, reps in enumerate(nsc):
+        geometry = geometry.tile(reps, ax)
+
+    bonds = None
+    if show_bonds:
+        bonds = GeometryPlot.find_all_bonds(geometry)
+
+    return {"geometry": geometry, "bonds": bonds}
+
+GeometryPlot.entry_points.register("geometry", _use_geometry_setting)
+
+def _read_geom_file(self, geom_file, root_fdf, nsc, show_bonds):
+    """
+    Reads from a sile that contains a geometry using the `read_geometry` method.
+    """
+    geom_file = geom_file or root_fdf
+    geometry = self.get_sile(geom_file).read_geometry()
+
+    return _use_geometry_setting(geometry=geometry, nsc=nsc, show_bonds=show_bonds)
+
+GeometryPlot.entry_points.register("geom_file", _read_geom_file)
+    

@@ -395,8 +395,6 @@ class ConfigurableMeta(type):
 
     This is used mainly for two reasons, and they both affect only subclasses of Configurable
     not Configurable itself.:
-        - Make the class functions able to access settings through their arguments
-        (see the `_populate_with_settings` function in this same file)
         - Set documentation to the `update_settings` method that is specific to the particular class
         so that the user can check what each parameter does exactly.
     """
@@ -424,14 +422,10 @@ class ConfigurableMeta(type):
             
             attrs["_parameters"] = class_params
             attrs["_param_groups"] = class_param_groups
-
-            for f_name, f in attrs.items():
-                if callable(f) and not f_name.startswith("__"):
-                    attrs[f_name] = _populate_with_settings(f, [param["key"] for param in class_params])
             
         new_cls = super().__new__(cls, name, bases, attrs)
 
-        new_cls._create_update_maps()
+        new_cls._run_on_update = new_cls._create_update_maps()
 
         if bases:
             # Change the docs of the update_settings method to truly reflect
@@ -446,6 +440,9 @@ class ConfigurableMeta(type):
 
 
 class Configurable(metaclass=ConfigurableMeta):
+
+    def __init__(self, *args, **kwargs):
+        self.init_settings(*args, **kwargs)
 
     def init_settings(self, presets=None, **kwargs):
         """
@@ -490,24 +487,9 @@ class Configurable(metaclass=ConfigurableMeta):
 
     @classmethod
     def _create_update_maps(cls):
-        """ Generates a mapping from setting keys to functions that use them
-
-        Therefore, this mapping (`cls._run_on_update`) contains information about 
-        which functions need to be executed again when a setting is updated.
-
-        The mapping generated here is used in `Configurable.run_updates`
+        """For a given class, should generate the update maps.
         """
-        #Initialize the object where we are going to store what each setting needs to rerun when it is updated
-        if hasattr(cls, "_run_on_update"):
-            updates_dict = copy(cls._run_on_update)
-        else:
-            updates_dict = defaultdict(list)
-
-        cls._run_on_update = updates_dict
-
-        for name, f in inspect.getmembers(cls, predicate=inspect.isfunction):
-            for _, param in getattr(f, "_settings", []):
-                cls._run_on_update[param].append(f.__name__)
+        return {}
 
     @property
     def settings(self):
@@ -573,39 +555,9 @@ class Configurable(metaclass=ConfigurableMeta):
         for_keys: array-like of str
             the keys of the settings that have been updated.
         """
-        # Get the functions that need to be executed for each key that has been updated and
-        # put them in a list
-        func_names = [self._run_on_update.get(setting_key, None) for setting_key in for_keys]
-
-        # Flatten that list (list comprehension) and take only the unique values (set)
-        func_names = set([f_name for sublist in func_names for f_name in sublist])
-
-        # Give the oportunity to parse the functions that need to be ran. See `Plot._parse_update_funcs`
-        # for an example
-        func_names = self._parse_update_funcs(func_names)
-
-        # Execute the functions that we need to execute.
-        for f_name in func_names:
-            getattr(self, f_name)()
-
-        return self
-
-    def _parse_update_funcs(self, func_names):
-        """ Called on _run_updates as a final oportunity to decide what functions to run
-
-        May be overwritten in child classes.
-
-        Parameters
-        -----------
-        func_names: set of str
-            the unique functions names that are to be executed unless you modify them.
-
-        Returns
-        -----------
-        array-like of str
-            the final list of functions that will be executed.
-        """
-        return func_names
+        for f_name, settings in self._run_on_update:
+            if len(set(settings).intersection(for_keys)) > 0:
+                getattr(self, f_name)()
 
     def undo_settings(self, steps=1, run_updates=True):
         """ Brings the settings back a number of steps
@@ -711,7 +663,6 @@ class Configurable(metaclass=ConfigurableMeta):
         except KeyError:
             raise KeyError(f"There is no parameter '{key}' in {cls.__name__}")
         
-
     def modify_param(self, key, *args, **kwargs):
         """ Modifies a given parameter
 
@@ -859,56 +810,8 @@ class Configurable(metaclass=ConfigurableMeta):
 
 
 # DECORATOR TO USE WHEN DEFINING METHODS IN CLASSES THAT INHERIT FROM Configurable
-
-def vizplotly_settings(when='before', init=False):
-    """ Specifies how settings should be updated when running a method
-
-    It can only decorate a method of a class that inherits from Configurable.
-
-    Works by grabbing the kwargs from the method and taking the ones whose keys
-    represent settings.
-
-    Parameters
-    ----------
-    when: {'after', 'before'}
-        specifies when should the settings be updated.
-
-        'after': After the method has been ran.
-        'before': Before running the method.
-
-    init: boolean, optional
-        whether the settings should be initialized (restored).
-
-        If `False`, the settings are just updated.
-    """
-    extra_kwargs = {}
-    if init:
-        method_name = 'init_settings'
-    else:
-        method_name = '_update_settings'
-        extra_kwargs = {'from_decorator': True, 'run_updates': True}
-
-    def decorator(method):
-        if when == 'before':
-            @wraps(method)
-            def func(obj, *args, **kwargs):
-                getattr(obj, method_name)(**kwargs, **extra_kwargs)
-                return method(obj, *args, **kwargs)
-
-        elif when == 'after':
-            @wraps(method)
-            def func(obj, *args, **kwargs):
-                ret = method(obj, *args, **kwargs)
-                getattr(obj, method_name)(**kwargs, **extra_kwargs)
-                return ret
-        else:
-            raise ValueError("Incorrect decorator usage")
-        return func
-    return decorator
-
-
 def _populate_with_settings(f, class_params):
-    """ Makes functions of a Configurable object able to access settings through arguments
+    """ Makes functions of a Configurable object able to access settings through arguments.
 
     Parameters
     -----------

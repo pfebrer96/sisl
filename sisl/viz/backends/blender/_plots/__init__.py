@@ -1,2 +1,2 @@
-from .grid import BlenderGridBackend
+from .grid import BlenderGridBackend, BlenderWavefunctionBackend
 from .geometry import BlenderGeometryBackend
